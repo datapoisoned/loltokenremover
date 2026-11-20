@@ -176,9 +176,6 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .qa .card { transition: border-color .2s, background .2s; }
 .qa .card:hover { border-color: var(--gold-5); background: rgba(1,10,19,0.8); }
 .qa .card p { margin-top: 0.6em; }
-.qa ul { margin: 0.6em 0 0; padding: 0; list-style: none; font-size: 1.12em; line-height: 1.6; color: var(--gold-2); }
-.qa li { position: relative; padding-left: 1.2em; }
-.qa li::before { content: ''; position: absolute; left: 0.15em; top: 0.6em; width: 0.4em; height: 0.4em; background: var(--gold-4); transform: rotate(45deg); }
 
 /* ---------- how it works ----------
    Two boxes, one under the other: the idea (words on the left, the missing button on
@@ -239,8 +236,6 @@ footer a:hover { color: var(--gold-1); }
   .card { padding: 1.2em 1.1em; }
   .card h3 { font-size: 1.05em; }
   .card p { font-size: 1em; line-height: 1.75; }
-  .qa ul { font-size: 1em; line-height: 1.75; }
-  .qa li::before { top: 0.68em; }
   .rows { margin-top: 1.2em; }
   .rows > div { gap: 1em; }
   .rows h4 { font-size: 0.9em; }
@@ -405,10 +400,7 @@ footer a:hover { color: var(--gold-1); }
     </div>
     <div class="card">
       <h3>What are the requirements?</h3>
-      <ul>
-        <li>Windows 10 or 11</li>
-        <li>League of Legends, open and logged in</li>
-      </ul>
+      <p>Our script needs Windows 10 or 11, and League of Legends open and logged in. Nothing else.</p>
     </div>
   </div>
 </section>
