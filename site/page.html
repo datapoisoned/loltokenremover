@@ -169,12 +169,16 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .flow .go { width: 4.5em; height: 1.2em; margin-top: 1.9em; color: var(--gold-4); }
 .go .dash { stroke-dasharray: 4 4; animation: dash 1s linear infinite; }
 @keyframes dash { to { stroke-dashoffset: -8; } }
-/* tokens before, empty slots after */
-.ba { display: flex; flex-direction: column; align-items: center; }
-.ba .strip { width: 13em; margin-top: 0.3em; }
-.ba .strip.after { background-image: url(img/banner-after-7.webp); margin-top: 0; }
-.ba .go { width: 4.5em; height: 1.2em; margin: 0.9em 0 1.3em; color: var(--gold-4); transform: rotate(90deg); }
-.ba .strip.after + .tag { margin-top: 0.3em; }
+/* the script asks, the League client answers */
+.talk { width: 22em; max-width: 100%; display: grid; gap: 1.3em; }
+.talk .line { display: flex; align-items: flex-end; gap: 0.9em; }
+.talk .line.r { flex-direction: row-reverse; text-align: right; }
+.talk .ico { flex: none; width: 3.4em; height: 3.4em; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); color: var(--gold-3); }
+.talk .ico svg { width: 1.8em; height: 1.8em; }
+.talk .ico b { font: 700 1.6em/1 var(--display); }
+.talk .tag { text-align: inherit; margin-bottom: 0.5em; }
+.talk .say { display: inline-block; padding: 0.7em 1em; border: 1px solid var(--line); background: var(--panel); color: var(--gold-1); font-size: 1em; line-height: 1.4; text-align: left; }
+.talk .r .say { border-color: rgba(127,227,192,0.45); color: var(--mint); }
 .card .means { margin-top: 1em; }
 .card .means + p { margin-top: 0.8em; }
 .chip { display: inline-block; font: 500 1em/1 var(--mono); color: var(--gold-1); background: var(--panel); border: 1px solid var(--line); padding: 0.6em 0.8em; }
@@ -186,11 +190,21 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .ghost .label { font: 700 0.9em/1 var(--display); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
 /* the three tokens, cut from the banner picture */
 .strip { width: 17em; max-width: 100%; aspect-ratio: 576 / 212; margin-top: 1.2em; background: url(img/banner-before-7.webp) 43.1% 78.2% / 126.56% auto no-repeat; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
-.ghost .press { position: relative; margin-top: 1.6em; padding: 1em 2.2em; border: 2px dashed var(--gold-4); font: 700 1.25em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); background: rgba(200,155,60,0.08); animation: press 2.6s ease-in-out infinite; }
-.ghost .press svg { position: absolute; right: -0.9em; bottom: -1.1em; width: 1.7em; height: 1.7em; color: var(--gold-1); filter: drop-shadow(0 0.1em 0.2em rgba(0,0,0,0.8)); animation: tap 2.6s ease-in-out infinite; }
+/* empty slots underneath; the three tokens sit on top and vanish after the click */
+.ghost .strip { position: relative; background-image: url(img/banner-after-7.webp); }
+.ghost .tk { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(img/banner-before-7.webp) 43.1% 78.2% / 126.56% auto no-repeat; animation: 5.6s ease-in-out infinite both; }
+.ghost .k1 { clip-path: inset(0 66.2% 0 0);     transform-origin: 17% 50%; animation-name: k1; }
+.ghost .k2 { clip-path: inset(0 32.8% 0 33.8%); transform-origin: 50% 50%; animation-name: k2; }
+.ghost .k3 { clip-path: inset(0 0 0 67.2%);     transform-origin: 83% 50%; animation-name: k3; }
+.ghost .press { position: relative; margin-top: 1.6em; padding: 1em 2.2em; border: 2px dashed var(--gold-4); font: 700 1.25em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); background: rgba(200,155,60,0.08); animation: press 5.6s ease-in-out infinite; }
+.ghost .press svg { position: absolute; right: -0.9em; bottom: -1.1em; width: 1.7em; height: 1.7em; color: var(--gold-1); filter: drop-shadow(0 0.1em 0.2em rgba(0,0,0,0.8)); animation: tap 5.6s ease-in-out infinite; }
 .ghost .cap { margin-top: 2em; max-width: 21em; }
-@keyframes press { 0%, 40%, 100% { box-shadow: 0 0 0 rgba(200,170,110,0); background: rgba(200,155,60,0.08); } 55% { box-shadow: 0 0 1.6em rgba(200,170,110,0.55); background: rgba(200,155,60,0.28); } }
-@keyframes tap { 0%, 35%, 100% { transform: translate(0.5em, 0.5em); } 50%, 62% { transform: none; } }
+/* the cursor moves in, the button lights up, then each token fades out in turn */
+@keyframes tap   { 0%, 14%, 40%, 100% { transform: translate(1.6em, 1.2em); } 22%, 25% { transform: translate(-0.6em, -0.5em); } 27% { transform: translate(-0.6em, -0.5em) scale(0.85); } 30%, 34% { transform: translate(-0.6em, -0.5em); } }
+@keyframes press { 0%, 25%, 40%, 100% { box-shadow: 0 0 0 rgba(200,170,110,0); background: rgba(200,155,60,0.08); transform: none; } 27% { transform: scale(0.97); } 29% { box-shadow: 0 0 1.8em rgba(200,170,110,0.7); background: rgba(200,155,60,0.4); transform: none; } }
+@keyframes k1 { 0%, 31% { opacity: 1; transform: none; } 37%, 88% { opacity: 0; transform: scale(.82); } 94%, 100% { opacity: 1; transform: none; } }
+@keyframes k2 { 0%, 36% { opacity: 1; transform: none; } 42%, 88% { opacity: 0; transform: scale(.82); } 94%, 100% { opacity: 1; transform: none; } }
+@keyframes k3 { 0%, 41% { opacity: 1; transform: none; } 47%, 88% { opacity: 0; transform: scale(.82); } 94%, 100% { opacity: 1; transform: none; } }
 
 footer { padding: 2em 2em 3em; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
 footer .legal { margin: 0 auto; max-width: 46em; font-size: 0.85em; line-height: 1.55; color: var(--muted); }
@@ -220,7 +234,7 @@ footer a:hover { color: var(--gold-1); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .tok { animation: none; opacity: 0; }
-  .ghost .press, .ghost .press svg, .go .dash { animation: none; }
+  .ghost .press, .ghost .press svg, .ghost .tk, .go .dash { animation: none; }
 }
 </style>
 </head>
@@ -290,9 +304,9 @@ footer a:hover { color: var(--gold-1); }
       <h3>Nothing fancy happens</h3>
       <p>No hacks and no changed game files. Everything else stays the same, and you can undo it any time.</p>
     </div>
-    <div class="card ghost" aria-label="Your three tokens with a Remove tokens button that League does not have">
+    <div class="card ghost" aria-label="A Remove tokens button, which League does not have, gets clicked and the three tokens disappear">
       <span class="label">Your profile tokens</span>
-      <div class="strip"></div>
+      <div class="strip"><i class="tk k1"></i><i class="tk k2"></i><i class="tk k3"></i></div>
       <span class="press">Remove tokens<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5v11l3-2.6 1.9 4.3 1.9-.8-1.9-4.2h3.9z" fill="currentColor" stroke="#010a13" stroke-width="0.8" stroke-linejoin="round"/></svg></span>
       <p class="cap">The button League never added. Our command clicks it for you.</p>
     </div>
@@ -333,12 +347,15 @@ footer a:hover { color: var(--gold-1); }
         </div>
         <p class="more">Curious? You can <a class="text" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">read the whole script on GitHub</a>.</p>
       </div>
-      <div class="pic ba" aria-hidden="true">
-        <span class="tag">Before</span>
-        <div class="strip"></div>
-        <svg class="go" viewBox="0 0 48 12" aria-hidden="true"><path class="dash" d="M0 6h40" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-        <div class="strip after"></div>
-        <span class="tag">After</span>
+      <div class="pic talk" aria-hidden="true">
+        <div class="line">
+          <div class="ico"><svg viewBox="0 0 24 24"><path d="M6 2.5h8l4 4v15H6zM14 2.5v4h4M9 12h6M9 15.5h6M9 19h4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
+          <div><span class="tag">Our script</span><span class="say">Save this profile with no tokens, please.</span></div>
+        </div>
+        <div class="line r">
+          <div class="ico"><b>L</b></div>
+          <div><span class="tag">League client</span><span class="say">Done. Tokens removed.</span></div>
+        </div>
       </div>
     </div>
   </div>
