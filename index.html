@@ -86,25 +86,18 @@ h1 em { font-style: normal; color: var(--gold-3); }
 .meta i { font-style: normal; margin: 0 12px; color: var(--gold-5); }
 
 /* The demo: a terminal and a profile whose tokens disappear when the line runs */
-.demo { margin: clamp(40px, 6vw, 64px) auto 0; max-width: 860px; display: grid; grid-template-columns: 1fr auto 1fr; gap: clamp(12px, 2.5vw, 24px); align-items: center; text-align: left; }
-.demo figure { margin: 0; min-width: 0; }
-.arrow { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); transform: rotate(45deg); }
-.arrow i { width: 11px; height: 11px; border-top: 2px solid var(--gold-3); border-right: 2px solid var(--gold-3); transform: translate(-2px, 2px); }
-.after .avatar, .after .who { opacity: 1; }
+.demo { margin: clamp(40px, 6vw, 64px) auto 0; display: flex; justify-content: center; align-items: center; gap: clamp(14px, 4vw, 44px); }
+.demo figure { margin: 0; flex: 0 1 256px; min-width: 0; }
+.arrow { flex: none; width: clamp(32px, 6vw, 44px); height: clamp(32px, 6vw, 44px); margin-bottom: 56px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); transform: rotate(45deg); }
+.arrow i { width: 28%; height: 28%; border-top: 2px solid var(--gold-3); border-right: 2px solid var(--gold-3); transform: translate(-15%, 15%); }
 .frame { background: linear-gradient(180deg, var(--navy), var(--black)); border: 1px solid var(--gold-6); box-shadow: 0 0 0 1px var(--black), 0 1px 0 0 var(--gold-5) inset; }
 .frame .head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--gold-7); font: 600 13px/1 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-2); }
 .frame .head span { color: var(--dim); font: 400 13px/1 var(--mono); letter-spacing: 0; text-transform: none; }
-.profile .body { padding: 28px 18px 30px; display: flex; flex-direction: column; align-items: center; }
-.avatar { position: relative; width: 88px; height: 88px; border-radius: 50%; padding: 3px; background: linear-gradient(180deg, var(--gold-3), var(--gold-5)); }
-.avatar svg { display: block; width: 100%; height: 100%; border-radius: 50%; background: linear-gradient(180deg, #123040, #0a1a26); }
-.level { position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); padding: 3px 10px; background: var(--black); border: 1px solid var(--gold-5); border-radius: 10px; font: 600 12px/1 var(--body); color: var(--gold-2); }
-.who { margin: 22px 0 2px; font: 700 20px/1.2 var(--display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold-1); }
-.rank { font-size: 14px; color: var(--muted); }
-.slots { margin-top: 22px; display: flex; gap: clamp(8px, 1.6vw, 14px); }
-.slot { position: relative; flex: none; width: clamp(52px, 7vw, 72px); aspect-ratio: 1; height: auto; border-radius: 50%; border: 1px dashed var(--gold-6); background: rgba(1,10,19,0.6); }
-.slot img { position: absolute; left: -12%; top: -12%; width: 124%; height: 124%; object-fit: contain; }
-.state { margin-top: 18px; width: 100%; text-align: center; font: 600 13px/20px var(--display); letter-spacing: 0.12em; text-transform: uppercase; }
-.state.has { color: var(--gold-3); } .state.none { color: #7fe3c0; }
+.shot { position: relative; }
+.shot img { display: block; width: 100%; height: auto; border: 1px solid var(--gold-6); box-shadow: 0 0 0 1px var(--black), 0 18px 50px rgba(0,0,0,0.55); }
+.shot figcaption { margin-top: 14px; text-align: center; font-size: 15px; color: var(--muted); }
+.shot figcaption b { display: block; margin-bottom: 2px; font: 700 15px/1.3 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-3); }
+.shot.after figcaption b { color: #7fe3c0; }
 
 /* Sections */
 section { padding: clamp(56px, 9vw, 104px) 0; }
@@ -170,9 +163,6 @@ footer a:hover { color: var(--gold-1); }
   .hero { padding-top: 148px; }
 }
 @media (max-width: 620px) {
-  .demo { grid-template-columns: 1fr; justify-items: center; }
-  .demo figure { width: 100%; max-width: 340px; }
-  .arrow { transform: rotate(135deg); }
   .cmd { flex-direction: column; }
   .cmd code { padding: 16px 14px; justify-content: center; }
   .cmd .btn { margin: 0 6px 6px; }
@@ -218,40 +208,17 @@ footer a:hover { color: var(--gold-1); }
     <p class="hint" id="hint" role="status">Click the line to select it, then press <kbd>Ctrl</kbd> + <kbd>C</kbd></p>
     <p class="meta">No install<i>/</i>No admin rights<i>/</i>Windows 10 and 11</p>
 
-    <div class="demo" aria-label="A profile before and after: three tokens, then none">
-      <figure class="frame profile">
-        <figcaption class="head">Before <span>3 tokens</span></figcaption>
-        <div class="body">
-          <div class="avatar">
-            <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="13" fill="#c8aa6e" opacity=".85"/><path d="M14 80c2-19 13-28 26-28s24 9 26 28Z" fill="#c8aa6e" opacity=".85"/></svg>
-            <span class="level">247</span>
-          </div>
-          <div class="who">Your Summoner</div>
-          <div class="slots">
-            <div class="slot"><img src="img/token-1.png" alt="Solo Carry token" width="90" height="90"></div>
-            <div class="slot"><img src="img/token-2.png" alt="Nashor Slasher token" width="90" height="90"></div>
-            <div class="slot"><img src="img/token-3.png" alt="Pentakill token" width="90" height="90"></div>
-          </div>
-          <div class="state has">3 equipped</div>
-        </div>
+    <div class="demo" aria-label="A real League profile banner before and after: three tokens, then none">
+      <figure class="shot">
+        <img src="img/before.jpg" alt="Profile banner in the League client with three tokens equipped" width="256" height="580">
+        <figcaption><b>Before</b>3 tokens equipped</figcaption>
       </figure>
       <div class="arrow" aria-hidden="true"><i></i></div>
-      <figure class="frame profile after">
-        <figcaption class="head">After <span>cleared</span></figcaption>
-        <div class="body">
-          <div class="avatar">
-            <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="13" fill="#c8aa6e" opacity=".85"/><path d="M14 80c2-19 13-28 26-28s24 9 26 28Z" fill="#c8aa6e" opacity=".85"/></svg>
-            <span class="level">247</span>
-          </div>
-          <div class="who">Your Summoner</div>
-          <div class="slots">
-            <div class="slot"></div>
-            <div class="slot"></div>
-            <div class="slot"></div>
-          </div>
-          <div class="state none">Cleared</div>
-        </div>
+      <figure class="shot after">
+        <img src="img/after.jpg" alt="The same profile banner with the token slots empty" width="256" height="580">
+        <figcaption><b>After</b>Slots cleared</figcaption>
       </figure>
+    </div>
   </div>
 </header>
 
