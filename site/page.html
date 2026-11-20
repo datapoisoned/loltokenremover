@@ -29,7 +29,6 @@
   --body: 'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   --mono: 'Geist Mono', Consolas, Menlo, monospace;
   --ease: cubic-bezier(.2, .7, .2, 1);
-  --bar: 64px;                                   /* height of the top bar */
   --edge: clamp(16px, 4vw, 48px);                /* space at the left and right of the page */
 }
 *, *::before, *::after { box-sizing: border-box; }
@@ -46,26 +45,19 @@ h1, h2 { font-family: var(--display); color: var(--gold-1); text-transform: uppe
 .backdrop video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
 .backdrop::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(1,10,19,0.55) 0%, rgba(1,10,19,0.2) 30%, rgba(1,10,19,0.45) 100%); }
 
-/* ---------- top bar: just the name and GitHub ---------- */
-/* On a landscape window the top bar and hero are sized from the window itself (both its
+/* ---------- sizing ---------- */
+/* On a landscape window the hero is sized from the window itself (both its
    width and its height), so the hero always fills exactly one screen, whatever the
    monitor, Windows display scaling or browser zoom. 1em is 20px on a 1920 x 1080 window.
    Phones and portrait windows get a normal stacked layout further down. */
 :root { --u: min(1.0417vw, 1.852vh); }
-.nav, .hero { font-size: var(--u); }
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: 3.8em; background: rgba(1,10,19,0.9); border-bottom: 1px solid var(--gold-6); }
-.nav::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-5) 20%, var(--gold-3) 50%, var(--gold-5) 80%, transparent); }
-.nav .inner { height: 100%; width: min(100%, 72em); margin: 0 auto; padding: 0 2em; display: flex; align-items: center; justify-content: space-between; }
-.brand { display: flex; align-items: center; gap: 0.7em; font: 700 1.1em/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); white-space: nowrap; }
-.mark { width: 2.3em; height: 0.9em; flex: none; }
-.btn { display: inline-flex; align-items: center; justify-content: center; font: 700 0.85em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-2); background: var(--panel); cursor: pointer; padding: 0.8em 1.4em; border: 0.14em solid transparent; border-image: linear-gradient(180deg, var(--gold-3), var(--gold-5)) 1; transition: color .2s, background .2s, box-shadow .2s; }
-.btn:hover { color: var(--gold-1); background: linear-gradient(180deg, #1e2328, #433d2b); border-image: linear-gradient(180deg, var(--gold-1), var(--gold-4)) 1; box-shadow: 0 0 1.2em rgba(200,170,110,0.35); }
+.hero { font-size: var(--u); }
 
 /* ---------- hero: banner on the left, headline and steps on the right ---------- */
-.hero { height: 100vh; overflow: hidden; border-bottom: 1px solid var(--gold-6); }
+.hero { height: 100vh; overflow: hidden; }
 .hero .inner { height: 100%; display: grid; grid-template-columns: auto auto; justify-content: center; column-gap: 6em; align-items: start; }
 
-/* the banner hangs from the very top of the page, behind the top bar */
+/* the banner hangs from the very top of the page */
 .swap { position: relative; width: 17.6em; aspect-ratio: 729 / 2070; }
 .layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; -webkit-user-select: none; user-select: none; pointer-events: none; }
 /* The banner with empty slots is the base. Three copies of the "before" banner sit on
@@ -78,9 +70,8 @@ h1, h2 { font-family: var(--display); color: var(--gold-1); text-transform: uppe
 @keyframes tok2 { 0%, 19% { opacity: 1; transform: none; } 26%, 78% { opacity: 0; transform: scale(.82); } 84%, 100% { opacity: 1; transform: none; } }
 @keyframes tok3 { 0%, 25% { opacity: 1; transform: none; } 32%, 82% { opacity: 0; transform: scale(.82); } 88%, 100% { opacity: 1; transform: none; } }
 
-/* the headline starts a little below the top bar */
-.pitch { width: 40em; padding-top: 8.4em; }
-h1 { font-size: 4.6em; font-weight: 700; line-height: 1.06; }
+.pitch { width: 40em; padding-top: 8em; }
+h1 { font-size: 4em; font-weight: 700; line-height: 1.06; }
 h1 em { font-style: normal; color: var(--gold-3); display: block; }
 .todo { margin: 2.4em 0 0; padding: 0; list-style: none; counter-reset: todo; display: grid; gap: 0.7em; }
 .todo li { counter-increment: todo; position: relative; display: flex; flex-direction: column; justify-content: center; height: 7em; padding: 0 1.5em 0 5.4em; background: rgba(1,10,19,0.6); border: 1px solid var(--gold-6); transition: border-color .2s; }
@@ -102,13 +93,9 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 /* ---------- phones and portrait windows: normal sizes, one column, steps first ---------- */
 @media (max-aspect-ratio: 1/1), (pointer: coarse) and (max-width: 950px) {
   :root { --u: 16px; }
-  .nav { height: 3.5em; }
-  .nav .inner { width: 100%; padding: 0 var(--edge); }
-  .brand { font-size: 1em; }
-  .btn { font-size: 0.8em; padding: 0.8em 1.2em; border-width: 2px; }
   .hero { height: auto; min-height: 100vh; min-height: 100svh; overflow: visible; }
   .hero .inner { height: auto; grid-template-columns: minmax(0, 1fr); justify-content: stretch; row-gap: 2.5em; padding: 0 var(--edge); }
-  .pitch { width: auto; padding-top: calc(3.5em + 28px); }
+  .pitch { width: auto; padding-top: 2.5em; }
   h1 { font-size: clamp(2.3em, 2.9vw + 1.5em, 3.6em); }
   .todo { margin-top: 1.6em; gap: 0.75em; }
   .todo li { height: auto; min-height: 5.4em; padding: 0.9em 1em 0.9em 4em; }
@@ -159,20 +146,6 @@ footer a:hover { color: var(--gold-1); }
 </div>
 <div class="page">
 
-<nav class="nav" aria-label="Main">
-  <div class="inner">
-    <a class="brand" href="#top">
-      <svg class="mark" viewBox="0 0 46 18" aria-hidden="true">
-        <circle cx="9" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
-        <circle cx="23" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
-        <circle cx="37" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
-      </svg>
-      Token Remover
-    </a>
-    <a class="btn" href="https://github.com/datapoisoned/loltokenremover">GitHub</a>
-  </div>
-</nav>
-
 <header class="hero" id="top">
   <div class="inner">
     <div class="demo">
@@ -209,7 +182,7 @@ footer a:hover { color: var(--gold-1); }
 </header>
 
 <section class="more" id="questions">
-  <h2>Good to know</h2>
+  <h2>FAQ</h2>
   <div class="faq">
     <div class="q"><button type="button" aria-expanded="false">What does the command do?<i></i></button><div class="a"><div><p>It reads a short script from this site and runs it. The script only talks to the League client on your own PC and saves your profile with an empty token list. Nothing is installed, and your title, banner and crest are left alone. <a href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read the script on GitHub</a>.</p></div></div></div>
     <div class="q"><button type="button" aria-expanded="false">Will I get banned?<i></i></button><div class="a"><div><p>Removing tokens is cosmetic and gives you no advantage. Riot has acted against client tools that give players an edge, and I am not aware of any reported ban for removing tokens. Riot does not officially support third-party tools, so use it at your own risk.</p></div></div></div>
