@@ -84,12 +84,12 @@ html { scroll-padding-top: calc(var(--u) * 5); }
 
 /* the guide: a centred title and intro over the three steps */
 .pitch { width: 40em; padding-top: 8.2em; text-align: center; }
-h1 { font-size: 3em; font-weight: 700; line-height: 1.12; }
+h1 { font-size: 2.8em; font-weight: 700; line-height: 1.12; }
 h1 em { font-style: normal; color: var(--gold-3); display: block; }
 .intro { margin: 1em auto 0; max-width: 31em; font-size: 1.15em; line-height: 1.55; color: var(--gold-2); }
 .help { margin: 1.1em 0 0; font-size: 1em; line-height: 1.5; color: var(--muted); }
 .todo { text-align: left; margin: 2em 0 0; padding: 0; list-style: none; counter-reset: todo; display: grid; gap: 0.7em; }
-.todo li { counter-increment: todo; position: relative; display: flex; flex-direction: column; justify-content: center; height: 7em; padding: 0 1.5em 0 5.4em; background: rgba(1,10,19,0.6); border: 1px solid var(--gold-6); transition: border-color .2s; }
+.todo li { counter-increment: todo; position: relative; display: flex; flex-direction: column; justify-content: center; height: 7em; padding: 0 1.5em 0 5.4em; background: rgba(1,10,19,0.66); border: 1px solid var(--gold-6); transition: border-color .2s; }
 .todo li:hover { border-color: var(--gold-5); }
 .todo li::before { content: counter(todo); position: absolute; left: 1.6em; top: 50%; width: 2.4em; height: 2.4em; margin-top: -1.2em; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 0.95em/1 var(--display); color: var(--gold-3); }
 .todo h2 { display: flex; align-items: center; gap: 0.6em; font-size: 1.25em; line-height: 1.3; letter-spacing: 0.1em; white-space: nowrap; }
@@ -136,47 +136,49 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 }
 
 /* ---------- sections below the hero ----------
-   Sized from the window like the hero, so they keep the same margins either side. */
-.sec, footer { font-size: calc(var(--u) * 0.9); }
-.sec { padding: 5.5em 2em; }
-.sec > h2 { text-align: center; font-size: 2.1em; font-weight: 700; }
-.sec > .lead { margin: 0.8em auto 0; max-width: 32em; text-align: center; font-size: 1.1em; color: var(--gold-2); }
+   Same scale as the hero: one title size, one intro size, one box-title size, one
+   text size, and boxes that share a width and line up with the hero's edges. */
+.sec, footer { font-size: var(--u); }
+.sec { padding: 5em 2em; }
+.sec > h2 { text-align: center; font-size: 2.8em; font-weight: 700; line-height: 1.12; }
+.sec > .lead { margin: 1em auto 0; max-width: 31em; text-align: center; font-size: 1.15em; line-height: 1.55; color: var(--gold-2); }
 .sec a.text { color: var(--gold-1); border-bottom: 1px solid var(--gold-5); }
 .sec a.text:hover { border-color: var(--gold-1); }
-.sec strong { color: var(--gold-1); font-weight: 600; }
 
-/* how it works: plain words next to what you will see */
-.how { margin: 3em auto 0; max-width: 60em; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4em; align-items: center; }
-.how dl { margin: 0; display: grid; gap: 1.6em; }
-.how dt { font: 700 1.02em/1.3 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-3); }
-.how dd { margin: 0.4em 0 0; font-size: 1.06em; line-height: 1.6; color: var(--gold-2); }
-.term { border: 1px solid var(--gold-6); background: rgba(1,10,19,0.86); box-shadow: 0 1.5em 3.75em rgba(0,0,0,0.45); }
-.term .bar { display: flex; align-items: center; gap: 0.75em; padding: 0.75em 1.1em; border-bottom: 1px solid var(--gold-7); font: 500 0.8em/1 var(--body); color: var(--muted); }
+.cols { margin: 2em auto 0; max-width: 62.6em; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.7em; }
+.card { padding: 2em; border: 1px solid var(--gold-6); background: rgba(1,10,19,0.66); }
+.card h3 { margin: 0; font: 700 1.25em/1.3 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); }
+.card p { margin: 0.45em 0 0; font-size: 1.12em; line-height: 1.6; color: var(--gold-2); }
+.card p + h3 { margin-top: 1.3em; }
+.card .short { color: var(--gold-3); font-weight: 600; }
+
+/* what you will see in PowerShell */
+.term { padding: 0; display: flex; flex-direction: column; }
+.term .bar { display: flex; align-items: center; gap: 0.75em; padding: 0.9em 2em; border-bottom: 1px solid var(--gold-7); font: 500 0.9em/1 var(--body); color: var(--muted); }
 .term .bar i { width: 0.9em; height: 0.9em; border: 1px solid var(--gold-5); }
-.term pre { margin: 0; padding: 1.2em 1.35em 1.45em; font: 400 0.9em/1.7 var(--mono); color: var(--gold-2); white-space: pre-wrap; overflow-wrap: anywhere; }
+.term pre { margin: 0; padding: 1.6em 2em 2em; font: 400 1em/1.75 var(--mono); color: var(--gold-2); white-space: pre-wrap; overflow-wrap: anywhere; }
 .term .ps { color: var(--muted); }
 .term .typed { color: var(--gold-1); }
 .term .ok { color: var(--mint); }
 
-/* is it safe: the two things people actually worry about */
-.safe { margin: 3em auto 0; max-width: 60em; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.6em; }
-.safe > div { padding: 2em; border: 1px solid var(--gold-6); background: rgba(1,10,19,0.72); }
-.safe h3 { margin: 0; font: 700 1.25em/1.3 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); }
-.safe .short { margin: 0.6em 0 0; font-size: 1.12em; font-weight: 600; color: var(--gold-3); }
-.safe p { margin: 0.7em 0 0; font-size: 1.04em; line-height: 1.65; }
-
 footer { padding: 2em 2em 3em; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
-footer .legal { margin: 0 auto; max-width: 46em; font-size: 0.875em; line-height: 1.55; color: var(--muted); }
+footer .legal { margin: 0 auto; max-width: 46em; font-size: 0.85em; line-height: 1.55; color: var(--muted); }
 footer a { color: var(--gold-2); border-bottom: 1px solid var(--gold-5); }
 footer a:hover { color: var(--gold-1); }
 
-/* phones and portrait windows: normal sizes, one column */
+/* phones and portrait windows: the same sizes as the hero uses there, one column */
 @media (max-aspect-ratio: 1/1), (pointer: coarse) and (max-width: 950px) {
   .sec, footer { font-size: 16px; }
   .sec { padding: 3.5em var(--edge); }
-  .how, .safe { grid-template-columns: minmax(0, 1fr); }
-  .how { gap: 2em; }
-  .safe > div { padding: 1.4em; }
+  .sec > h2 { font-size: clamp(1.75em, 3vw + 1.1em, 3em); }
+  .sec > .lead { font-size: 1.05em; }
+  .cols { grid-template-columns: minmax(0, 1fr); gap: 0.75em; margin-top: 1.6em; }
+  .card { padding: 1.2em 1.1em; }
+  .card h3 { font-size: 1.05em; }
+  .card p { font-size: 1em; line-height: 1.75; }
+  .term { padding: 0; }
+  .term .bar { padding: 0.8em 1.1em; }
+  .term pre { padding: 1.1em; font-size: 0.9em; }
   footer { padding: 2em var(--edge) 3em; }
 }
 
@@ -244,22 +246,16 @@ footer a:hover { color: var(--gold-1); }
 <section class="sec" id="how">
   <h2>How it works</h2>
   <p class="lead">League lets you swap your tokens but has no button to take them off. This does it for you.</p>
-  <div class="how">
-    <dl>
-      <div>
-        <dt>It empties your three token slots</dt>
-        <dd>The command asks your League client to save your profile with no tokens on it. That is the whole job.</dd>
-      </div>
-      <div>
-        <dt>It changes nothing else</dt>
-        <dd>Your title, banner, icon and everything else on your profile stay exactly as they are.</dd>
-      </div>
-      <div>
-        <dt>You can undo it any time</dt>
-        <dd>Your tokens are not deleted. Put them back from your profile whenever you like.</dd>
-      </div>
-    </dl>
-    <div class="term" aria-label="What you will see in PowerShell">
+  <div class="cols">
+    <div class="card">
+      <h3>It empties your token slots</h3>
+      <p>The command asks your League client to save your profile with no tokens on it. That is the whole job.</p>
+      <h3>It changes nothing else</h3>
+      <p>Your title, banner, icon and everything else on your profile stay exactly as they are.</p>
+      <h3>You can undo it any time</h3>
+      <p>Your tokens are not deleted. Put them back from your profile whenever you like.</p>
+    </div>
+    <div class="card term" aria-label="What you will see in PowerShell">
       <div class="bar"><i></i>Windows PowerShell</div>
 <pre><span class="ps">PS C:\&gt;</span> <span class="typed">irm tokenremover.com | iex</span>
 Tokens currently equipped (3):
@@ -275,13 +271,13 @@ Tokens currently equipped (3):
 <section class="sec" id="safe">
   <h2>Is it safe?</h2>
   <p class="lead">The two things people ask before running it.</p>
-  <div class="safe">
-    <div>
+  <div class="cols">
+    <div class="card">
       <h3>Will I get banned?</h3>
       <p class="short">I have not heard of a single ban for this.</p>
       <p>It only changes how your profile looks, the same thing you do when you pick tokens yourself, and it gives you no advantage in game. Riot does not officially support third-party tools though, so it is still at your own risk.</p>
     </div>
-    <div>
+    <div class="card">
       <h3>Is it a virus?</h3>
       <p class="short">No. Nothing gets installed on your PC.</p>
       <p>There is no program to download, it does not need admin rights, and it never asks for your password. The whole script is public, so anyone can check exactly what it does. <a class="text" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read it on GitHub</a>.</p>
@@ -290,7 +286,7 @@ Tokens currently equipped (3):
 </section>
 
 <footer>
-  <p class="legal">Token Remover is open source on <a href="https://github.com/datapoisoned/loltokenremover">GitHub<svg class="ext" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 1h6.5v6.5M9 1 1 9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Banner artwork and the background animation belong to Riot Games.</p>
+  <p class="legal">Token Remover is open source on <a href="https://github.com/datapoisoned/loltokenremover">GitHub</a>. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Banner artwork and the background animation belong to Riot Games.</p>
 </footer>
 
 </div>
