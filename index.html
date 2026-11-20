@@ -54,23 +54,22 @@ h1, h2 { font-family: var(--display); color: var(--gold-1); text-transform: uppe
 .nav, .hero { font-size: var(--u); }
 html { scroll-padding-top: calc(var(--u) * 4.4); }
 
-/* ---------- top bar: name on the left, page links in the middle, GitHub on the right ---------- */
+/* ---------- top bar: page links on the left, GitHub and the name on the right ---------- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: 4.4em; background: linear-gradient(180deg, rgba(1,10,19,0.97), rgba(1,10,19,0.86)); border-bottom: 1px solid var(--gold-7); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.nav .inner { height: 100%; padding: 0 3em; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
-.brand { justify-self: start; display: flex; align-items: center; gap: 0.7em; font: 700 1.3em/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); white-space: nowrap; }
-.mark { width: 2.3em; height: 0.9em; flex: none; }
-.links { height: 100%; display: flex; align-items: stretch; }
+.nav .inner { height: 100%; padding: 0 3em; display: flex; align-items: center; }
+.links { height: 100%; display: flex; align-items: stretch; margin-left: -1.5em; }
 .links a { position: relative; display: flex; align-items: center; padding: 0 1.5em; font: 700 0.95em/1 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-2); white-space: nowrap; transition: color .2s; }
 .links a::after { content: ''; position: absolute; left: 1.5em; right: 1.5em; bottom: -1px; height: 2px; background: var(--gold-3); box-shadow: 0 0 0.8em rgba(200,170,110,0.7); transform: scaleX(0); transition: transform .25s var(--ease); }
 .links a:hover { color: var(--gold-1); }
 .links a:hover::after { transform: scaleX(1); }
-.btn { justify-self: end; display: inline-flex; align-items: center; gap: 0.6em; font: 700 0.9em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-2); background: var(--panel); cursor: pointer; padding: 0.8em 1.3em; border: 2px solid transparent; border-image: linear-gradient(180deg, var(--gold-3), var(--gold-5)) 1; transition: color .2s, background .2s, box-shadow .2s; }
-.btn svg { width: 1.2em; height: 1.2em; }
-.btn:hover { color: var(--gold-1); background: linear-gradient(180deg, #1e2328, #433d2b); border-image: linear-gradient(180deg, var(--gold-1), var(--gold-4)) 1; box-shadow: 0 0 1.2em rgba(200,170,110,0.35); }
+.btn { margin-left: auto; display: inline-flex; align-items: center; gap: 0.6em; font: 700 0.85em/1 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-2); background: rgba(30,35,40,0.5); cursor: pointer; padding: 0.75em 1.2em; border: 1px solid var(--gold-5); transition: color .2s, border-color .2s, background .2s, box-shadow .2s; }
+.btn svg { width: 1.25em; height: 1.25em; }
+.btn:hover { color: var(--gold-1); border-color: var(--gold-3); background: rgba(120,90,40,0.22); box-shadow: 0 0 1.2em rgba(200,170,110,0.3), inset 0 0 0.8em rgba(200,170,110,0.12); }
+.brand { margin-left: 2em; font: 700 1.3em/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); white-space: nowrap; }
 
 /* ---------- hero: banner on the left, headline and steps on the right ---------- */
 .hero { height: 100vh; overflow: hidden; }
-.hero .inner { height: 100%; display: grid; grid-template-columns: auto auto; justify-content: center; column-gap: 6em; align-items: start; }
+.hero .inner { height: 100%; display: grid; grid-template-columns: auto auto; justify-content: center; column-gap: 5em; align-items: start; }
 
 /* the banner hangs from the very top of the page, behind the top bar */
 .swap { position: relative; width: 17.6em; aspect-ratio: 729 / 2070; }
@@ -85,10 +84,13 @@ html { scroll-padding-top: calc(var(--u) * 4.4); }
 @keyframes tok2 { 0%, 19% { opacity: 1; transform: none; } 26%, 78% { opacity: 0; transform: scale(.82); } 84%, 100% { opacity: 1; transform: none; } }
 @keyframes tok3 { 0%, 25% { opacity: 1; transform: none; } 32%, 82% { opacity: 0; transform: scale(.82); } 88%, 100% { opacity: 1; transform: none; } }
 
-.pitch { width: 40em; padding-top: 8.8em; }
-h1 { font-size: 4em; font-weight: 700; line-height: 1.06; }
+/* the guide: a centred title and intro over the three steps */
+.pitch { width: 40em; padding-top: 7.6em; text-align: center; }
+h1 { font-size: 3em; font-weight: 700; line-height: 1.12; }
 h1 em { font-style: normal; color: var(--gold-3); display: block; }
-.todo { margin: 2.4em 0 0; padding: 0; list-style: none; counter-reset: todo; display: grid; gap: 0.7em; }
+.intro { margin: 1em auto 0; max-width: 31em; font-size: 1.15em; line-height: 1.55; color: var(--gold-2); }
+.help { margin: 1.1em 0 0; font-size: 1em; line-height: 1.5; color: var(--muted); }
+.todo { text-align: left; margin: 2em 0 0; padding: 0; list-style: none; counter-reset: todo; display: grid; gap: 0.7em; }
 .todo li { counter-increment: todo; position: relative; display: flex; flex-direction: column; justify-content: center; height: 7em; padding: 0 1.5em 0 5.4em; background: rgba(1,10,19,0.6); border: 1px solid var(--gold-6); transition: border-color .2s; }
 .todo li:hover { border-color: var(--gold-5); }
 .todo li::before { content: counter(todo); position: absolute; left: 1.6em; top: 50%; width: 2.4em; height: 2.4em; margin-top: -1.2em; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 0.95em/1 var(--display); color: var(--gold-3); }
@@ -111,16 +113,17 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
   html { scroll-padding-top: 0; }
   /* the bar is two rows here and scrolls away with the page */
   .nav { position: relative; height: auto; }
-  .nav .inner { height: auto; padding: 0.9em var(--edge) 0; grid-template-columns: 1fr auto; row-gap: 0.5em; }
-  .brand { font-size: 1.05em; }
-  .btn { font-size: 0.78em; padding: 0.75em 1em; }
-  .links { grid-column: 1 / -1; grid-row: 2; height: auto; justify-content: space-between; }
-  .links a { padding: 1em 0.15em; font-size: 0.74em; letter-spacing: 0.1em; }
+  .nav .inner { height: auto; padding: 0.9em var(--edge) 0; flex-wrap: wrap; }
+  .brand { order: 1; margin-left: 0; font-size: 1.1em; }
+  .btn { order: 2; font-size: 0.78em; padding: 0.75em 1em; }
+  .links { order: 3; width: 100%; height: auto; margin: 0.4em 0 0; gap: 1.6em; }
+  .links a { padding: 1em 0; font-size: 0.78em; letter-spacing: 0.1em; }
   .links a::after { left: 0; right: 0; }
   .hero { height: auto; overflow: visible; }
   .hero .inner { height: auto; grid-template-columns: minmax(0, 1fr); justify-content: stretch; row-gap: 2.5em; padding: 0 var(--edge); }
   .pitch { width: auto; padding-top: 2em; }
-  h1 { font-size: clamp(2.3em, 2.9vw + 1.5em, 3.6em); }
+  h1 { font-size: clamp(1.75em, 3vw + 1.1em, 3em); }
+  .intro { font-size: 1.05em; }
   .todo { margin-top: 1.6em; gap: 0.75em; }
   .todo li { height: auto; min-height: 5.4em; padding: 0.9em 1em 0.9em 4em; }
   .todo li::before { left: 1.1em; width: 2.2em; height: 2.2em; margin-top: -1.1em; font-size: 0.9em; }
@@ -142,12 +145,11 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .sec a.text:hover { border-color: var(--gold-1); }
 .sec strong { color: var(--gold-1); font-weight: 600; }
 
-/* how it works: what happens, next to what you will see */
+/* how it works: plain words next to what you will see */
 .how { margin: clamp(28px, 4vw, 48px) auto 0; max-width: 1040px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
 .how dl { margin: 0; display: grid; gap: 1.6rem; }
 .how dt { font: 700 1.02rem/1.3 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-3); }
-.how dd { margin: 0.4rem 0 0; font-size: 1.04rem; line-height: 1.6; }
-.how code { font: 500 0.9em/1 var(--mono); color: var(--gold-1); background: var(--panel); border: 1px solid var(--line); padding: 0.15em 0.4em; }
+.how dd { margin: 0.4rem 0 0; font-size: 1.06rem; line-height: 1.6; color: var(--gold-2); }
 .term { border: 1px solid var(--gold-6); background: rgba(1,10,19,0.86); box-shadow: 0 24px 60px rgba(0,0,0,0.45); }
 .term .bar { display: flex; align-items: center; gap: 0.6rem; padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--gold-7); font: 500 0.8rem/1 var(--body); color: var(--muted); }
 .term .bar i { width: 0.7rem; height: 0.7rem; border: 1px solid var(--gold-5); }
@@ -156,31 +158,16 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .term .typed { color: var(--gold-1); }
 .term .ok { color: var(--mint); }
 
-/* is it safe: a plain checklist and an honest note */
-.safe { margin: clamp(28px, 4vw, 48px) auto 0; max-width: 780px; padding: 0; list-style: none; border: 1px solid var(--gold-6); background: rgba(1,10,19,0.72); }
-.safe li { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; padding: 1.2rem 1.4rem; font-size: 1.04rem; line-height: 1.6; }
-.safe li + li { border-top: 1px solid var(--gold-7); }
-.safe svg { width: 1.3rem; height: 1.3rem; margin-top: 0.2rem; color: var(--mint); }
-.note { margin: 1.4rem auto 0; max-width: 780px; padding: 0 1.4rem; font-size: 0.98rem; line-height: 1.6; }
+/* is it safe: the two things people actually worry about */
+.safe { margin: clamp(28px, 4vw, 48px) auto 0; max-width: 1040px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(16px, 2.5vw, 28px); }
+.safe > div { padding: clamp(1.4rem, 2.5vw, 2rem); border: 1px solid var(--gold-6); background: rgba(1,10,19,0.72); }
+.safe h3 { margin: 0; font: 700 1.25rem/1.3 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); }
+.safe .short { margin: 0.7rem 0 0; font-size: 1.12rem; font-weight: 600; color: var(--gold-3); }
+.safe p { margin: 0.7rem 0 0; font-size: 1.04rem; line-height: 1.65; }
 
 @media (max-width: 760px) {
-  .how { grid-template-columns: minmax(0, 1fr); }
+  .how, .safe { grid-template-columns: minmax(0, 1fr); }
 }
-
-.faq { margin: clamp(24px, 4vw, 40px) auto 0; max-width: 780px; border: 1px solid var(--gold-6); background: rgba(1,10,19,0.72); }
-.q + .q { border-top: 1px solid var(--gold-7); }
-.q button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; background: none; border: 0; cursor: pointer; text-align: left; font: 600 1.06rem/1.35 var(--body); color: var(--gold-2); transition: color .2s, background .2s; }
-.q button:hover { color: var(--gold-1); background: rgba(120,90,40,0.10); }
-.q button i { flex: none; width: 10px; height: 10px; border-right: 2px solid var(--gold-3); border-bottom: 2px solid var(--gold-3); transform: rotate(45deg) translate(-2px, -2px); transition: transform .35s var(--ease); }
-.q.open button { color: var(--gold-1); }
-.q.open button i { transform: rotate(225deg) translate(-2px, -2px); }
-.q .a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease); }
-.q.open .a { grid-template-rows: 1fr; }
-.q .a div { overflow: hidden; }
-.q .a p { margin: 0; padding: 0 22px 20px; max-width: 620px; opacity: 0; transform: translateY(-6px); transition: opacity .3s, transform .35s var(--ease); }
-.q.open .a p { opacity: 1; transform: none; }
-.q .a a { color: var(--gold-1); border-bottom: 1px solid var(--gold-5); }
-.q .a a:hover { border-color: var(--gold-1); }
 
 footer { padding: 32px var(--edge) 48px; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
 footer .legal { margin: 0 auto; max-width: 640px; font-size: 0.875rem; line-height: 1.55; color: var(--muted); }
@@ -190,7 +177,6 @@ footer a:hover { color: var(--gold-1); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .tok { animation: none; opacity: 0; }
-  .q .a, .q .a p, .q button i { transition: none; }
 }
 </style>
 </head>
@@ -202,24 +188,16 @@ footer a:hover { color: var(--gold-1); }
 
 <nav class="nav" aria-label="Main">
   <div class="inner">
-    <a class="brand" href="#top">
-      <svg class="mark" viewBox="0 0 46 18" aria-hidden="true">
-        <circle cx="9" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
-        <circle cx="23" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
-        <circle cx="37" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
-      </svg>
-      Token Remover
-    </a>
     <div class="links">
-      <a href="#top">How to</a>
+      <a href="#top">Guide</a>
       <a href="#how">How it works</a>
       <a href="#safe">Is it safe?</a>
-      <a href="#faq">FAQ</a>
     </div>
     <a class="btn" href="https://github.com/datapoisoned/loltokenremover">
       <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
       GitHub
     </a>
+    <a class="brand" href="#top">Token Remover</a>
   </div>
 </nav>
 
@@ -235,7 +213,8 @@ footer a:hover { color: var(--gold-1); }
     </div>
 
     <div class="pitch">
-      <h1>Got tokens? <em>No problem.</em></h1>
+      <h1>Remove your tokens <em>in 3 easy steps</em></h1>
+      <p class="intro">A quick guide to clearing the challenge tokens from your League of Legends profile. Open League and log in before you start.</p>
 
       <ol class="todo">
         <li>
@@ -243,37 +222,38 @@ footer a:hover { color: var(--gold-1); }
           <p>Press <kbd>Win</kbd>, type <kbd>PowerShell</kbd>, or <kbd>Win</kbd> + <kbd>X</kbd> then <kbd>I</kbd></p>
         </li>
         <li>
-          <h2>Enter our command</h2>
+          <h2>Run the command</h2>
           <p class="cmd">Type <span class="box"><span id="line">irm tokenremover.com | iex</span><button class="copy" id="copy" type="button" aria-label="Copy the command" title="Copy">
             <svg class="i-copy" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 3.5v-1h-8v8h1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
             <svg class="i-done" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-          </button></span></p>
+          </button></span> then press <kbd>Enter</kbd></p>
         </li>
         <li>
-          <h2>Enjoy your clean profile</h2>
-          <p>Tokens stay off unless re-equipped</p>
+          <h2>Check your profile</h2>
+          <p>Your tokens are gone until you equip them again</p>
         </li>
       </ol>
+      <p class="help">Did not work? Make sure League is open and logged in, then run it again.</p>
     </div>
   </div>
 </header>
 
 <section class="sec" id="how">
   <h2>How it works</h2>
-  <p class="lead">One line does three small things, all on your own PC.</p>
+  <p class="lead">League lets you swap your tokens but has no button to take them off. This does it for you.</p>
   <div class="how">
     <dl>
       <div>
-        <dt>It grabs a short script</dt>
-        <dd><code>irm</code> reads the script from this site and <code>iex</code> runs it in that PowerShell window. Nothing is saved or installed.</dd>
+        <dt>It empties your three token slots</dt>
+        <dd>The command asks your League client to save your profile with no tokens on it. That is the whole job.</dd>
       </div>
       <div>
-        <dt>It finds your League client</dt>
-        <dd>The client that is already open on your PC accepts requests from your own computer. The script talks to it there and nowhere else.</dd>
+        <dt>It changes nothing else</dt>
+        <dd>Your title, banner, icon and everything else on your profile stay exactly as they are.</dd>
       </div>
       <div>
-        <dt>It saves three empty slots</dt>
-        <dd>It asks the client to save your profile with no tokens, the same request the client sends when you change them yourself. Your title, banner and crest stay as they are.</dd>
+        <dt>You can undo it any time</dt>
+        <dd>Your tokens are not deleted. Put them back from your profile whenever you like.</dd>
       </div>
     </dl>
     <div class="term" aria-label="What you will see in PowerShell">
@@ -291,23 +271,18 @@ Tokens currently equipped (3):
 
 <section class="sec" id="safe">
   <h2>Is it safe?</h2>
-  <p class="lead">Fair question for anything you paste into PowerShell. Here is what it does and does not do.</p>
-  <ul class="safe">
-    <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span><strong>You can read all of it.</strong> The whole script is public and takes a couple of minutes to read. <a class="text" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read the script on GitHub</a>.</span></li>
-    <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span><strong>Nothing is installed.</strong> No download to keep, no admin rights, and nothing left running when it finishes.</span></li>
-    <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span><strong>It stays on your PC.</strong> It only talks to the League client on your own computer. It never asks for your login and does not touch your game files.</span></li>
-    <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span><strong>It is easy to undo.</strong> Nothing is deleted from your account. Equip tokens again from your profile whenever you like.</span></li>
-  </ul>
-  <p class="note"><strong>What about bans?</strong> Removing tokens is cosmetic and gives you no advantage, and I am not aware of anyone being banned for it. Riot does not officially support third-party tools though, so it is at your own risk.</p>
-</section>
-
-<section class="sec" id="faq">
-  <h2>FAQ</h2>
-  <div class="faq">
-    <div class="q"><button type="button" aria-expanded="false">Can I get my tokens back?<i></i></button><div class="a"><div><p>Yes. Nothing is deleted from your account. Equip tokens again from your profile whenever you like.</p></div></div></div>
-    <div class="q"><button type="button" aria-expanded="false">It did not work<i></i></button><div class="a"><div><p>Make sure League is open and you are logged in, and that you are in PowerShell, not Command Prompt. Riot's servers sometimes hiccup, so running it a second time usually does it.</p></div></div></div>
-    <div class="q"><button type="button" aria-expanded="false">Will it still work after a patch?<i></i></button><div class="a"><div><p>It should. It uses the same request the client uses itself. If a patch ever breaks it, the fix goes on GitHub and the same command picks it up.</p></div></div></div>
-    <div class="q"><button type="button" aria-expanded="false">Does it work on Mac?<i></i></button><div class="a"><div><p>No. It needs PowerShell on Windows 10 or 11.</p></div></div></div>
+  <p class="lead">The two things people ask before running it.</p>
+  <div class="safe">
+    <div>
+      <h3>Will I get banned?</h3>
+      <p class="short">I have not heard of a single ban for this.</p>
+      <p>It only changes how your profile looks, the same thing you do when you pick tokens yourself, and it gives you no advantage in game. Riot does not officially support third-party tools though, so it is still at your own risk.</p>
+    </div>
+    <div>
+      <h3>Is it a virus?</h3>
+      <p class="short">No. Nothing gets installed on your PC.</p>
+      <p>There is no program to download, it does not need admin rights, and it never asks for your password. The whole script is public, so anyone can check exactly what it does. <a class="text" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read it on GitHub</a>.</p>
+    </div>
   </div>
 </section>
 
@@ -352,13 +327,6 @@ Tokens currently equipped (3):
     bg.removeAttribute('autoplay'); bg.pause();
   }
 
-  /* Questions open and close */
-  Array.prototype.forEach.call(document.querySelectorAll('.q button'), function (button) {
-    button.addEventListener('click', function () {
-      var open = button.parentNode.classList.toggle('open');
-      button.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-  });
 })();
 </script>
 <script type="text/plain"> #>
