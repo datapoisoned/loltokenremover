@@ -10,7 +10,7 @@ The client lets you swap tokens but has no button to clear them. This does that.
 3. Copy this line, paste it in, and press Enter:
 
 ```
-irm tokenremover.com | iex
+irm https://github.com/datapoisoned/loltokenremover/raw/main/remove-tokens.ps1 | iex
 ```
 
 That's it. Your tokens are gone, and they stay gone until you equip new ones.
