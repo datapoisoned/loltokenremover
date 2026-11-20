@@ -56,9 +56,9 @@ html { scroll-padding-top: calc(var(--u) * 5); }
 
 /* ---------- top bar: the name on the left, the links on the right ---------- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: 5em; background: linear-gradient(180deg, rgba(1,10,19,0.97), rgba(1,10,19,0.86)); border-bottom: 1px solid var(--gold-7); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.nav .inner { height: 100%; padding: 0 3em; display: flex; align-items: center; justify-content: space-between; }
+.nav .inner { height: 100%; padding: 0 3em; display: flex; align-items: center; }
 .brand { font: 700 1.5em/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); white-space: nowrap; }
-.links { height: 100%; display: flex; align-items: stretch; margin-right: -1.5em; }
+.links { height: 100%; display: flex; align-items: stretch; margin-left: 1.5em; }
 .links a { position: relative; display: flex; align-items: center; padding: 0 1.5em; font: 700 1.05em/1 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-2); white-space: nowrap; transition: color .2s; }
 .links a::after { content: ''; position: absolute; left: 1.5em; right: 1.5em; bottom: -1px; height: 2px; background: var(--gold-3); box-shadow: 0 0 0.8em rgba(200,170,110,0.7); transform: scaleX(0); transition: transform .25s var(--ease); }
 .links a:hover { color: var(--gold-1); }
@@ -150,16 +150,19 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .card h3 { margin: 0; font: 700 1.25em/1.3 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); }
 .card p { margin: 0.45em 0 0; font-size: 1.12em; line-height: 1.6; color: var(--gold-2); }
 .card p + h3 { margin-top: 1.3em; }
-.card .short { color: var(--gold-3); font-weight: 600; }
+.card .short { margin-top: 0.5em; font-size: 1.6em; line-height: 1.3; color: var(--gold-3); font-weight: 600; }
+.card .short + p { margin-top: 0.7em; }
 
-/* what you will see in PowerShell */
-.term { padding: 0; display: flex; flex-direction: column; }
-.term .bar { display: flex; align-items: center; gap: 0.75em; padding: 0.9em 2em; border-bottom: 1px solid var(--gold-7); font: 500 0.9em/1 var(--body); color: var(--muted); }
-.term .bar i { width: 0.9em; height: 0.9em; border: 1px solid var(--gold-5); }
-.term pre { margin: 0; padding: 1.6em 2em 2em; font: 400 1em/1.75 var(--mono); color: var(--gold-2); white-space: pre-wrap; overflow-wrap: anywhere; }
-.term .ps { color: var(--muted); }
-.term .typed { color: var(--gold-1); }
-.term .ok { color: var(--mint); }
+/* how it works: a picture of the button League never added */
+.ghost { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.ghost .label { font: 700 0.9em/1 var(--display); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+/* the three tokens, cut from the banner picture */
+.ghost .strip { width: 17em; max-width: 100%; aspect-ratio: 576 / 212; margin-top: 1.2em; background: url(img/banner-before-7.webp) 43.1% 78.2% / 126.56% auto no-repeat; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+.ghost .press { position: relative; margin-top: 1.6em; padding: 1em 2.2em; border: 2px dashed var(--gold-4); font: 700 1.25em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); background: rgba(200,155,60,0.08); animation: press 2.6s ease-in-out infinite; }
+.ghost .press svg { position: absolute; right: -0.9em; bottom: -1.1em; width: 1.7em; height: 1.7em; color: var(--gold-1); filter: drop-shadow(0 0.1em 0.2em rgba(0,0,0,0.8)); animation: tap 2.6s ease-in-out infinite; }
+.ghost .cap { margin-top: 2em; max-width: 21em; }
+@keyframes press { 0%, 40%, 100% { box-shadow: 0 0 0 rgba(200,170,110,0); background: rgba(200,155,60,0.08); } 55% { box-shadow: 0 0 1.6em rgba(200,170,110,0.55); background: rgba(200,155,60,0.28); } }
+@keyframes tap { 0%, 35%, 100% { transform: translate(0.5em, 0.5em); } 50%, 62% { transform: none; } }
 
 footer { padding: 2em 2em 3em; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
 footer .legal { margin: 0 auto; max-width: 46em; font-size: 0.85em; line-height: 1.55; color: var(--muted); }
@@ -176,15 +179,15 @@ footer a:hover { color: var(--gold-1); }
   .card { padding: 1.2em 1.1em; }
   .card h3 { font-size: 1.05em; }
   .card p { font-size: 1em; line-height: 1.75; }
-  .term { padding: 0; }
-  .term .bar { padding: 0.8em 1.1em; }
-  .term pre { padding: 1.1em; font-size: 0.9em; }
+  .card .short { font-size: 1.3em; }
+  .ghost { padding-top: 1.8em; padding-bottom: 1.8em; }
   footer { padding: 2em var(--edge) 3em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .tok { animation: none; opacity: 0; }
+  .ghost .press, .ghost .press svg { animation: none; }
 }
 </style>
 </head>
@@ -245,25 +248,21 @@ footer a:hover { color: var(--gold-1); }
 
 <section class="sec" id="how">
   <h2>How it works</h2>
-  <p class="lead">League lets you swap your tokens but has no button to take them off. This does it for you.</p>
+  <p class="lead">League can already take your tokens off. It just never got a button for it.</p>
   <div class="cols">
     <div class="card">
-      <h3>It empties your token slots</h3>
-      <p>The command asks your League client to save your profile with no tokens on it. That is the whole job.</p>
-      <h3>It changes nothing else</h3>
-      <p>Your title, banner, icon and everything else on your profile stay exactly as they are.</p>
-      <h3>You can undo it any time</h3>
-      <p>Your tokens are not deleted. Put them back from your profile whenever you like.</p>
+      <h3>The feature is already there</h3>
+      <p>The League client knows how to save your profile with no tokens. Riot just never put a button for it on your screen.</p>
+      <h3>Our command presses it for you</h3>
+      <p>It asks your own League client to do that one thing. Think of it as clicking an invisible button.</p>
+      <h3>Nothing fancy happens</h3>
+      <p>No hacks and no changed game files. Your title, banner and icon stay the same, and you can put tokens back any time.</p>
     </div>
-    <div class="card term" aria-label="What you will see in PowerShell">
-      <div class="bar"><i></i>Windows PowerShell</div>
-<pre><span class="ps">PS C:\&gt;</span> <span class="typed">irm tokenremover.com | iex</span>
-Tokens currently equipped (3):
-  - Jack of All Champs
-  - Catch 'em All
-  - Master the Enemy
-
-<span class="ok">Done. Your tokens have been removed.</span></pre>
+    <div class="card ghost" aria-label="Your three tokens with a Remove tokens button that League does not have">
+      <span class="label">Your profile tokens</span>
+      <div class="strip"></div>
+      <span class="press">Remove tokens<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5v11l3-2.6 1.9 4.3 1.9-.8-1.9-4.2h3.9z" fill="currentColor" stroke="#010a13" stroke-width="0.8" stroke-linejoin="round"/></svg></span>
+      <p class="cap">The button League never added. Our command clicks it for you.</p>
     </div>
   </div>
 </section>
@@ -274,12 +273,12 @@ Tokens currently equipped (3):
   <div class="cols">
     <div class="card">
       <h3>Will I get banned?</h3>
-      <p class="short">I have not heard of a single ban for this.</p>
+      <p class="short">I have not heard of a single ban.</p>
       <p>It only changes how your profile looks, the same thing you do when you pick tokens yourself, and it gives you no advantage in game. Riot does not officially support third-party tools though, so it is still at your own risk.</p>
     </div>
     <div class="card">
       <h3>Is it a virus?</h3>
-      <p class="short">No. Nothing gets installed on your PC.</p>
+      <p class="short">No. Nothing gets installed.</p>
       <p>There is no program to download, it does not need admin rights, and it never asks for your password. The whole script is public, so anyone can check exactly what it does. <a class="text" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read it on GitHub</a>.</p>
     </div>
   </div>
