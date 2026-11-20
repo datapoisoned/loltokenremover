@@ -23,83 +23,49 @@
   --gold-6: #463714;
   --gold-7: #32281e;
   --muted: #a09b8c;
-  --dim: #5c5b57;
-  --teal: #0596aa;
   --ice: #cdfafa;
-  --blue: #005a82;
+  --mint: #7fe3c0;
   --display: 'Cinzel', 'Trajan Pro', Georgia, serif;
   --body: 'Inter', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   --mono: 'Geist Mono', Consolas, Menlo, monospace;
   --ease: cubic-bezier(.2, .7, .2, 1);
+
+  /* One unit drives the whole top bar and hero. It follows the window, so the
+     hero keeps the same proportions on any monitor and at any zoom level.
+     It is 20px on a 1920 x 1080 screen. */
+  --u: clamp(8px, min(1.0417vw, 1.852vh), 26px);
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 88px; background: var(--black); }
+html { scroll-behavior: smooth; background: var(--black); }
 /* font-size 0 hides two stray characters that let this same file run as a script. */
 body { margin: 0; background: var(--black); font-size: 0; overflow-x: hidden; }
 .page { font: 400 17px/1.55 var(--body); color: var(--muted); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); }
 :focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
-h1, h2, h3 { font-family: var(--display); color: var(--gold-1); text-transform: uppercase; letter-spacing: 0.04em; margin: 0; }
+h1, h2 { font-family: var(--display); color: var(--gold-1); text-transform: uppercase; letter-spacing: 0.04em; margin: 0; }
 
-/* Top bar, like the client's navigation */
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; background: rgba(1,10,19,0.94); border-bottom: 1px solid var(--gold-6); }
+/* ---------- top bar: just the name and GitHub ---------- */
+.nav, .hero { font-size: var(--u); }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: 3.2em; background: rgba(1,10,19,0.9); border-bottom: 1px solid var(--gold-6); }
 .nav::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-5) 20%, var(--gold-3) 50%, var(--gold-5) 80%, transparent); }
-.nav .wrap { max-width: 1360px; display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 24px; }
-.brand { display: flex; align-items: center; gap: 10px; font: 700 16px/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); white-space: nowrap; }
-.mark { width: 22px; height: 22px; flex: none; }
-.links { position: relative; display: flex; height: 64px; }
-.links a { display: flex; align-items: center; padding: 0 18px; font: 600 14px/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-2); transition: color .2s; }
-.links a:hover, .links a.on { color: var(--gold-1); }
-.links .bar { position: absolute; bottom: 0; left: 0; height: 2px; width: 0; background: var(--gold-3); box-shadow: 0 0 12px rgba(200,170,110,0.8); transition: transform .35s var(--ease), width .35s var(--ease), opacity .2s; opacity: 0; }
+.nav .inner { height: 100%; width: min(100%, 62em); margin: 0 auto; padding: 0 2em; display: flex; align-items: center; justify-content: space-between; }
+.brand { display: flex; align-items: center; gap: 0.7em; font: 700 0.85em/1 var(--display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-1); white-space: nowrap; }
+.mark { width: 2.3em; height: 0.9em; flex: none; }
+.btn { display: inline-flex; align-items: center; justify-content: center; font: 700 0.7em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-2); background: var(--panel); cursor: pointer; padding: 0.85em 1.4em; border: 2px solid transparent; border-image: linear-gradient(180deg, var(--gold-3), var(--gold-5)) 1; transition: color .2s, background .2s, box-shadow .2s; }
+.btn:hover { color: var(--gold-1); background: linear-gradient(180deg, #1e2328, #433d2b); border-image: linear-gradient(180deg, var(--gold-1), var(--gold-4)) 1; box-shadow: 0 0 1.2em rgba(200,170,110,0.35); }
 
-/* Client-style button */
-.btn {
-  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font: 700 14px/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--gold-2); background: var(--panel); cursor: pointer;
-  padding: 12px 20px; border: 2px solid transparent;
-  border-image: linear-gradient(180deg, var(--gold-3), var(--gold-5)) 1;
-  transition: color .2s, background .2s, box-shadow .2s;
-}
-.btn:hover { color: var(--gold-1); background: linear-gradient(180deg, #1e2328, #433d2b); border-image: linear-gradient(180deg, var(--gold-1), var(--gold-4)) 1; box-shadow: 0 0 18px rgba(200,170,110,0.35); }
-.btn:active { color: var(--gold-6); background: var(--panel); box-shadow: none; }
-.btn.go { color: var(--ice); background: linear-gradient(180deg, #0a323c, #091428); border-image: linear-gradient(180deg, #0ac8b9, var(--blue)) 1; }
-.btn.go:hover { color: #fff; background: linear-gradient(180deg, #0f4a57, #0b2036); border-image: linear-gradient(180deg, var(--ice), var(--teal)) 1; box-shadow: 0 0 22px rgba(5,150,170,0.55); }
-
-/* Hero: the pitch and the line on the left, the proof on the right, all in one screen */
-.hero { position: relative; padding-top: 64px; background: linear-gradient(180deg, #0a1a26 0%, var(--navy) 45%, var(--black) 100%); border-bottom: 1px solid var(--gold-6); }
-/* Background: the flowing-ribbon loop from the League client's side panel, dimmed and
-   faded into the page so it stays behind everything in the hero. */
-.hero { overflow: hidden; }
+/* ---------- hero: banner on the left half, steps on the right half ---------- */
+.hero { position: relative; height: 100vh; min-height: 34em; overflow: hidden; border-bottom: 1px solid var(--gold-6); background: linear-gradient(180deg, #0a1a26 0%, var(--navy) 45%, var(--black) 100%); }
 .bg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; pointer-events: none; }
 .hero::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; background: linear-gradient(180deg, rgba(1,10,19,0.6) 0%, rgba(1,10,19,0.2) 28%, rgba(1,10,19,0.35) 68%, var(--black) 100%); }
-.hero .wrap { z-index: 1; position: relative; max-width: 1360px; display: grid; grid-template-columns: auto minmax(0, 600px); justify-content: center; gap: clamp(56px, 9vw, 168px); align-items: center; min-height: min(100vh - 64px, 1100px); padding-top: clamp(24px, 4vh, 48px); padding-bottom: clamp(24px, 4vh, 48px); }
-h1 { font-size: clamp(30px, 4vw, 72px); font-weight: 700; line-height: 1.1; text-wrap: balance; }
-h1 em { font-style: normal; color: var(--gold-3); }
-.todo { margin: clamp(22px, 3.4vh, 40px) 0 0; padding: 0; list-style: none; counter-reset: todo; max-width: 620px; display: grid; gap: 10px; }
-.todo li { counter-increment: todo; position: relative; display: flex; flex-direction: column; justify-content: center; height: clamp(86px, 9.6vh, 108px); padding: 0 clamp(16px, 1.4vw, 22px) 0 clamp(60px, 4.4vw, 74px); background: rgba(1,10,19,0.55); border: 1px solid var(--gold-6); transition: border-color .2s; }
-.todo li:hover { border-color: var(--gold-5); }
-.todo li::before { content: counter(todo); position: absolute; left: clamp(16px, 1.4vw, 22px); top: 50%; width: 30px; height: 30px; margin-top: -15px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 14px/1 var(--display); color: var(--gold-3); }
-.todo h2 { font-size: clamp(15px, 1.05vw, 18px); line-height: 1.3; letter-spacing: 0.1em; color: var(--gold-1); white-space: nowrap; }
-.todo p { margin: clamp(5px, 0.8vh, 9px) 0 0; min-width: 0; font-size: clamp(15px, 1vw, 17px); line-height: 1.6; color: var(--gold-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.todo kbd { margin: 0 1px; padding: 3px 6px; font-size: clamp(12.5px, 0.85vw, 14px); }
-.box { display: inline-flex; align-items: center; gap: 6px; margin-left: 4px; padding: 2px 3px 2px 8px; vertical-align: middle; background: var(--panel); border: 1px solid var(--line); font: 500 clamp(12.5px, 0.85vw, 14px)/1 var(--mono); color: var(--gold-1); }
-.box #line { -webkit-user-select: all; user-select: all; cursor: text; padding: 4px 0; }
-.copy { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; background: none; border: 0; border-left: 1px solid var(--line); color: var(--gold-2); cursor: pointer; transition: color .15s, background .15s; }
-.copy:hover { color: var(--gold-1); background: rgba(200,170,110,0.12); }
-.copy svg { width: 15px; height: 15px; }
-.copy .i-done { display: none; color: #7fe3c0; }
-.copy.done .i-copy { display: none; }
-.copy.done .i-done { display: block; }
-.meta { margin: clamp(16px, 2.6vh, 24px) 0 0; font: 500 14px/1.6 var(--body); letter-spacing: 0.02em; color: var(--muted); }
-.meta i { font-style: normal; margin: 0 12px; color: var(--gold-5); }
+.hero .inner { position: relative; z-index: 1; height: 100%; width: min(100%, 62em); margin: 0 auto; padding: 0 2em; display: grid; grid-template-columns: 1fr 1fr; column-gap: 2em; align-items: center; }
 
-.demo { order: -1; align-self: start; margin-top: calc(-64px - clamp(24px, 4vh, 48px)); display: flex; flex-direction: column; align-items: center; }
+/* the banner hangs from the very top of the page, behind the top bar */
+.demo { align-self: start; justify-self: center; }
+.swap { position: relative; width: 16em; aspect-ratio: 729 / 2070; }
+.layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; -webkit-user-select: none; user-select: none; pointer-events: none; }
 /* The banner with empty slots is the base. Three copies of the "before" banner sit on
    top, each clipped to one token, and fade out one after another. */
-.swap { position: relative; width: clamp(164px, 15.8vw, 304px); max-width: 100%; aspect-ratio: 729 / 2070; }
-.layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; -webkit-user-select: none; user-select: none; pointer-events: none; }
 .tok { animation: 4.6s ease-in-out infinite both; }
 .t1 { clip-path: inset(70.2% 64.2% 19.56% 9.06%);  transform-origin: 23.7% 75.3%; animation-name: tok1; }
 .t2 { clip-path: inset(70.2% 37.8% 19.56% 35.8%);  transform-origin: 49.4% 75.3%; animation-name: tok2; }
@@ -108,47 +74,46 @@ h1 em { font-style: normal; color: var(--gold-3); }
 @keyframes tok2 { 0%, 19% { opacity: 1; transform: none; } 26%, 78% { opacity: 0; transform: scale(.82); } 84%, 100% { opacity: 1; transform: none; } }
 @keyframes tok3 { 0%, 25% { opacity: 1; transform: none; } 32%, 82% { opacity: 0; transform: scale(.82); } 88%, 100% { opacity: 1; transform: none; } }
 
-/* Framed panels used further down the page */
-.frame { background: linear-gradient(180deg, var(--navy), var(--black)); border: 1px solid var(--gold-6); box-shadow: 0 0 0 1px var(--black), 0 1px 0 0 var(--gold-5) inset; }
-.frame .head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--gold-7); font: 600 13px/1 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-2); }
-.frame .head span { color: var(--dim); font: 400 13px/1 var(--mono); letter-spacing: 0; text-transform: none; }
+.pitch { justify-self: start; width: 100%; max-width: 28em; padding-top: 3.2em; }
+h1 { font-size: 3.3em; font-weight: 700; line-height: 1.08; }
+h1 em { font-style: normal; color: var(--gold-3); display: block; }
+.todo { margin: 1.9em 0 0; padding: 0; list-style: none; counter-reset: todo; display: grid; gap: 0.5em; }
+.todo li { counter-increment: todo; position: relative; display: flex; flex-direction: column; justify-content: center; height: 5em; padding: 0 1.1em 0 3.9em; background: rgba(1,10,19,0.55); border: 1px solid var(--gold-6); transition: border-color .2s; }
+.todo li:hover { border-color: var(--gold-5); }
+.todo li::before { content: counter(todo); position: absolute; left: 1.57em; top: 50%; width: 2.15em; height: 2.15em; margin-top: -1.075em; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 0.7em/1 var(--display); color: var(--gold-3); }
+.todo h2 { font-size: 0.9em; line-height: 1.3; letter-spacing: 0.1em; white-space: nowrap; }
+.todo p { margin: 0.4em 0 0; font-size: 0.82em; line-height: 1.6; color: var(--gold-2); white-space: nowrap; }
+kbd, .box { font: 500 0.82em/1 var(--mono); color: var(--gold-1); background: var(--panel); border: 1px solid var(--line); }
+kbd { display: inline-block; margin: 0 0.1em; padding: 0.28em 0.5em; }
+.box { display: inline-flex; align-items: center; gap: 0.5em; margin-left: 0.3em; padding: 0.12em 0.2em 0.12em 0.6em; vertical-align: middle; }
+.box #line { -webkit-user-select: all; user-select: all; cursor: text; padding: 0.3em 0; }
+.copy { display: inline-flex; align-items: center; justify-content: center; width: 1.8em; height: 1.8em; padding: 0; font-size: 1em; background: none; border: 0; border-left: 1px solid var(--line); color: var(--gold-2); cursor: pointer; transition: color .15s, background .15s; }
+.copy:hover { color: var(--gold-1); background: rgba(200,170,110,0.12); }
+.copy svg { width: 1.1em; height: 1.1em; }
+.copy .i-done { display: none; color: var(--mint); }
+.copy.done .i-copy { display: none; }
+.copy.done .i-done { display: block; }
 
-/* Sections */
-section { padding: clamp(56px, 9vw, 104px) 0; }
-section + section { border-top: 1px solid var(--gold-7); }
-h2 { font-size: clamp(21px, 3.2vw, 30px); font-weight: 700; line-height: 1.2; text-wrap: balance; }
-.lede { margin: 14px 0 0; max-width: 600px; font-size: clamp(16px, 2vw, 19px); color: var(--gold-2); }
-.center { text-align: center; } .center .lede { margin-left: auto; margin-right: auto; }
+/* ---------- narrow or tall windows: stack, steps first, banner below ---------- */
+@media (max-width: 860px), (max-aspect-ratio: 5/6) {
+  :root { --u: clamp(13px, 4.1vw, 18px); }
+  .hero { height: auto; min-height: 0; padding: 5.2em 0 3em; }
+  .hero .inner { grid-template-columns: 1fr; row-gap: 2.6em; padding: 0 1.2em; }
+  .nav .inner { padding: 0 1.2em; }
+  .pitch { max-width: none; padding-top: 0; }
+  h1 { font-size: 2.3em; }
+  .todo li { height: auto; min-height: 5em; padding-top: 0.8em; padding-bottom: 0.8em; }
+  .todo h2, .todo p { white-space: normal; }
+  .demo { align-self: auto; order: 2; }
+  .swap { width: 13em; }
+}
 
-.steps { margin: clamp(32px, 5vw, 52px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); border: 1px solid var(--gold-6); background: linear-gradient(180deg, var(--navy), var(--black)); }
-.steps li { display: flex; gap: 22px; padding: clamp(20px, 3vw, 30px) clamp(18px, 2.6vw, 28px); transition: background .25s; box-shadow: -1px 0 0 0 var(--gold-7), 0 -1px 0 0 var(--gold-7); }
-.steps li:hover { background: rgba(120,90,40,0.10); }
-.n { flex: none; width: 40px; height: 40px; margin: 6px 4px 0 6px; display: flex; align-items: center; justify-content: center; transform: rotate(45deg); border: 1px solid var(--gold-5); background: var(--black); transition: border-color .25s, box-shadow .25s; }
-.n b { transform: rotate(-45deg); font: 700 17px/1 var(--display); color: var(--gold-2); }
-.steps li:hover .n { border-color: var(--gold-3); box-shadow: 0 0 16px rgba(200,170,110,0.4); }
-h3 { font-size: 18px; font-weight: 700; margin: 2px 0 8px; }
-.steps p { margin: 0; font-size: 16px; }
-.chip, kbd { display: inline-block; font: 500 13px/1 var(--mono); color: var(--gold-1); background: var(--panel); border: 1px solid var(--line); padding: 4px 7px; }
-
-.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: clamp(32px, 6vw, 64px); align-items: center; }
-.two > *, .verdict > * { min-width: 0; }
-.facts { margin: 32px 0 0; padding: 0; list-style: none; }
-.facts li { position: relative; padding: 15px 0 15px 30px; border-top: 1px solid var(--gold-7); }
-.facts li::before { content: ''; position: absolute; left: 4px; top: 23px; width: 9px; height: 9px; transform: rotate(45deg); background: var(--gold-3); }
-.facts b { color: var(--gold-1); font-weight: 600; }
-.more { margin-top: 30px; }
-.code pre { margin: 0; padding: 22px 18px; font: 400 14px/1.75 var(--mono); color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; }
-.code .k { color: var(--gold-3); } .code .v { color: var(--ice); } .code .c { color: var(--dim); } .code .w { color: var(--gold-1); }
-
-.verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: clamp(20px, 5vw, 56px); padding: clamp(22px, 4vw, 44px); border: 1px solid var(--gold-5); background: linear-gradient(135deg, #0a323c 0%, #091428 55%, var(--black) 100%); box-shadow: 0 0 0 1px var(--black), 0 1px 0 0 var(--gold-3) inset; }
-.verdict .lede { color: var(--ice); }
-.verdict p { margin: 0 0 14px; color: #c6d3d6; } .verdict p:last-child { margin: 0; }
-.verdict strong { color: var(--gold-1); font-weight: 600; }
-
-/* FAQ: animated open and close */
-.faq { margin: 44px auto 0; max-width: 760px; border: 1px solid var(--gold-6); background: linear-gradient(180deg, var(--navy), var(--black)); }
+/* ---------- below the hero: one short questions block ---------- */
+.more { padding: clamp(56px, 8vw, 96px) 20px; }
+.more h2 { text-align: center; font-size: clamp(22px, 3vw, 30px); font-weight: 700; }
+.faq { margin: clamp(24px, 4vw, 40px) auto 0; max-width: 720px; border: 1px solid var(--gold-6); background: linear-gradient(180deg, var(--navy), var(--black)); }
 .q + .q { border-top: 1px solid var(--gold-7); }
-.q button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: clamp(16px, 2.4vw, 20px) clamp(16px, 3vw, 24px); background: none; border: 0; cursor: pointer; text-align: left; font: 600 17px/1.35 var(--body); color: var(--gold-2); transition: color .2s, background .2s; }
+.q button { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; background: none; border: 0; cursor: pointer; text-align: left; font: 600 17px/1.35 var(--body); color: var(--gold-2); transition: color .2s, background .2s; }
 .q button:hover { color: var(--gold-1); background: rgba(120,90,40,0.10); }
 .q button i { flex: none; width: 10px; height: 10px; border-right: 2px solid var(--gold-3); border-bottom: 2px solid var(--gold-3); transform: rotate(45deg) translate(-2px, -2px); transition: transform .35s var(--ease); }
 .q.open button { color: var(--gold-1); }
@@ -156,41 +121,20 @@ h3 { font-size: 18px; font-weight: 700; margin: 2px 0 8px; }
 .q .a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease); }
 .q.open .a { grid-template-rows: 1fr; }
 .q .a div { overflow: hidden; }
-.q .a p { margin: 0; padding: 0 clamp(16px, 3vw, 24px) 22px; max-width: 640px; opacity: 0; transform: translateY(-6px); transition: opacity .3s, transform .35s var(--ease); }
+.q .a p { margin: 0; padding: 0 22px 20px; max-width: 620px; opacity: 0; transform: translateY(-6px); transition: opacity .3s, transform .35s var(--ease); }
 .q.open .a p { opacity: 1; transform: none; }
+.q .a a { color: var(--gold-1); border-bottom: 1px solid var(--gold-5); }
+.q .a a:hover { border-color: var(--gold-1); }
 
-footer { padding: 40px 0 56px; border-top: 1px solid var(--gold-6); text-align: center; }
-footer .meta { margin: 0 0 14px; }
+footer { padding: 32px 20px 48px; border-top: 1px solid var(--gold-6); text-align: center; }
 footer .legal { margin: 0 auto; max-width: 640px; font-size: 14px; line-height: 1.55; color: var(--muted); }
 footer a { color: var(--gold-2); border-bottom: 1px solid var(--gold-5); }
 footer a:hover { color: var(--gold-1); }
 
-.steps { overflow: hidden; }
-@media (max-width: 860px) {
-  .nav .wrap { height: auto; flex-wrap: wrap; padding-top: 10px; row-gap: 0; }
-  .links { order: 3; width: 100%; height: 44px; overflow-x: auto; scrollbar-width: none; margin: 4px -4px 0; }
-  .links::-webkit-scrollbar { display: none; }
-  .links a { padding: 0 12px; font-size: 13px; white-space: nowrap; }
-  .links .bar { display: none; }
-  .links a.on { box-shadow: 0 -2px 0 0 var(--gold-3) inset; }
-  html { scroll-padding-top: 120px; }
-  .hero { padding-top: 104px; }
-  .hero .wrap { grid-template-columns: 1fr; min-height: 0; gap: 36px; }
-  .demo { order: 0; align-self: auto; margin-top: 0; }
-  .swap { width: clamp(150px, 46vw, 220px); }
-}
-@media (max-width: 620px) {
-  .brand { font-size: 14px; }
-  .nav .btn { padding: 9px 14px; font-size: 12px; }
-  .meta i { margin: 0 7px; }
-  .todo li { height: 96px; padding: 0 12px 0 54px; }
-  .todo li::before { left: 12px; }
-  .todo p { white-space: normal; font-size: 14.5px; line-height: 1.5; }
-}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .tok { animation: none; opacity: 0; }
-  .q .a, .q .a p, .q button i, .links .bar { transition: none; }
+  .q .a, .q .a p, .q button i { transition: none; }
 }
 </style>
 </head>
@@ -198,25 +142,31 @@ footer a:hover { color: var(--gold-1); }
 <div class="page">
 
 <nav class="nav" aria-label="Main">
-  <div class="wrap">
+  <div class="inner">
     <a class="brand" href="#top">
-      <svg class="mark" viewBox="0 0 22 22" aria-hidden="true"><path d="M11 1.5 20.5 11 11 20.5 1.5 11Z" fill="none" stroke="#c8aa6e" stroke-width="1.6"/><path d="M6.5 15.5 15.5 6.5" stroke="#f0e6d2" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg class="mark" viewBox="0 0 46 18" aria-hidden="true">
+        <circle cx="9" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
+        <circle cx="23" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
+        <circle cx="37" cy="9" r="6.6" fill="none" stroke="#c8aa6e" stroke-width="2"/>
+      </svg>
       Token Remover
     </a>
-    <div class="links" id="links">
-      <a href="#how">How to use</a>
-      <a href="#what">What it does</a>
-      <a href="#safe">Is it safe</a>
-      <a href="#faq">FAQ</a>
-      <span class="bar" aria-hidden="true"></span>
-    </div>
     <a class="btn" href="https://github.com/datapoisoned/loltokenremover">GitHub</a>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <video class="bg" id="bg" autoplay muted loop playsinline preload="auto" poster="img/bg-loop.jpg" aria-hidden="true" tabindex="-1"><source src="img/bg-loop-slow.webm" type="video/webm"></video>
-  <div class="wrap">
+  <div class="inner">
+    <div class="demo">
+      <div class="swap" aria-label="A League profile banner whose three tokens disappear one by one, leaving the slots empty">
+        <img class="layer" src="img/banner-after-7.webp" alt="" width="729" height="2070" draggable="false">
+        <img class="layer tok t1" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
+        <img class="layer tok t2" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
+        <img class="layer tok t3" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
+      </div>
+    </div>
+
     <div class="pitch">
       <h1>Got tokens? <em>No problem.</em></h1>
 
@@ -238,114 +188,27 @@ footer a:hover { color: var(--gold-1); }
         </li>
       </ol>
     </div>
-
-    <div class="demo">
-      <div class="swap" aria-label="A League profile banner whose three tokens disappear one by one, leaving the slots empty">
-        <img class="layer" src="img/banner-after-7.webp" alt="" width="729" height="2070" draggable="false">
-        <img class="layer tok t1" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
-        <img class="layer tok t2" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
-        <img class="layer tok t3" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
-      </div>
-    </div>
   </div>
 </header>
 
-<section id="how">
-  <div class="wrap">
-    <div class="center">
-      <h2>Ten seconds, three steps</h2>
-      <p class="lede">Open League, open PowerShell, paste one line.</p>
-    </div>
-    <ol class="steps">
-      <li>
-        <span class="n"><b>1</b></span>
-        <div>
-          <h3>Open League</h3>
-          <p>Start the client and log in. Leave it open.</p>
-        </div>
-      </li>
-      <li>
-        <span class="n"><b>2</b></span>
-        <div>
-          <h3>Open PowerShell</h3>
-          <p>Right-click the Start button, then pick <span class="chip">Terminal</span> or <span class="chip">Windows PowerShell</span>.</p>
-        </div>
-      </li>
-      <li>
-        <span class="n"><b>3</b></span>
-        <div>
-          <h3>Paste and press Enter</h3>
-          <p>Your tokens stay off until you equip new ones.</p>
-        </div>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<section id="what">
-  <div class="wrap two">
-    <div>
-      <h2>It only talks to your own PC</h2>
-      <p class="lede">The line reads a short script from this site and runs it against the League client you already have open.</p>
-      <ul class="facts">
-        <li><b>Nothing installed.</b> No app, nothing left running.</li>
-        <li><b>No admin rights.</b> It never asks for more access.</li>
-        <li><b>Never sees your Riot login.</b></li>
-        <li><b>Title, banner and crest</b> are saved back unchanged.</li>
-      </ul>
-      <a class="btn more" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read the script</a>
-    </div>
-    <div class="frame code">
-      <div class="head">remove-tokens.ps1 <span>excerpt</span></div>
-<pre><span class="c"># Everything except the tokens is sent back as it is.</span>
-<span class="v">$kept</span> = Get-KeptSettings <span class="v">$before</span>
-<span class="v">$request</span> = @{ <span class="w">challengeIds</span> = <span class="k">@()</span> } + <span class="v">$kept</span>
-
-<span class="w">Invoke-Lcu</span> <span class="v">$lcu</span> <span class="k">POST</span> <span class="v">$UpdatePath</span> <span class="v">$body</span></pre>
-    </div>
-  </div>
-</section>
-
-<section id="safe">
-  <div class="wrap">
-    <div class="verdict">
-      <div>
-        <h2>Will I get banned?</h2>
-        <p class="lede">Removing tokens is cosmetic. It gives you no gameplay advantage.</p>
-      </div>
-      <div>
-        <p>Riot has acted against client tools that give players an edge, like revealing hidden names in champ select or dodging queues. <strong>I am not aware of any reported ban for removing tokens.</strong></p>
-        <p>Riot does not officially support third-party tools that use the client, so use this at your own risk.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="faq">
-  <div class="wrap">
-    <div class="center"><h2>Questions</h2></div>
-    <div class="faq">
-      <div class="q"><button type="button" aria-expanded="false">Can I get my tokens back?<i></i></button><div class="a"><div><p>Yes. Nothing is deleted from your account. Open your profile in the client and equip tokens again whenever you like.</p></div></div></div>
-      <div class="q"><button type="button" aria-expanded="false">It says "League client not found".<i></i></button><div class="a"><div><p>Open League of Legends and log in first, then run the line again.</p></div></div></div>
-      <div class="q"><button type="button" aria-expanded="false">Nothing happens when I paste it.<i></i></button><div class="a"><div><p>Make sure you are in Terminal or Windows PowerShell, not Command Prompt, and press Enter after pasting.</p></div></div></div>
-      <div class="q"><button type="button" aria-expanded="false">Does it work on Mac?<i></i></button><div class="a"><div><p>No. It is Windows only.</p></div></div></div>
-      <div class="q"><button type="button" aria-expanded="false">Will it keep working after a patch?<i></i></button><div class="a"><div><p>It is not tied to a game patch. If Riot changes the client and it stops working, it says so and changes nothing.</p></div></div></div>
-    </div>
+<section class="more" id="questions">
+  <h2>Good to know</h2>
+  <div class="faq">
+    <div class="q"><button type="button" aria-expanded="false">What does the command do?<i></i></button><div class="a"><div><p>It reads a short script from this site and runs it. The script only talks to the League client on your own PC and saves your profile with an empty token list. Nothing is installed, and your title, banner and crest are left alone. <a href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read the script on GitHub</a>.</p></div></div></div>
+    <div class="q"><button type="button" aria-expanded="false">Will I get banned?<i></i></button><div class="a"><div><p>Removing tokens is cosmetic and gives you no advantage. Riot has acted against client tools that give players an edge, and I am not aware of any reported ban for removing tokens. Riot does not officially support third-party tools, so use it at your own risk.</p></div></div></div>
+    <div class="q"><button type="button" aria-expanded="false">Can I get my tokens back?<i></i></button><div class="a"><div><p>Yes. Nothing is deleted from your account. Equip tokens again from your profile whenever you like.</p></div></div></div>
+    <div class="q"><button type="button" aria-expanded="false">It did not work<i></i></button><div class="a"><div><p>Make sure League is open and you are logged in, and that you are in PowerShell, not Command Prompt. Riot's servers sometimes hiccup, so running it a second time usually does it.</p></div></div></div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    <p class="meta">tokenremover.com<i>/</i>open&nbsp;source<i>/</i><a href="https://github.com/datapoisoned/loltokenremover">GitHub</a></p>
-    <p class="legal">Token Remover is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Banner artwork and the background animation belong to Riot Games.</p>
-  </div>
+  <p class="legal">Token Remover is open source on <a href="https://github.com/datapoisoned/loltokenremover">GitHub</a>. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Banner artwork and the background animation belong to Riot Games.</p>
 </footer>
 
 </div>
 <script>
 (function () {
-  /* Clicking the line selects it so it is ready to copy. The page never
-     touches the clipboard. */
+  /* Clicking the command selects it so it is ready to copy. */
   var line = document.getElementById('line');
   line.addEventListener('click', function () {
     var range = document.createRange();
@@ -379,31 +242,12 @@ footer a:hover { color: var(--gold-1); }
     bg.removeAttribute('autoplay'); bg.pause();
   }
 
-  /* FAQ open and close */
+  /* Questions open and close */
   Array.prototype.forEach.call(document.querySelectorAll('.q button'), function (button) {
     button.addEventListener('click', function () {
       var open = button.parentNode.classList.toggle('open');
       button.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
-
-  /* Top bar: slide the gold marker under the section being read */
-  var links = document.getElementById('links');
-  var bar = links.querySelector('.bar');
-  var anchors = Array.prototype.slice.call(links.querySelectorAll('a'));
-  var targets = anchors.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
-  function mark() {
-    var y = window.scrollY + 140, current = -1;
-    targets.forEach(function (el, i) { if (el && el.offsetTop <= y) current = i; });
-    anchors.forEach(function (a, i) { a.classList.toggle('on', i === current); });
-    if (current < 0) { bar.style.opacity = 0; return; }
-    var a = anchors[current];
-    bar.style.opacity = 1;
-    bar.style.width = (a.offsetWidth - 36) + 'px';
-    bar.style.transform = 'translateX(' + (a.offsetLeft + 18) + 'px)';
-  }
-  window.addEventListener('scroll', mark, { passive: true });
-  window.addEventListener('resize', mark);
-  mark();
 })();
 </script>
