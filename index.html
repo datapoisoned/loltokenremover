@@ -69,16 +69,11 @@ h1, h2, h3 { font-family: var(--display); color: var(--gold-1); text-transform: 
 
 /* Hero: the pitch and the line on the left, the proof on the right, all in one screen */
 .hero { position: relative; padding-top: 64px; background: linear-gradient(180deg, #0a1a26 0%, var(--navy) 45%, var(--black) 100%); border-bottom: 1px solid var(--gold-6); }
-/* Background: slow drifting light with small glowing motes rising through it, like the client's lobby. */
+/* Background: the flowing-ribbon loop from the League client's side panel, dimmed and
+   faded into the page so it stays behind everything in the hero. */
 .hero { overflow: hidden; }
-.aura, .motes { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
-.aura i { position: absolute; width: min(64vw, 980px); aspect-ratio: 1; border-radius: 50%; filter: blur(90px); will-change: transform; }
-.aura i:nth-child(1) { left: -14%; top: -34%; opacity: .30; background: radial-gradient(closest-side, #0596aa, transparent); animation: drift-a 24s ease-in-out infinite alternate; }
-.aura i:nth-child(2) { right: -18%; bottom: -44%; opacity: .34; background: radial-gradient(closest-side, #005a82, transparent); animation: drift-b 30s ease-in-out infinite alternate; }
-.aura i:nth-child(3) { left: 30%; top: 26%; width: min(40vw, 620px); opacity: .10; background: radial-gradient(closest-side, #c8aa6e, transparent); animation: drift-c 36s ease-in-out infinite alternate; }
-@keyframes drift-a { from { transform: translate(0, 0) scale(1); } to { transform: translate(16%, 12%) scale(1.15); } }
-@keyframes drift-b { from { transform: translate(0, 0) scale(1.1); } to { transform: translate(-18%, -10%) scale(0.95); } }
-@keyframes drift-c { from { transform: translate(-10%, 6%); } to { transform: translate(14%, -8%); } }
+.bg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; pointer-events: none; }
+.hero::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; background: linear-gradient(180deg, rgba(1,10,19,0.6) 0%, rgba(1,10,19,0.2) 28%, rgba(1,10,19,0.35) 68%, var(--black) 100%); }
 .hero .wrap { z-index: 1; position: relative; max-width: 1360px; display: grid; grid-template-columns: auto minmax(0, 600px); justify-content: center; gap: clamp(56px, 9vw, 168px); align-items: center; min-height: min(100vh - 64px, 1100px); padding-top: clamp(24px, 4vh, 48px); padding-bottom: clamp(24px, 4vh, 48px); }
 h1 { font-size: clamp(30px, 4vw, 72px); font-weight: 700; line-height: 1.1; text-wrap: balance; }
 h1 em { font-style: normal; color: var(--gold-3); }
@@ -195,8 +190,6 @@ footer a:hover { color: var(--gold-1); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .tok { animation: none; opacity: 0; }
-  .aura i { animation: none; }
-  .motes { display: none; }
   .q .a, .q .a p, .q button i, .links .bar { transition: none; }
 }
 </style>
@@ -222,8 +215,7 @@ footer a:hover { color: var(--gold-1); }
 </nav>
 
 <header class="hero" id="top">
-  <div class="aura" aria-hidden="true"><i></i><i></i><i></i></div>
-  <canvas class="motes" aria-hidden="true"></canvas>
+  <video class="bg" id="bg" autoplay muted loop playsinline preload="auto" poster="img/bg-loop.jpg" aria-hidden="true" tabindex="-1"><source src="img/bg-loop.webm" type="video/webm"></video>
   <div class="wrap">
     <div class="pitch">
       <h1>Got tokens? <em>No problem.</em></h1>
@@ -345,7 +337,7 @@ footer a:hover { color: var(--gold-1); }
 <footer>
   <div class="wrap">
     <p class="meta">tokenremover.com<i>/</i>open&nbsp;source<i>/</i><a href="https://github.com/datapoisoned/loltokenremover">GitHub</a></p>
-    <p class="legal">Token Remover is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Token artwork belongs to Riot Games.</p>
+    <p class="legal">Token Remover is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Banner artwork and the background animation belong to Riot Games.</p>
   </div>
 </footer>
 
@@ -381,70 +373,11 @@ footer a:hover { color: var(--gold-1); }
     }
   });
 
-  /* Rising motes behind the hero. Skipped entirely for reduced-motion visitors. */
-  (function () {
-    var hero = document.querySelector('.hero');
-    var canvas = hero.querySelector('.motes');
-    if (!canvas.getContext || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-    var ctx = canvas.getContext('2d');
-    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    var w = 0, h = 0, motes = [], last = 0, running = false, visible = true;
-
-    // one soft glowing dot per colour, drawn once and reused
-    function sprite(rgb) {
-      var c = document.createElement('canvas'); c.width = c.height = 48;
-      var g = c.getContext('2d'), grad = g.createRadialGradient(24, 24, 0, 24, 24, 24);
-      grad.addColorStop(0, 'rgba(' + rgb + ',1)'); grad.addColorStop(0.25, 'rgba(' + rgb + ',0.55)'); grad.addColorStop(1, 'rgba(' + rgb + ',0)');
-      g.fillStyle = grad; g.fillRect(0, 0, 48, 48);
-      return c;
-    }
-    var sprites = [sprite('205,250,250'), sprite('10,200,185'), sprite('200,170,110')];
-
-    function spawn(anywhere) {
-      return {
-        x: Math.random() * w,
-        y: anywhere ? Math.random() * h : h + 20,
-        size: 3 + Math.random() * 9,
-        rise: 8 + Math.random() * 22,
-        sway: 6 + Math.random() * 16,
-        phase: Math.random() * 6.28,
-        speed: 0.3 + Math.random() * 0.7,
-        peak: 0.25 + Math.random() * 0.55,
-        kind: Math.random() < 0.2 ? 2 : (Math.random() < 0.5 ? 0 : 1)
-      };
-    }
-    function size() {
-      w = canvas.clientWidth; h = canvas.clientHeight;
-      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      var want = Math.max(18, Math.min(70, Math.round(w / 26)));
-      motes = []; for (var i = 0; i < want; i++) motes.push(spawn(true));
-    }
-    function frame(now) {
-      if (!visible) { running = false; return; }
-      var dt = Math.min(0.05, (now - last) / 1000) || 0; last = now;
-      ctx.clearRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'lighter';
-      for (var i = 0; i < motes.length; i++) {
-        var m = motes[i];
-        m.y -= m.rise * dt; m.phase += m.speed * dt;
-        if (m.y < -20) { motes[i] = m = spawn(false); }
-        var x = m.x + Math.sin(m.phase) * m.sway;
-        // fade in near the bottom, out near the top, with a slow twinkle
-        var edge = Math.min(1, (h - m.y) / 160) * Math.min(1, m.y / 220);
-        ctx.globalAlpha = Math.max(0, edge) * m.peak * (0.65 + 0.35 * Math.sin(m.phase * 2.3));
-        ctx.drawImage(sprites[m.kind], x - m.size, m.y - m.size, m.size * 2, m.size * 2);
-      }
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(frame);
-    }
-    function start() { if (!running) { running = true; last = performance.now(); requestAnimationFrame(frame); } }
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; if (visible) start(); }).observe(hero);
-    }
-    window.addEventListener('resize', size);
-    size(); start();
-  })();
+  /* Background clip: hold it on its first frame for visitors who prefer reduced motion. */
+  var bg = document.getElementById('bg');
+  if (bg && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    bg.removeAttribute('autoplay'); bg.pause();
+  }
 
   /* FAQ open and close */
   Array.prototype.forEach.call(document.querySelectorAll('.q button'), function (button) {
