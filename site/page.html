@@ -37,6 +37,16 @@ html { scroll-behavior: smooth; background: var(--black); }
 body { margin: 0; background: var(--black); font-size: 0; overflow-x: hidden; }
 .page { position: relative; z-index: 1; font: 400 1rem/1.55 var(--body); color: var(--muted); -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
+
+/* ---------- scroll bar: dark track, gold handle, like the client's own ---------- */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--black); border-left: 1px solid var(--gold-7); }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--gold-4), var(--gold-5)) padding-box; border: 3px solid transparent; border-left-width: 4px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--gold-2), var(--gold-4)) padding-box; }
+::-webkit-scrollbar-corner { background: var(--black); }
+@supports not selector(::-webkit-scrollbar) {
+  html, body { scrollbar-color: #785a28 #010a13; scrollbar-width: thin; }
+}
 :focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; }
 h1, h2 { font-family: var(--display); color: var(--gold-1); text-transform: uppercase; letter-spacing: 0.04em; margin: 0; }
 
