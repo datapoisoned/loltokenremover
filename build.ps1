@@ -1,4 +1,4 @@
-# Builds index.html from site/page.html, site/hero.js and remove-tokens.ps1.
+# Builds index.html from site/page.html and remove-tokens.ps1.
 #
 # index.html is one file that works two ways:
 #   - a browser opening tokenremover.com sees the web page
@@ -11,8 +11,6 @@
 $ErrorActionPreference = 'Stop'
 $page = [IO.File]::ReadAllText("$PSScriptRoot\site\page.html") -replace "`r`n", "`n"
 $script = [IO.File]::ReadAllText("$PSScriptRoot\remove-tokens.ps1") -replace "`r`n", "`n"
-$hero = [IO.File]::ReadAllText("$PSScriptRoot\site\hero.js") -replace "`r`n", "`n"
-$page = $page.TrimEnd() + "`n<script type=`"module`">`n" + $hero.Trim() + "`n</script>"
 
 if ($page.Contains('#>')) { throw 'site/page.html must not contain "#>" (it would end the PowerShell comment early).' }
 if ($script -match '(?i)</script') { throw 'remove-tokens.ps1 must not contain "</script".' }
