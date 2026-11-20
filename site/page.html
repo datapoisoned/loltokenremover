@@ -219,8 +219,8 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .go .dash b { display: block; width: calc(100% + 0.53333em); height: 100%; margin-left: -0.53333em; background: repeating-linear-gradient(90deg, currentColor 0 0.26667em, transparent 0.26667em 0.53333em); animation: dash 1s linear infinite; will-change: transform; }
 @keyframes dash { to { transform: translateX(0.53333em); } }
 
-footer { padding: 2em 2em 3em; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
-footer .legal { margin: 0 auto; max-width: 46em; font-size: 0.85em; line-height: 1.55; color: var(--muted); }
+footer { padding: 1.3em 2em 1.5em; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
+footer .legal { margin: 0 auto; max-width: 84em; font-size: 0.85em; line-height: 1.55; color: var(--muted); }
 footer a { color: var(--gold-2); border-bottom: 1px solid var(--gold-5); }
 footer a:hover { color: var(--gold-1); }
 
@@ -318,7 +318,7 @@ footer a:hover { color: var(--gold-1); }
           <p>GG. Enjoy the clean profile!</p>
         </li>
       </ol>
-      <p class="help">Not working? Double check League is open and logged in.</p>
+      <p class="help">Know someone with tokens? Send them tokenremover.com</p>
     </div>
   </div>
 </header>
@@ -376,33 +376,42 @@ footer a:hover { color: var(--gold-1); }
 
 <section class="sec" id="faq">
   <h2>FAQ</h2>
-  <p class="lead">Quick answers to the questions people ask before running it.</p>
   <div class="cols">
     <div class="card">
-      <h3>Will I get banned?</h3>
+      <h3>Will I get banned for this?</h3>
       <p class="short">Extremely unlikely.</p>
-      <p>Riot bans tools that give an unfair edge in game, like scripts and bots. This only clears a cosmetic setting on your own profile and gives you no advantage. It is not an official Riot tool though, so the risk is never zero.</p>
+      <p>It only changes how your profile looks and gives no advantage in game. It is not an official Riot tool, so the risk is never zero.</p>
     </div>
     <div class="card">
-      <h3>Is it a virus?</h3>
+      <h3>Is this a virus?</h3>
       <p class="short">No.</p>
-      <p>Nothing is downloaded to keep and nothing is installed. It does not need admin rights and never asks for your password. Our whole script is public, so anyone can check what it does.</p>
+      <p>It is 100% safe for your computer. Nothing is installed, and our script is open source.</p>
+    </div>
+    <div class="card">
+      <h3>It is not working</h3>
+      <p class="short">Check League first.</p>
+      <p>Make sure League is open and you are logged in, then run the command again.</p>
     </div>
     <div class="card">
       <h3>Can I get my tokens back?</h3>
       <p class="short">Yes.</p>
-      <p>Nothing is deleted from your account. Equip tokens again from your profile whenever you like.</p>
+      <p>Equip them again from your profile whenever you like.</p>
     </div>
     <div class="card">
       <h3>Will it work after a patch?</h3>
       <p class="short">It should.</p>
-      <p>It uses the same request the client uses itself. If a patch ever breaks it, the fix goes on GitHub and the same command picks it up.</p>
+      <p>If a patch ever breaks it, we fix it and the same command keeps working.</p>
+    </div>
+    <div class="card">
+      <h3>Does it work on Mac?</h3>
+      <p class="short">No.</p>
+      <p>It needs PowerShell on Windows 10 or 11.</p>
     </div>
   </div>
 </section>
 
 <footer>
-  <p class="legal">Token Remover is open source on <a href="https://github.com/datapoisoned/loltokenremover">GitHub</a>. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Banner artwork, the pointer in the animation and the background animation belong to Riot Games.</p>
+  <p class="legal">Token Remover is open source on <a href="https://github.com/datapoisoned/loltokenremover">GitHub</a>. It is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Banner art, pointer and background animation belong to Riot Games.</p>
 </footer>
 
 </div>
