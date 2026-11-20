@@ -67,37 +67,37 @@ h1, h2, h3 { font-family: var(--display); color: var(--gold-1); text-transform: 
 .btn.go { color: var(--ice); background: linear-gradient(180deg, #0a323c, #091428); border-image: linear-gradient(180deg, #0ac8b9, var(--blue)) 1; }
 .btn.go:hover { color: #fff; background: linear-gradient(180deg, #0f4a57, #0b2036); border-image: linear-gradient(180deg, var(--ice), var(--teal)) 1; box-shadow: 0 0 22px rgba(5,150,170,0.55); }
 
-/* Hero */
-.hero { position: relative; padding: clamp(112px, 13vw, 144px) 0 clamp(56px, 8vw, 96px); text-align: center; background: linear-gradient(180deg, #0a1a26 0%, var(--navy) 38%, var(--black) 100%); border-bottom: 1px solid var(--gold-6); }
+/* Hero: the pitch and the line on the left, the proof on the right, all in one screen */
+.hero { position: relative; padding-top: 64px; background: linear-gradient(180deg, #0a1a26 0%, var(--navy) 45%, var(--black) 100%); border-bottom: 1px solid var(--gold-6); }
 .hero::before { content: ''; position: absolute; inset: 64px 0 auto; height: 280px; opacity: .5; pointer-events: none; background: repeating-linear-gradient(90deg, transparent 0 119px, rgba(120,90,40,0.16) 119px 120px); -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
-.hero .wrap { position: relative; }
-h1 { font-size: clamp(27px, 5.4vw, 52px); font-weight: 700; line-height: 1.12; text-wrap: balance; }
+.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: center; min-height: min(100vh - 64px, 720px); padding-top: clamp(24px, 4vh, 48px); padding-bottom: clamp(24px, 4vh, 48px); }
+h1 { font-size: clamp(30px, 4.4vw, 54px); font-weight: 700; line-height: 1.1; text-wrap: balance; }
 h1 em { font-style: normal; color: var(--gold-3); }
-.sub { margin: 20px auto 0; max-width: 540px; font-size: clamp(16px, 2vw, 19px); line-height: 1.5; color: var(--gold-2); text-wrap: balance; }
-
-.cmd { margin: 36px auto 0; max-width: 580px; display: flex; align-items: stretch; background: var(--black); border: 1px solid var(--gold-5); box-shadow: 0 0 0 1px var(--black), 0 12px 40px rgba(0,0,0,0.5); }
-.cmd code { -webkit-user-select: all; user-select: all; cursor: text; flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; padding: 0 clamp(12px, 2.5vw, 20px); text-align: left; color: var(--gold-1); font: 500 clamp(14px, 2.2vw, 18px)/1 var(--mono); white-space: nowrap; overflow-x: auto; }
-.cmd code::before { content: '>'; color: var(--gold-3); }
-.cmd .btn { margin: 6px; padding: 14px 22px; }
-.hint { margin: 14px 0 0; font-size: 15px; color: var(--gold-2); transition: color .2s; }
-.hint.on { color: #7fe3c0; }
-.hint kbd { margin: 0 2px; }
-.meta { margin: 10px 0 0; font: 500 14px/1.6 var(--body); letter-spacing: 0.02em; color: var(--muted); }
+.sub { margin: 16px 0 0; max-width: 470px; font-size: clamp(16px, 1.7vw, 19px); line-height: 1.5; color: var(--gold-2); }
+.label { margin: clamp(22px, 3.5vh, 34px) 0 10px; font: 700 13px/1 var(--display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-3); }
+.cmd { max-width: 500px; background: var(--black); border: 1px solid var(--gold-5); box-shadow: 0 0 0 1px var(--black), 0 12px 40px rgba(0,0,0,0.5); transition: border-color .2s, box-shadow .2s; }
+.cmd:hover { border-color: var(--gold-3); box-shadow: 0 0 0 1px var(--black), 0 0 22px rgba(200,170,110,0.25); }
+.cmd code { -webkit-user-select: all; user-select: all; cursor: text; display: flex; align-items: center; gap: 12px; padding: clamp(15px, 2.2vh, 20px) clamp(14px, 2vw, 22px); color: var(--gold-1); font: 500 clamp(15px, 1.9vw, 21px)/1.2 var(--mono); white-space: nowrap; overflow-x: auto; }
+.cmd code::before { content: '>'; color: var(--gold-3); -webkit-user-select: none; user-select: none; }
+.then { margin: 16px 0 0; padding: 0; list-style: none; counter-reset: step; display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 15px; color: var(--gold-2); }
+.then li { counter-increment: step; display: flex; align-items: center; gap: 9px; }
+.then li::before { content: counter(step); flex: none; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 12px/1 var(--display); color: var(--gold-3); }
+.meta { margin: clamp(16px, 2.6vh, 24px) 0 0; font: 500 14px/1.6 var(--body); letter-spacing: 0.02em; color: var(--muted); }
 .meta i { font-style: normal; margin: 0 12px; color: var(--gold-5); }
 
-/* The demo: a terminal and a profile whose tokens disappear when the line runs */
-.demo { margin: clamp(28px, 4vw, 44px) auto 0; display: flex; justify-content: center; align-items: center; gap: clamp(14px, 4vw, 44px); }
-.demo figure { margin: 0; flex: 0 1 184px; min-width: 0; }
-.arrow { flex: none; width: clamp(32px, 6vw, 44px); height: clamp(32px, 6vw, 44px); margin-bottom: 56px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); transform: rotate(45deg); }
+.demo { display: flex; justify-content: center; align-items: center; gap: clamp(10px, 2vw, 26px); }
+.demo figure { margin: 0; flex: 0 1 clamp(118px, 14vw, 172px); min-width: 0; }
+.shot img { display: block; width: 100%; height: auto; }
+.shot figcaption { margin-top: 4px; text-align: center; }
+.shot figcaption b { font: 700 14px/1.3 var(--display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-3); }
+.shot.after figcaption b { color: #7fe3c0; }
+.arrow { flex: none; width: clamp(30px, 4vw, 42px); height: clamp(30px, 4vw, 42px); margin-bottom: 24px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); transform: rotate(45deg); }
 .arrow i { width: 28%; height: 28%; border-top: 2px solid var(--gold-3); border-right: 2px solid var(--gold-3); transform: translate(-15%, 15%); }
+
+/* Framed panels used further down the page */
 .frame { background: linear-gradient(180deg, var(--navy), var(--black)); border: 1px solid var(--gold-6); box-shadow: 0 0 0 1px var(--black), 0 1px 0 0 var(--gold-5) inset; }
 .frame .head { display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-bottom: 1px solid var(--gold-7); font: 600 13px/1 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-2); }
 .frame .head span { color: var(--dim); font: 400 13px/1 var(--mono); letter-spacing: 0; text-transform: none; }
-.shot { position: relative; }
-.shot img { display: block; width: 100%; height: auto; }
-.shot figcaption { margin-top: 6px; text-align: center; font-size: 15px; color: var(--muted); }
-.shot figcaption b { display: block; margin-bottom: 2px; font: 700 15px/1.3 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-3); }
-.shot.after figcaption b { color: #7fe3c0; }
 
 /* Sections */
 section { padding: clamp(56px, 9vw, 104px) 0; }
@@ -160,15 +160,16 @@ footer a:hover { color: var(--gold-1); }
   .links .bar { display: none; }
   .links a.on { box-shadow: 0 -2px 0 0 var(--gold-3) inset; }
   html { scroll-padding-top: 120px; }
-  .hero { padding-top: 148px; }
+  .hero { padding-top: 104px; }
+  .hero::before { inset: 104px 0 auto; }
+  .hero .wrap { grid-template-columns: 1fr; min-height: 0; gap: 28px; }
+  .demo figure { flex-basis: clamp(110px, 30vw, 160px); }
 }
 @media (max-width: 620px) {
-  .cmd { flex-direction: column; }
-  .cmd code { padding: 16px 14px; justify-content: center; }
-  .cmd .btn { margin: 0 6px 6px; }
   .brand { font-size: 14px; }
   .nav .btn { padding: 9px 14px; font-size: 12px; }
   .meta i { margin: 0 7px; }
+  .then { gap: 8px 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -198,25 +199,29 @@ footer a:hover { color: var(--gold-1); }
 
 <header class="hero" id="top">
   <div class="wrap">
-    <h1>Remove your <em>League tokens</em></h1>
-    <p class="sub">The client lets you swap the tokens on your profile but never clear them. One line in PowerShell does it.</p>
+    <div class="pitch">
+      <h1>Say goodbye to <em>your tokens</em></h1>
+      <p class="sub">Stuck with tokens on your League profile? The client will not let you clear them. This does, in ten seconds.</p>
 
-    <div class="cmd">
-      <code id="line">irm tokenremover.com | iex</code>
-      <button class="btn go" data-select type="button">Select</button>
+      <p class="label">Copy this line</p>
+      <div class="cmd"><code id="line">irm tokenremover.com | iex</code></div>
+      <ol class="then">
+        <li>Open League</li>
+        <li>Paste into PowerShell</li>
+        <li>Press Enter</li>
+      </ol>
+      <p class="meta">No install<i>/</i>No admin rights<i>/</i>Windows 10 and 11</p>
     </div>
-    <p class="hint" id="hint" role="status">Click the line to select it, then press <kbd>Ctrl</kbd> + <kbd>C</kbd></p>
-    <p class="meta">No install<i>/</i>No admin rights<i>/</i>Windows 10 and 11</p>
 
     <div class="demo" aria-label="A real League profile banner before and after: three tokens, then none">
       <figure class="shot">
-        <img src="img/before.png" alt="Profile banner in the League client with three tokens equipped" width="256" height="596">
-        <figcaption><b>Before</b>3 tokens equipped</figcaption>
+        <img src="img/before.png" alt="Profile banner in the League client with three tokens equipped" width="245" height="596">
+        <figcaption><b>Before</b></figcaption>
       </figure>
       <div class="arrow" aria-hidden="true"><i></i></div>
       <figure class="shot after">
-        <img src="img/after.png" alt="The same profile banner with the token slots empty" width="256" height="596">
-        <figcaption><b>After</b>Slots cleared</figcaption>
+        <img src="img/after.png" alt="The same profile banner with the token slots empty" width="245" height="596">
+        <figcaption><b>After</b></figcaption>
       </figure>
     </div>
   </div>
@@ -316,21 +321,16 @@ footer a:hover { color: var(--gold-1); }
 </div>
 <script>
 (function () {
-  /* The command is never written to the clipboard by this page.
-     Clicking selects it, and you copy it yourself. */
+  /* Clicking the line selects it so it is ready to copy. The page never
+     touches the clipboard. */
   var line = document.getElementById('line');
-  var hint = document.getElementById('hint');
-  function selectLine() {
+  line.addEventListener('click', function () {
     var range = document.createRange();
     range.selectNodeContents(line);
     var sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
-    hint.classList.add('on');
-    hint.firstChild.nodeValue = 'Selected. Now press ';
-  }
-  line.addEventListener('click', selectLine);
-  document.querySelector('[data-select]').addEventListener('click', selectLine);
+  });
 
   /* FAQ open and close */
   Array.prototype.forEach.call(document.querySelectorAll('.q button'), function (button) {
