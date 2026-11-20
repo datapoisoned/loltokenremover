@@ -195,7 +195,7 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .press { position: relative; isolation: isolate; margin-top: 1.2em; padding: 1em 2.2em; border: 2px dashed var(--gold-4); font: 700 1.25em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); background: rgba(200,155,60,0.08); white-space: nowrap; animation: press 6s ease-in-out infinite; }
 /* the lit state: 0.348 over the resting 0.08 gives exactly the old peak of 0.4 */
 .press::before { content: ''; position: absolute; z-index: -1; left: -2px; top: -2px; right: -2px; bottom: -2px; background: rgba(200,155,60,0.348); box-shadow: 0 0 1.8em rgba(200,170,110,0.7); opacity: 0; animation: lit 6s ease-in-out infinite; }
-.press .cur { position: absolute; right: 1.265em; bottom: -0.59em; width: 0.855em; height: 1.25em; animation: tap 6s ease-in-out infinite; }
+.press .cur { position: absolute; right: 0.41em; bottom: -1.84em; width: 1.71em; height: 2.5em; animation: tap 6s ease-in-out infinite; }
 .press + .tag { margin-top: 1.7em; }
 /* the cursor moves in, the button lights up, then each token fades out in turn */
 @keyframes tap   { 0%, 12%, 44%, 100% { transform: translate(2.6em, 1.5em); opacity: 0; } 16% { opacity: 1; } 24%, 26% { transform: none; opacity: 1; } 28% { transform: scale(0.85); } 31%, 38% { transform: none; opacity: 1; } }
@@ -338,7 +338,7 @@ footer a:hover { color: var(--gold-1); }
       <div class="stage" role="img" aria-label="A Remove tokens button, which League does not have, gets clicked and the three tokens disappear">
         <span class="tag">Your profile tokens</span>
         <div class="strip"><i class="tk k1"></i><i class="tk k2"></i><i class="tk k3"></i></div>
-        <span class="press">Remove tokens<img class="cur" src="img/lol-cursor.png" alt="" width="39" height="57" draggable="false"></span>
+        <span class="press">Remove tokens<img class="cur" src="img/lol-cursor.png" alt="" width="78" height="114" draggable="false"></span>
         <span class="tag">The button League never added</span>
       </div>
     </div>
