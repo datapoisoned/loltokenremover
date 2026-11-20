@@ -215,7 +215,7 @@ footer a:hover { color: var(--gold-1); }
 </nav>
 
 <header class="hero" id="top">
-  <video class="bg" id="bg" autoplay muted loop playsinline preload="auto" poster="img/bg-loop.jpg" aria-hidden="true" tabindex="-1"><source src="img/bg-loop.webm" type="video/webm"></video>
+  <video class="bg" id="bg" autoplay muted loop playsinline preload="auto" poster="img/bg-loop.jpg" aria-hidden="true" tabindex="-1"><source src="img/bg-loop-slow.webm" type="video/webm"></video>
   <div class="wrap">
     <div class="pitch">
       <h1>Got tokens? <em>No problem.</em></h1>
@@ -375,8 +375,6 @@ footer a:hover { color: var(--gold-1); }
 
   /* Background clip: hold it on its first frame for visitors who prefer reduced motion. */
   var bg = document.getElementById('bg');
-  // The client's loop is brisk for a full-page background, so play it at a third of its speed.
-  if (bg) { bg.defaultPlaybackRate = 0.33; bg.playbackRate = 0.33; }
   if (bg && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     bg.removeAttribute('autoplay'); bg.pause();
   }
