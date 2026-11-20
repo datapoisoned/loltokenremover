@@ -1,4 +1,4 @@
-# LoL Token Remover
+# Token Remover
 
 Removes the challenge tokens from your League of Legends profile.
 The client lets you swap tokens but has no button to clear them. This does that.
@@ -46,6 +46,6 @@ client, so use this at your own risk.
 
 ---
 
-LoL Token Remover isn't endorsed by Riot Games and doesn't reflect the views or
+Token Remover isn't endorsed by Riot Games and doesn't reflect the views or
 opinions of Riot Games or anyone officially involved in producing or managing
 Riot Games properties.

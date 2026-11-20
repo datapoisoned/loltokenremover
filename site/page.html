@@ -20,15 +20,20 @@
   --iron: #454647;
   --white: #ffffff;
   --coral: #ff6363;
-  --border: #363739;
+  --ember: #452324;
+  --sky: #63a1ff;
+  --cobalt: #143ca3;
+  --info: #56c2ff;
   --green: #59d499;
+  --border: #363739;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --mono: 'Geist Mono', 'JetBrains Mono', Consolas, Menlo, monospace;
   --key: rgba(255,255,255,0.05) 0 1px 0 0 inset, rgba(255,255,255,0.25) 0 0 0 1px, rgba(0,0,0,0.2) 0 -1px 0 0 inset;
   --lift: rgba(0,0,0,0.03) 0 7px 3px 0, rgba(0,0,0,0.25) 0 4px 4px 0;
+  --window: rgba(0,0,0,0.4) 0 4px 40px 8px, rgba(0,0,0,0.8) 0 0 0 0.5px, rgba(255,255,255,0.3) 0 0.5px 0 0 inset;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 88px; background: var(--void); }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; background: var(--void); }
 /* font-size 0 hides two stray characters that let this same file run as a script. */
 body { margin: 0; background: var(--void); font-size: 0; overflow-x: hidden; }
 .page {
@@ -39,115 +44,199 @@ body { margin: 0; background: var(--void); font-size: 0; overflow-x: hidden; }
 }
 a { color: inherit; text-decoration: none; }
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.btn:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
 
-/* Nav */
+/* Nav: the one glass surface, because it floats over moving content. */
 .nav {
   position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-  z-index: 10; width: calc(100% - 32px); max-width: 720px;
+  z-index: 10; width: calc(100% - 32px); max-width: 880px;
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 8px 8px 8px 16px;
-  border: 1px solid var(--border); border-radius: 8px;
-  background: rgba(7,8,10,0.6);
+  padding: 8px 8px 8px 20px;
+  border: 1px solid var(--border); border-radius: 16px;
+  background: rgba(7,8,10,0.72);
   -webkit-backdrop-filter: blur(48px); backdrop-filter: blur(48px);
+  box-shadow: rgba(255,255,255,0.06) 0 1px 0 0 inset;
 }
-.brand { display: flex; align-items: center; gap: 8px; color: var(--white); font: 500 13px/1 var(--sans); letter-spacing: 0.008em; white-space: nowrap; }
-.mark { width: 16px; height: 16px; flex: none; }
-.links { display: flex; gap: 24px; font: 500 13px/1 var(--sans); letter-spacing: 0.008em; }
+.brand { display: flex; align-items: center; gap: 8px; color: var(--white); font: 600 15px/1 var(--sans); white-space: nowrap; }
+.mark { width: 18px; height: 18px; flex: none; }
+.links { display: flex; gap: 32px; font: 500 14px/1 var(--sans); letter-spacing: 0.014em; }
 .links a { color: var(--ash); transition: color .15s; }
 .links a:hover { color: var(--white); }
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--mist); color: var(--iron);
-  font: 500 13px/1 var(--sans); letter-spacing: 0.008em;
-  padding: 8px 12px; border: 0; border-radius: 8px; cursor: pointer;
-  box-shadow: var(--lift); white-space: nowrap; transition: background .15s;
+  background: var(--mist); color: #1b1c1e;
+  font: 500 14px/1 var(--sans); letter-spacing: 0.014em;
+  padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer;
+  box-shadow: var(--lift), rgba(255,255,255,0.6) 0 1px 0 0 inset; white-space: nowrap; transition: background .15s;
 }
+.btn { position: relative; overflow: hidden; }
+.btn::after { content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.9), transparent); transform: skewX(-18deg); opacity: 0; }
 .btn:hover { background: var(--white); }
-.btn:focus-visible, a:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+.btn:hover::after { opacity: 1; left: 130%; transition: left .55s ease-out; }
+@media (prefers-reduced-motion: reduce) { .btn::after { display: none; } }
 
 /* Hero */
-.hero { position: relative; padding: 168px 0 96px; text-align: center; overflow: hidden; }
-.glow { position: absolute; inset: 0; pointer-events: none; }
-.glow::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(60% 55% at 50% 26%, rgba(4,63,150,0.7), rgba(6,18,37,0.25) 60%, transparent 100%);
+.hero { position: relative; padding: 200px 0 0; text-align: center; overflow: hidden; }
+.stripes { position: absolute; left: 50%; top: -260px; width: 1100px; height: 1500px; margin-left: -550px; transform: rotate(-42deg); pointer-events: none; }
+.stripe { position: absolute; top: 0; bottom: 0; }
+.stripe::before, .stripe::after { content: ''; position: absolute; left: 0; right: 0; }
+/* cool shadow edge */
+.stripe::before {
+  top: var(--t); height: var(--h); transform: translate(-46%, -70px);
+  background: linear-gradient(180deg, transparent, #1d6f9e 30%, #0f3f63 75%, transparent);
+  filter: blur(14px);
 }
-.bar { position: absolute; height: 56px; border-radius: 9999px; filter: blur(40px); transform: rotate(-24deg); }
-.bar.a { width: 520px; left: 50%; top: 96px; margin-left: -560px; background: var(--coral); opacity: .55; }
-.bar.b { width: 420px; left: 50%; top: 300px; margin-left: 180px; background: var(--coral); opacity: .4; }
-.bar.c { width: 360px; left: 50%; top: 40px; margin-left: 120px; background: #63a1ff; opacity: .35; }
-.hero::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 240px; background: linear-gradient(transparent, var(--void)); pointer-events: none; }
+/* coral face */
+.stripe::after {
+  top: var(--t); height: var(--h);
+  background: linear-gradient(180deg, rgba(255,99,99,0), #ff5a5f 16%, #e9587a 55%, #d1557f 80%, rgba(209,85,127,0));
+  filter: blur(1.5px);
+}
+.stripe.s1 { left: 6%;  width: 7%;  --t: 34%; --h: 30%; }
+.stripe.s2 { left: 17%; width: 9%;  --t: 22%; --h: 44%; }
+.stripe.s3 { left: 30%; width: 10%; --t: 14%; --h: 56%; }
+.stripe.s4 { left: 44%; width: 10%; --t: 10%; --h: 60%; }
+.stripe.s5 { left: 58%; width: 9%;  --t: 16%; --h: 50%; }
+.stripe.s6 { left: 71%; width: 8%;  --t: 26%; --h: 36%; }
+.stripe.s7 { left: 83%; width: 6%;  --t: 36%; --h: 22%; }
+.stripe.thin { width: 1px; }
+.stripe.thin::before { display: none; }
+.stripe.thin::after { top: 4%; height: 80%; filter: none; background: linear-gradient(180deg, transparent, rgba(86,194,255,0.55) 40%, rgba(255,99,99,0.5) 70%, transparent); }
+.stripe.t1 { left: 1%; } .stripe.t2 { left: 92%; } .stripe.t3 { left: 97%; }
+.grain {
+  position: absolute; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
+}
+/* Live shader version of the stripes. The CSS stripes above are the fallback. */
+.gl { position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: none; pointer-events: none; }
+.live .gl { display: block; }
+.live .stripes { display: none; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes show { from { opacity: 0; } to { opacity: 1; } }
+.hero h1, .hero .sub, .hero .cmd, .hero .meta, .hero .stage { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.hero .sub { animation-delay: .08s; } .hero .cmd { animation-delay: .16s; } .hero .meta { animation-delay: .22s; } .hero .stage { animation-delay: .3s; }
+.run span.l { animation: show .25s both; }
+.run .l1 { animation-delay: 1.1s; } .run .l2 { animation-delay: 1.5s; } .run .l3 { animation-delay: 1.7s; } .run .l4 { animation-delay: 1.9s; } .run .l5 { animation-delay: 2.6s; }
+.cap { transition: transform .12s, box-shadow .12s; }
+.steps li:hover .cap { transform: translateY(2px); box-shadow: rgba(0,0,0,0.4) 0 0.5px 0.5px 1.5px, #000 0 0 0.5px 1px, rgba(0,0,0,0.25) 0 2px 1px 1px inset, rgba(255,255,255,0.2) 0 1px 1px 1px inset; }
+.btn:active { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) {
+  .hero h1, .hero .sub, .hero .cmd, .hero .meta, .hero .stage, .run span.l { animation: none; }
+  .cap { transition: none; }
+}
+.fade { position: absolute; left: 0; right: 0; bottom: 0; height: 380px; background: linear-gradient(transparent, var(--void) 78%); pointer-events: none; }
 .hero .wrap { position: relative; z-index: 1; }
-.eyebrow { font: 500 11px/1 var(--mono); letter-spacing: 0.073em; text-transform: uppercase; color: var(--ash); margin: 0 0 24px; }
-h1 { margin: 0 auto; max-width: 760px; color: var(--white); font: 400 56px/1.17 var(--sans); letter-spacing: 0.22px; }
-.sub { margin: 24px auto 0; max-width: 520px; font-size: 18px; line-height: 1.45; color: var(--ash); }
+h1 {
+  margin: 0 auto; color: var(--white);
+  font: 600 64px/1.1 var(--sans); text-wrap: balance;
+  text-shadow: 0 2px 32px rgba(0,0,0,0.45), 0 1px 2px rgba(0,0,0,0.3);
+}
+.sub { margin: 24px auto 0; max-width: 520px; font: 500 20px/1.4 var(--sans); letter-spacing: 0.01em; color: var(--white); text-wrap: balance; text-shadow: 0 1px 16px rgba(0,0,0,0.6); }
 
 .cmd {
   margin: 40px auto 0; max-width: 560px;
   display: flex; align-items: center; gap: 12px;
   padding: 8px 8px 8px 20px;
-  background: rgba(7,8,10,0.72); border-radius: 16px; box-shadow: var(--key);
-  -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px);
+  background: var(--ink); border-radius: 16px;
+  box-shadow: var(--window);
 }
-.cmd .ps { color: var(--smoke); font: 400 14px/1 var(--mono); flex: none; }
+.cmd .ps { color: var(--coral); font: 500 18px/1 var(--mono); flex: none; }
 .cmd code { flex: 1; min-width: 0; text-align: left; color: var(--white); font: 500 18px/1.4 var(--mono); white-space: nowrap; overflow-x: auto; }
-.cmd .btn { padding: 12px 16px; font-size: 14px; flex: none; }
-.meta { margin: 16px 0 0; font: 400 12px/1.6 var(--mono); letter-spacing: 0.017em; color: var(--smoke); }
-.meta span { margin: 0 8px; color: var(--graphite); }
+.cmd .btn { padding: 14px 18px; font-size: 15px; flex: none; }
+.meta { margin: 20px 0 0; font: 400 13px/1.6 var(--mono); letter-spacing: 0.017em; color: var(--mist); text-shadow: 0 1px 12px rgba(0,0,0,0.7); }
+.meta i { font-style: normal; margin: 0 10px; opacity: .45; }
 
-.term {
-  margin: 64px auto 0; max-width: 720px; text-align: left;
-  background: var(--ink); border-radius: 12px; box-shadow: var(--key);
-}
-.term .top { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--graphite); font: 400 12px/1 var(--mono); color: var(--smoke); }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--graphite); }
+.stage { position: relative; margin: 72px auto 0; max-width: 760px; }
+.term { position: relative; text-align: left; background: var(--ink); border-radius: 12px; box-shadow: var(--window); }
+.term .top { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--graphite); font: 400 13px/1 var(--mono); color: var(--ash); }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
 .term .top b { font-weight: 400; margin-left: 8px; }
-.term pre { margin: 0; padding: 20px; font: 400 14px/1.6 var(--mono); color: var(--ash); white-space: pre-wrap; overflow-wrap: anywhere; }
+.term pre { margin: 0; padding: 24px; font: 400 15px/1.7 var(--mono); color: var(--ash); white-space: pre-wrap; overflow-wrap: anywhere; }
 .term .w { color: var(--white); }
+.term .c { color: var(--coral); }
+.term .b { color: var(--info); }
 .term .ok { color: var(--green); }
 
-/* Sections */
-section.band { padding: 96px 0; border-top: 1px solid var(--graphite); }
-h2 { margin: 0; color: var(--white); font: 400 32px/1.15 var(--sans); }
-.lead { margin: 16px 0 0; max-width: 560px; font-size: 18px; line-height: 1.45; }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
-.card { padding: 24px; border-radius: 16px; background: var(--ink); box-shadow: var(--key); }
-.num { width: 48px; height: 48px; border-radius: 50%; background: var(--obsidian); color: var(--mist); display: flex; align-items: center; justify-content: center; font: 500 16px/1 var(--mono); }
-h3 { margin: 24px 0 8px; color: var(--white); font: 500 20px/1.2 var(--sans); letter-spacing: 0.2px; }
-.card p { margin: 0; }
-kbd, .chip { display: inline-block; font: 400 12px/1 var(--mono); color: var(--white); background: var(--graphite); border-radius: 6px; padding: 4px 6px; }
-.two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
-.list { list-style: none; margin: 32px 0 0; padding: 0; }
-.list li { padding: 16px 0; border-top: 1px solid var(--graphite); display: flex; gap: 16px; }
-.list li b { color: var(--white); font-weight: 500; flex: 0 0 168px; }
-.note { margin-top: 0; padding: 24px; border: 1px solid var(--border); border-radius: 20px; box-shadow: rgba(255,255,255,0.05) 0 1px 0 0 inset; }
-.note p { margin: 0 0 16px; }
-.note p:last-child { margin: 0; }
-.note strong { color: var(--white); font-weight: 500; }
-.text-link { color: var(--white); border-bottom: 1px solid var(--border); transition: border-color .15s; }
-.text-link:hover { border-color: var(--white); }
+/* Section rhythm */
+.horizon { position: relative; height: 1px; margin: 0; background: linear-gradient(90deg, transparent, rgba(99,161,255,0.5) 22%, rgba(255,99,99,0.65) 50%, rgba(99,161,255,0.5) 78%, transparent); }
+.horizon::after { content: ''; position: absolute; left: 10%; right: 10%; top: 0; height: 120px; background: radial-gradient(60% 100% at 50% 0%, rgba(255,99,99,0.10), rgba(99,161,255,0.05) 45%, transparent 75%); pointer-events: none; }
+section { position: relative; padding: 112px 0; }
+.say { margin: 0; max-width: 620px; font: 600 24px/1.3 var(--sans); color: var(--smoke); text-wrap: balance; }
+.say b { color: var(--white); font-weight: 600; }
+.center { text-align: center; margin-left: auto; margin-right: auto; }
+
+/* Steps: one continuous keyboard-style strip, not three matching cards */
+.steps { margin: 56px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 20px; background: linear-gradient(180deg, #0c0d10, var(--ink)); box-shadow: var(--key); }
+.steps li { display: flex; gap: 20px; padding: 32px; }
+.steps li + li { border-left: 1px solid var(--graphite); }
+.cap {
+  flex: none; width: 56px; height: 56px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font: 500 22px/1 var(--mono); color: var(--white);
+  background: linear-gradient(180deg, #3a3b3f, #1a1b1e 60%, #121315);
+  box-shadow: rgba(0,0,0,0.4) 0 1.5px 0.5px 2.5px, #000 0 0 0.5px 1px, rgba(0,0,0,0.25) 0 2px 1px 1px inset, rgba(255,255,255,0.2) 0 1px 1px 1px inset;
+}
+.cap.go { background: linear-gradient(180deg, #ff8080, var(--coral) 55%, #d94f4f); color: #2a0b0b; }
+h3 { margin: 4px 0 8px; color: var(--white); font: 500 20px/1.2 var(--sans); letter-spacing: 0.2px; }
+.steps p { margin: 0; font-size: 16px; line-height: 1.5; }
+kbd, .chip { display: inline-block; font: 400 13px/1 var(--mono); color: var(--white); background: var(--graphite); border-radius: 6px; padding: 4px 6px; box-shadow: rgba(255,255,255,0.1) 0 1px 0 0 inset; }
+
+/* What it does */
+.two { display: grid; grid-template-columns: 5fr 6fr; gap: 72px; align-items: center; }
+.facts { margin: 40px 0 0; padding: 0; list-style: none; }
+.facts li { padding: 16px 0 16px 28px; border-top: 1px solid var(--graphite); position: relative; font-size: 17px; }
+.facts li::before { content: ''; position: absolute; left: 2px; top: 25px; width: 10px; height: 6px; border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(-45deg); }
+.facts b { color: var(--white); font-weight: 500; }
+.code { position: relative; }
+.code::before { content: ''; position: absolute; inset: 12% -6% -10% 18%; background: linear-gradient(135deg, #b3202a, var(--coral) 45%, var(--cobalt)); filter: blur(56px); opacity: .45; border-radius: 50%; }
+.code .term pre { font-size: 14px; }
+.more { display: inline-block; margin-top: 32px; color: var(--white); font: 500 16px/1 var(--sans); border-bottom: 1px solid var(--border); padding-bottom: 4px; transition: border-color .15s; }
+.more:hover { border-color: var(--white); }
+
+/* Safe */
+.warm { padding: 48px; border-radius: 20px; background: linear-gradient(135deg, var(--ember), #1c1011 70%); box-shadow: rgba(255,255,255,0.1) 0 1px 0 0 inset, rgba(255,99,99,0.25) 0 0 0 1px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.warm h2 { margin: 0; color: var(--white); font: 600 32px/1.15 var(--sans); }
+.warm .big { margin: 16px 0 0; font: 400 20px/1.4 var(--sans); color: #f1c9c9; }
+.warm p { margin: 0 0 16px; color: #e3c4c4; font-size: 17px; line-height: 1.55; }
+.warm p:last-child { margin: 0; }
+.warm strong { color: var(--white); font-weight: 500; }
+
+/* FAQ */
+.faq { margin: 48px auto 0; max-width: 760px; }
 details { border-top: 1px solid var(--graphite); }
 details:last-child { border-bottom: 1px solid var(--graphite); }
-summary { list-style: none; cursor: pointer; padding: 20px 0; color: var(--white); font: 500 18px/1.3 var(--sans); display: flex; justify-content: space-between; gap: 16px; }
+summary { list-style: none; cursor: pointer; padding: 22px 0; color: var(--white); font: 500 18px/1.3 var(--sans); display: flex; justify-content: space-between; gap: 16px; }
 summary::-webkit-details-marker { display: none; }
-summary::after { content: '+'; color: var(--smoke); font: 400 20px/1 var(--mono); }
-details[open] summary::after { content: '-'; }
-details p { margin: 0 0 20px; max-width: 640px; }
-.faq { margin-top: 48px; max-width: 800px; }
+summary::after { content: '+'; color: var(--ash); font: 400 22px/1 var(--mono); }
+details[open] summary::after { content: '-'; color: var(--coral); }
+details p { margin: 0 0 22px; max-width: 620px; font-size: 17px; }
 
-footer { padding: 48px 0 64px; border-top: 1px solid var(--graphite); text-align: center; }
-footer .meta { margin: 0 0 16px; }
-footer .legal { margin: 0 auto; max-width: 640px; font-size: 13px; line-height: 1.5; color: var(--smoke); }
+/* Closing */
+.close { text-align: center; overflow: hidden; padding: 128px 0 136px; }
+.close .stripes { top: -520px; opacity: .8; }
+.close .fade { top: 0; bottom: auto; height: 160px; background: linear-gradient(var(--void), transparent); }
+.close h2 { position: relative; margin: 0; color: var(--white); font: 600 40px/1.15 var(--sans); text-shadow: 0 2px 32px rgba(0,0,0,0.5); text-wrap: balance; }
+.close .cmd { position: relative; }
 
-@media (max-width: 860px) {
+footer { padding: 40px 0 56px; border-top: 1px solid var(--graphite); text-align: center; }
+footer .meta { margin: 0 0 16px; color: var(--ash); text-shadow: none; }
+footer .legal { margin: 0 auto; max-width: 620px; font-size: 14px; line-height: 1.55; color: var(--ash); }
+footer a { color: var(--white); border-bottom: 1px solid var(--border); }
+
+@media (max-width: 900px) {
   h1 { font-size: 40px; }
+  .hero { padding-top: 152px; }
+  .sub { font-size: 18px; }
   .links { display: none; }
-  .grid { grid-template-columns: 1fr; }
-  .two { grid-template-columns: 1fr; gap: 32px; }
-  .hero { padding-top: 136px; }
+  .steps { grid-template-columns: 1fr; }
+  .steps li + li { border-left: 0; border-top: 1px solid var(--graphite); }
+  .two, .warm { grid-template-columns: 1fr; gap: 40px; }
+  .warm { padding: 32px 24px; }
   .cmd code { font-size: 15px; }
-  .list li { flex-direction: column; gap: 4px; }
-  .list li b { flex: none; }
+  .cmd .ps { display: none; }
+  section { padding: 80px 0; }
+  .say { font-size: 21px; }
+  .close h2 { font-size: 30px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
@@ -157,7 +246,7 @@ footer .legal { margin: 0 auto; max-width: 640px; font-size: 13px; line-height: 
 
 <nav class="nav" aria-label="Main">
   <a class="brand" href="#top">
-    <svg class="mark" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="#ff6363" stroke-width="2"/><path d="M3.6 12.4 12.4 3.6" stroke="#ff6363" stroke-width="2" stroke-linecap="round"/></svg>
+    <svg class="mark" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" fill="none" stroke="#ff6363" stroke-width="2.2"/><path d="M4.2 13.8 13.8 4.2" stroke="#ff6363" stroke-width="2.2" stroke-linecap="round"/></svg>
     Token Remover
   </a>
   <div class="links">
@@ -170,85 +259,117 @@ footer .legal { margin: 0 auto; max-width: 640px; font-size: 13px; line-height: 
 </nav>
 
 <header class="hero" id="top">
-  <div class="glow" aria-hidden="true"><div class="bar a"></div><div class="bar b"></div><div class="bar c"></div></div>
+  <canvas class="gl" aria-hidden="true"></canvas>
+  <div class="stripes" aria-hidden="true">
+    <i class="stripe thin t1"></i>
+    <i class="stripe s1"></i><i class="stripe s2"></i><i class="stripe s3"></i><i class="stripe s4"></i>
+    <i class="stripe s5"></i><i class="stripe s6"></i><i class="stripe s7"></i>
+    <i class="stripe thin t2"></i><i class="stripe thin t3"></i>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="fade" aria-hidden="true"></div>
   <div class="wrap">
-    <p class="eyebrow">League of Legends profile tool</p>
-    <h1>Remove your tokens with one line.</h1>
-    <p class="sub">The League client lets you swap the challenge tokens on your profile, but never clear them. Paste this into PowerShell and they are gone.</p>
+    <h1>Remove your League tokens.</h1>
+    <p class="sub">The client lets you swap them but never clear them. One line in PowerShell does it.</p>
 
     <div class="cmd">
       <span class="ps" aria-hidden="true">&gt;</span>
       <code id="line">irm tokenremover.com | iex</code>
-      <button class="btn" id="copy" type="button">Copy</button>
+      <button class="btn" data-copy type="button">Copy</button>
     </div>
-    <p class="meta">No install<span>|</span>No admin rights<span>|</span>Windows 10 and 11</p>
+    <p class="meta">No install<i>|</i>No admin rights<i>|</i>Windows 10 and 11</p>
 
-    <div class="term" aria-label="Example of the command running">
-      <div class="top"><i class="dot"></i><i class="dot"></i><i class="dot"></i><b>Windows PowerShell</b></div>
-<pre>PS C:\&gt; <span class="w">irm tokenremover.com | iex</span>
-Tokens currently equipped (1):
-  - Double Decimation
+    <div class="stage">
+      <div class="term" aria-label="Example of the command running">
+        <div class="top"><i class="dot"></i><i class="dot"></i><i class="dot"></i><b>Windows PowerShell</b></div>
+<pre class="run"><span class="c">PS C:\&gt;</span> <span class="w">irm tokenremover.com | iex</span>
+<span class="l l1">Tokens currently equipped (3):</span>
+<span class="l l2">  - <span class="b">Solo Carry</span></span>
+<span class="l l3">  - <span class="b">Nashor Slasher</span></span>
+<span class="l l4">  - <span class="b">Double Decimation</span></span>
 
-<span class="ok">Done. Your tokens have been removed.</span></pre>
+<span class="l l5 ok">Done. Your tokens have been removed.</span></pre>
+      </div>
     </div>
   </div>
 </header>
 
-<section class="band" id="how">
+<section id="how">
   <div class="wrap">
-    <h2>Three steps, about ten seconds.</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="num">1</div>
-        <h3>Open League</h3>
-        <p>Start the League of Legends client and log in. Leave it open.</p>
-      </div>
-      <div class="card">
-        <div class="num">2</div>
-        <h3>Open PowerShell</h3>
-        <p>Right-click the Start button and choose <span class="chip">Terminal</span> or <span class="chip">Windows PowerShell</span>.</p>
-      </div>
-      <div class="card">
-        <div class="num">3</div>
-        <h3>Paste the line</h3>
-        <p>Copy the line above, paste it in, and press <kbd>Enter</kbd>. Your tokens stay gone until you equip new ones.</p>
-      </div>
-    </div>
+    <p class="say center"><b>About ten seconds.</b> Open League, open PowerShell, paste one line.</p>
+    <ol class="steps">
+      <li>
+        <span class="cap">1</span>
+        <div>
+          <h3>Open League</h3>
+          <p>Start the client and log in. Leave it open.</p>
+        </div>
+      </li>
+      <li>
+        <span class="cap">2</span>
+        <div>
+          <h3>Open PowerShell</h3>
+          <p>Right-click the Start button, then pick <span class="chip">Terminal</span> or <span class="chip">Windows PowerShell</span>.</p>
+        </div>
+      </li>
+      <li>
+        <span class="cap go">3</span>
+        <div>
+          <h3>Paste and press Enter</h3>
+          <p>Your tokens stay off until you equip new ones.</p>
+        </div>
+      </li>
+    </ol>
   </div>
 </section>
 
-<section class="band" id="what">
+<div class="horizon"></div>
+
+<section id="what">
   <div class="wrap two">
     <div>
-      <h2>What the line actually does.</h2>
-      <p class="lead">It reads a short script from this site and runs it. The script talks to the League client on your own PC and saves your profile with an empty token list.</p>
-      <p class="lead"><a class="text-link" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read the whole script on GitHub</a></p>
+      <p class="say"><b>It only talks to your own PC.</b> The line reads a short script from this site and runs it against the League client you already have open.</p>
+      <ul class="facts">
+        <li><b>Nothing installed.</b> No app, nothing left running.</li>
+        <li><b>No admin rights.</b> It never asks for more access.</li>
+        <li><b>Never sees your Riot login.</b></li>
+        <li><b>Title, banner and crest</b> are saved back unchanged.</li>
+      </ul>
+      <a class="more" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read the whole script on GitHub</a>
     </div>
-    <ul class="list">
-      <li><b>Nothing installed</b><span>No app, no file to keep, nothing running afterwards.</span></li>
-      <li><b>No admin rights</b><span>It runs as a normal user and never asks for more.</span></li>
-      <li><b>Stays on your PC</b><span>It only talks to the League client running locally, and never sees your Riot login.</span></li>
-      <li><b>Leaves the rest alone</b><span>Your title, banner and crest are saved back unchanged.</span></li>
-    </ul>
-  </div>
-</section>
+    <div class="code">
+      <div class="term" aria-label="Excerpt from the script">
+        <div class="top"><i class="dot"></i><i class="dot"></i><i class="dot"></i><b>remove-tokens.ps1</b></div>
+<pre><span class="ok"># Everything except the tokens is sent back as it is.</span>
+<span class="b">$kept</span> = Get-KeptSettings <span class="b">$before</span>
+<span class="b">$request</span> = @{ <span class="w">challengeIds</span> = <span class="c">@()</span> } + <span class="b">$kept</span>
 
-<section class="band" id="safe">
-  <div class="wrap two">
-    <div>
-      <h2>Will I get banned?</h2>
-      <p class="lead">Removing tokens is purely cosmetic. It gives you no gameplay advantage.</p>
-    </div>
-    <div class="note">
-      <p>Riot has acted against client tools that give players an advantage, like revealing hidden names in champ select or dodging queues. <strong>I am not aware of any reported ban for removing tokens.</strong></p>
-      <p>That said, Riot does not officially support third-party tools that use the client, so use this at your own risk.</p>
+<span class="w">Invoke-Lcu</span> <span class="b">$lcu</span> POST <span class="b">$UpdatePath</span> <span class="b">$body</span></pre>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="band" id="faq">
+<section id="safe" style="padding-top:0">
   <div class="wrap">
-    <h2>Questions.</h2>
+    <div class="warm">
+      <div>
+        <h2>Will I get banned?</h2>
+        <p class="big">Removing tokens is cosmetic. It gives you no gameplay advantage.</p>
+      </div>
+      <div>
+        <p>Riot has acted against client tools that give players an edge, like revealing hidden names in champ select or dodging queues. <strong>I am not aware of any reported ban for removing tokens.</strong></p>
+        <p>Riot does not officially support third-party tools that use the client, so use this at your own risk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="horizon"></div>
+
+<section id="faq">
+  <div class="wrap">
+    <p class="say center"><b>Questions.</b> The ones people ask most.</p>
     <div class="faq">
       <details>
         <summary>Can I get my tokens back?</summary>
@@ -274,9 +395,27 @@ Tokens currently equipped (1):
   </div>
 </section>
 
+<section class="close">
+  <canvas class="gl" aria-hidden="true"></canvas>
+  <div class="stripes" aria-hidden="true">
+    <i class="stripe s2"></i><i class="stripe s3"></i><i class="stripe s4"></i><i class="stripe s5"></i><i class="stripe s6"></i>
+    <i class="stripe thin t1"></i><i class="stripe thin t3"></i>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="fade" aria-hidden="true"></div>
+  <div class="wrap">
+    <h2>Clear your profile.</h2>
+    <div class="cmd">
+      <span class="ps" aria-hidden="true">&gt;</span>
+      <code>irm tokenremover.com | iex</code>
+      <button class="btn" data-copy type="button">Copy</button>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    <p class="meta">tokenremover.com<span>|</span>open&nbsp;source<span>|</span><a class="text-link" href="https://github.com/datapoisoned/loltokenremover">github.com/datapoisoned/loltokenremover</a></p>
+    <p class="meta">tokenremover.com<i>|</i>open&nbsp;source<i>|</i><a href="https://github.com/datapoisoned/loltokenremover">GitHub</a></p>
     <p class="legal">Token Remover is not endorsed by Riot Games and does not reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties.</p>
   </div>
 </footer>
@@ -284,21 +423,23 @@ Tokens currently equipped (1):
 </div>
 <script>
 (function () {
-  var button = document.getElementById('copy');
   var text = document.getElementById('line').textContent;
-  button.addEventListener('click', function () {
-    var done = function () {
-      button.textContent = 'Copied';
-      setTimeout(function () { button.textContent = 'Copy'; }, 1600);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done, function () {});
-    } else {
-      var area = document.createElement('textarea');
-      area.value = text; document.body.appendChild(area); area.select();
-      try { document.execCommand('copy'); done(); } catch (e) {}
-      document.body.removeChild(area);
-    }
+  var buttons = document.querySelectorAll('[data-copy]');
+  Array.prototype.forEach.call(buttons, function (button) {
+    button.addEventListener('click', function () {
+      var done = function () {
+        button.textContent = 'Copied';
+        setTimeout(function () { button.textContent = 'Copy'; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      } else {
+        var area = document.createElement('textarea');
+        area.value = text; document.body.appendChild(area); area.select();
+        try { document.execCommand('copy'); done(); } catch (e) {}
+        document.body.removeChild(area);
+      }
+    });
   });
 })();
 </script>
