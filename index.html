@@ -52,7 +52,12 @@ h1, h2 { font-family: var(--display); color: var(--gold-1); text-transform: uppe
 
 /* ---------- background: pinned to the window, the page scrolls over it ---------- */
 .backdrop { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: hidden; background: linear-gradient(180deg, #0a1a26 0%, var(--navy) 45%, var(--black) 100%); }
-.backdrop video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; opacity: .55; }
+.backdrop::before { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: url(img/bg-loop.jpg) center / cover no-repeat; opacity: .55; }
+.backdrop.live::before { opacity: 0; }
+.backdrop video { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.backdrop.live video { opacity: .55; }
+/* phones can draw a big play arrow over a clip they will not start: never show it */
+.backdrop video::-webkit-media-controls, .backdrop video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
 .backdrop::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(1,10,19,0.55) 0%, rgba(1,10,19,0.2) 30%, rgba(1,10,19,0.45) 100%); }
 
 /* ---------- sizing ---------- */
@@ -97,7 +102,8 @@ html { scroll-padding-top: calc(var(--u) * 5); }
 h1 { font-size: 2.8em; font-weight: 700; line-height: 1.12; }
 h1 em { font-style: normal; color: var(--gold-3); display: block; }
 .intro { margin: 1em auto 0; max-width: 31em; font-size: 1.15em; line-height: 1.55; color: var(--gold-2); }
-.help { margin: 1.1em 0 0; font-size: 1em; line-height: 1.5; color: var(--muted); }
+.help { margin: 1.1em 0 0; font-size: 1.12em; line-height: 1.5; color: var(--gold-2); }
+.help b { font-weight: 500; color: var(--gold-1); }
 .todo { text-align: left; margin: 2em 0 0; padding: 0; list-style: none; counter-reset: todo; display: grid; gap: 0.7em; }
 .todo li { counter-increment: todo; position: relative; display: flex; flex-direction: column; justify-content: center; height: 7em; padding: 0 1.5em 0 5.4em; background: rgba(1,10,19,0.66); border: 1px solid var(--gold-6); transition: border-color .2s; }
 .todo li:hover { border-color: var(--gold-5); }
@@ -215,12 +221,29 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .step .ico b { position: absolute; left: -0.9em; top: -0.9em; width: 2em; height: 2em; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 0.85em/1 var(--display); color: var(--gold-1); }
 .step h4 { margin: 1.1em 0 0; font: 700 0.95em/1.3 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-3); }
 .step p { margin-top: 0.35em; }
-.flowx .go { position: relative; display: block; width: 3.2em; height: 1.2em; margin-top: 1.9em; color: var(--gold-4); }
+.flowx .go { position: relative; display: block; width: 3.2em; height: 1.2em; margin-top: 1.9em; color: var(--gold-5); }
 .go svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
-/* the dashed line: a window 40/48 of the arrow wide, with a strip of dashes sliding inside it */
-.go .dash { position: absolute; left: 0; top: 50%; width: 83.3333%; height: 0.10667em; margin-top: -0.05333em; overflow: hidden; }
-.go .dash b { display: block; width: calc(100% + 0.53333em); height: 100%; margin-left: -0.53333em; background: repeating-linear-gradient(90deg, currentColor 0 0.26667em, transparent 0.26667em 0.53333em); animation: dash 1s linear infinite; will-change: transform; }
-@keyframes dash { to { transform: translateX(0.53333em); } }
+.go .hot { color: var(--gold-2); filter: drop-shadow(0 0 0.25em rgba(200,170,110,0.8)); }
+/* a dim rail with a bright line that runs along it */
+.go .rail { position: absolute; left: 0; top: 50%; width: 83.3333%; height: 0.1em; margin-top: -0.05em; background: var(--gold-6); }
+.go .rail b { display: block; width: 100%; height: 100%; background: var(--gold-2); box-shadow: 0 0 0.5em rgba(200,170,110,0.9); transform-origin: 0 50%; }
+/* each picture gets a lit frame when the line reaches it */
+.step .ico b { z-index: 1; }
+.step .ico::after { content: ''; position: absolute; left: -1px; top: -1px; right: -1px; bottom: -1px; border: 1px solid var(--gold-2); box-shadow: 0 0 1.2em rgba(200,170,110,0.5), inset 0 0 1.2em rgba(200,170,110,0.14); pointer-events: none; }
+.step .ico::after, .go .hot, .go .rail b { animation: 5.5s linear infinite both; }
+.s1 .ico::after { animation-name: s1; } .s2 .ico::after { animation-name: s2; } .s3 .ico::after { animation-name: s3; } .s4 .ico::after { animation-name: s4; }
+.g1 .rail b { animation-name: r1; } .g2 .rail b { animation-name: r2; } .g3 .rail b { animation-name: r3; }
+.g1 .hot { animation-name: h1; } .g2 .hot { animation-name: h2; } .g3 .hot { animation-name: h3; }
+@keyframes s1 { 0% { opacity: 0; } 4%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes r1 { 0%, 6% { transform: scaleX(0); opacity: 1; } 16%, 84% { transform: none; opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes h1 { 0%, 14% { opacity: 0; } 18%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes s2 { 0%, 16% { opacity: 0; } 21%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes r2 { 0%, 23% { transform: scaleX(0); opacity: 1; } 33%, 84% { transform: none; opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes h2 { 0%, 31% { opacity: 0; } 35%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes s3 { 0%, 33% { opacity: 0; } 38%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes r3 { 0%, 40% { transform: scaleX(0); opacity: 1; } 50%, 84% { transform: none; opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes h3 { 0%, 48% { opacity: 0; } 52%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
+@keyframes s4 { 0%, 50% { opacity: 0; } 55%, 84% { opacity: 1; } 92%, 100% { opacity: 0; } }
 
 footer { padding: 1.3em 2em 1.5em; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
 footer .legal { margin: 0 auto; max-width: 84em; font-size: 0.85em; line-height: 1.55; color: var(--muted); }
@@ -246,7 +269,7 @@ footer a:hover { color: var(--gold-1); }
   .stage { padding: 1.8em 1.1em; border-left: 0; border-top: 1px solid var(--gold-6); }
   /* the four steps stack, picture on the left and words on the right */
   .flowx { grid-template-columns: minmax(0, 1fr); row-gap: 1.5em; margin-top: 1.6em; text-align: left; }
-  .flowx .go { display: none; }
+  .flowx .go, .step .ico::after { display: none; }
   .step { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 1.3em; align-items: center; }
   .step .ico { grid-row: 1 / 3; width: 4em; height: 4em; margin: 0 0 0 0.6em; }
   .step .ico svg { width: 2em; height: 2em; }
@@ -263,19 +286,19 @@ footer a:hover { color: var(--gold-1); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .tok { animation: none; opacity: 0; }
-  .stage *, .stage *::before, .stage *::after, .go .dash b { animation: none !important; }
+  .stage *, .stage *::before, .stage *::after, .step .ico::after, .go .hot, .go .rail b { animation: none !important; }
 }
 </style>
 </head>
 <body>
 <div class="backdrop" aria-hidden="true">
-  <video id="bg" autoplay muted loop playsinline preload="auto" poster="img/bg-loop.jpg" tabindex="-1"><source src="img/bg-loop-slow.webm" type="video/webm"></video>
+  <video id="bg" muted loop playsinline preload="none" tabindex="-1"></video>
 </div>
 <div class="page">
 
 <nav class="nav" aria-label="Main">
   <div class="inner">
-    <a class="brand" href="#top">Token Remover</a>
+    <span class="brand">Token Remover</span>
     <div class="links">
       <a href="#top">Guide</a>
       <a href="#how">How it works</a>
@@ -317,10 +340,10 @@ footer a:hover { color: var(--gold-1); }
         </li>
         <li class="done">
           <h2>No more tokens</h2>
-          <p>GG. Enjoy the clean profile!</p>
+          <p>GG, enjoy being token free!</p>
         </li>
       </ol>
-      <p class="help">Know someone with tokens? Send them tokenremover.com</p>
+      <p class="help">Got friends with tokens? Send them to <b>tokenremover.com</b></p>
     </div>
   </div>
 </header>
@@ -347,25 +370,25 @@ footer a:hover { color: var(--gold-1); }
     <div class="card">
       <h3>What happens when you run it</h3>
       <div class="flowx">
-        <div class="step">
+        <div class="step s1">
           <div class="ico"><b>1</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7l5 5-5 5M12.5 17H19" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
           <h4>You run the command</h4>
           <p>One short line in PowerShell.</p>
         </div>
-        <span class="go" aria-hidden="true"><i class="dash"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <div class="step">
+        <span class="go g1" aria-hidden="true"><i class="rail"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="hot" viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+        <div class="step s2">
           <div class="ico"><b>2</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.5h8l4 4v15H6zM14 2.5v4h4M9 12h6M9 15.5h6M9 19h4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
           <h4>Your PC grabs our script</h4>
           <p>Our safe, open source instructions.</p>
         </div>
-        <span class="go" aria-hidden="true"><i class="dash"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <div class="step">
+        <span class="go g2" aria-hidden="true"><i class="rail"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="hot" viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+        <div class="step s3">
           <div class="ico"><b>3</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4.5h18v12H3zM9 20.5h6M12 16.5v4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10.5h8M13.5 8l2.5 2.5-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
           <h4>Our script talks to League</h4>
           <p>We ask the client to clear your tokens.</p>
         </div>
-        <span class="go" aria-hidden="true"><i class="dash"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <div class="step">
+        <span class="go g3" aria-hidden="true"><i class="rail"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="hot" viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+        <div class="step s4">
           <div class="ico"><b>4</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.5 10 18 19.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></div>
           <h4>Your tokens are gone</h4>
           <p>Your token slots are now empty.</p>
@@ -452,10 +475,17 @@ footer a:hover { color: var(--gold-1); }
     });
   }
 
-  /* Background clip: hold it on its first frame for visitors who prefer reduced motion. */
+  /* Background clip: computers only. Phones, tablets and visitors who prefer reduced
+     motion keep the still picture, and so does any browser that will not play it. */
   var bg = document.getElementById('bg');
-  if (bg && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    bg.removeAttribute('autoplay'); bg.pause();
+  var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce), (pointer: coarse), (max-aspect-ratio: 1/1)').matches;
+  if (bg && calm) {
+    bg.parentNode.removeChild(bg);
+  } else if (bg) {
+    bg.addEventListener('playing', function () { bg.parentNode.classList.add('live'); });
+    bg.src = 'img/bg-loop-slow.webm';
+    var started = bg.play();
+    if (started && started.catch) { started.catch(function () { if (bg.parentNode) { bg.parentNode.removeChild(bg); } }); }
   }
 
 })();
