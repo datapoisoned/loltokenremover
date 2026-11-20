@@ -73,15 +73,19 @@ h1, h2, h3 { font-family: var(--display); color: var(--gold-1); text-transform: 
 .hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: center; min-height: min(100vh - 64px, 720px); padding-top: clamp(24px, 4vh, 48px); padding-bottom: clamp(24px, 4vh, 48px); }
 h1 { font-size: clamp(30px, 4.4vw, 54px); font-weight: 700; line-height: 1.1; text-wrap: balance; }
 h1 em { font-style: normal; color: var(--gold-3); }
-.sub { margin: 16px 0 0; max-width: 470px; font-size: clamp(16px, 1.7vw, 19px); line-height: 1.5; color: var(--gold-2); }
-.label { margin: clamp(22px, 3.5vh, 34px) 0 10px; font: 700 13px/1 var(--display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-3); }
-.cmd { max-width: 500px; background: var(--black); border: 1px solid var(--gold-5); box-shadow: 0 0 0 1px var(--black), 0 12px 40px rgba(0,0,0,0.5); transition: border-color .2s, box-shadow .2s; }
+.todo { margin: clamp(20px, 3.4vh, 34px) 0 0; padding: 0; list-style: none; counter-reset: todo; max-width: 520px; }
+.todo li { position: relative; counter-increment: todo; padding: 0 0 clamp(14px, 2.4vh, 22px) 52px; }
+.todo li:last-child { padding-bottom: 0; }
+.todo li::before { content: counter(todo); position: absolute; left: 4px; top: 1px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 14px/1 var(--display); color: var(--gold-3); }
+.todo li::after { content: ''; position: absolute; left: 18px; top: 36px; bottom: 6px; width: 1px; background: var(--gold-6); }
+.todo li:last-child::after { display: none; }
+.todo h2 { font-size: clamp(16px, 1.7vw, 19px); line-height: 1.6; letter-spacing: 0.08em; }
+.todo p { margin: 4px 0 0; font-size: clamp(15px, 1.5vw, 16.5px); line-height: 1.6; color: var(--gold-2); }
+.todo kbd { margin: 0 1px; padding: 3px 6px; font-size: 13px; }
+.cmd { margin-top: 8px; background: var(--black); border: 1px solid var(--gold-5); box-shadow: 0 0 0 1px var(--black), 0 12px 40px rgba(0,0,0,0.5); transition: border-color .2s, box-shadow .2s; }
 .cmd:hover { border-color: var(--gold-3); box-shadow: 0 0 0 1px var(--black), 0 0 22px rgba(200,170,110,0.25); }
-.cmd code { -webkit-user-select: all; user-select: all; cursor: text; display: flex; align-items: center; gap: 12px; padding: clamp(15px, 2.2vh, 20px) clamp(14px, 2vw, 22px); color: var(--gold-1); font: 500 clamp(15px, 1.9vw, 21px)/1.2 var(--mono); white-space: nowrap; overflow-x: auto; }
+.cmd code { -webkit-user-select: all; user-select: all; cursor: text; display: flex; align-items: center; gap: 12px; padding: clamp(13px, 2vh, 18px) clamp(14px, 2vw, 20px); color: var(--gold-1); font: 500 clamp(15px, 1.8vw, 20px)/1.2 var(--mono); white-space: nowrap; overflow-x: auto; }
 .cmd code::before { content: '>'; color: var(--gold-3); -webkit-user-select: none; user-select: none; }
-.then { margin: 16px 0 0; padding: 0; list-style: none; counter-reset: step; display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: 15px; color: var(--gold-2); }
-.then li { counter-increment: step; display: flex; align-items: center; gap: 9px; }
-.then li::before { content: counter(step); flex: none; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 12px/1 var(--display); color: var(--gold-3); }
 .meta { margin: clamp(16px, 2.6vh, 24px) 0 0; font: 500 14px/1.6 var(--body); letter-spacing: 0.02em; color: var(--muted); }
 .meta i { font-style: normal; margin: 0 12px; color: var(--gold-5); }
 
@@ -169,7 +173,7 @@ footer a:hover { color: var(--gold-1); }
   .brand { font-size: 14px; }
   .nav .btn { padding: 9px 14px; font-size: 12px; }
   .meta i { margin: 0 7px; }
-  .then { gap: 8px 16px; }
+  .todo li { padding-left: 46px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -200,17 +204,24 @@ footer a:hover { color: var(--gold-1); }
 <header class="hero" id="top">
   <div class="wrap">
     <div class="pitch">
-      <h1>Say goodbye to <em>your tokens</em></h1>
-      <p class="sub">Stuck with tokens on your League profile? The client will not let you clear them. This does, in ten seconds.</p>
+      <h1>Got tokens? <em>No problem.</em></h1>
 
-      <p class="label">Copy this line</p>
-      <div class="cmd"><code id="line">irm tokenremover.com | iex</code></div>
-      <ol class="then">
-        <li>Open League</li>
-        <li>Paste into PowerShell</li>
-        <li>Press Enter</li>
+      <ol class="todo">
+        <li>
+          <h2>Copy this line</h2>
+          <div class="cmd"><code id="line">irm tokenremover.com | iex</code></div>
+          <p>Click the line, then press <kbd>Ctrl</kbd> + <kbd>C</kbd>.</p>
+        </li>
+        <li>
+          <h2>Open PowerShell</h2>
+          <p>Press the <kbd>Windows</kbd> key, type <kbd>powershell</kbd>, then press <kbd>Enter</kbd>.</p>
+        </li>
+        <li>
+          <h2>Paste it</h2>
+          <p>Press <kbd>Ctrl</kbd> + <kbd>V</kbd>, then <kbd>Enter</kbd>. Your tokens are gone.</p>
+        </li>
       </ol>
-      <p class="meta">No install<i>/</i>No admin rights<i>/</i>Windows 10 and 11</p>
+      <p class="meta">Have League open and logged in<i>/</i>No install<i>/</i>No admin rights</p>
     </div>
 
     <div class="demo" aria-label="A real League profile banner before and after: three tokens, then none">
