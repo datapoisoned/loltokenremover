@@ -79,28 +79,22 @@ h1 em { font-style: normal; color: var(--gold-3); }
 .todo h2 { font-size: clamp(15px, 1.05vw, 18px); line-height: 1.3; letter-spacing: 0.1em; color: var(--gold-1); white-space: nowrap; }
 .todo p { margin: clamp(5px, 0.8vh, 9px) 0 0; min-width: 0; font-size: clamp(15px, 1vw, 17px); line-height: 1.6; color: var(--gold-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .todo kbd { margin: 0 1px; padding: 3px 6px; font-size: clamp(12.5px, 0.85vw, 14px); }
-.cmd code { -webkit-user-select: all; user-select: all; cursor: text; font: inherit; color: inherit; }
+.cmd kbd { -webkit-user-select: all; user-select: all; cursor: text; }
+.copy { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; margin-left: 6px; padding: 0; vertical-align: middle; background: none; border: 0; color: var(--gold-2); cursor: pointer; transition: color .15s; }
+.copy:hover { color: var(--gold-1); }
+.copy svg { width: 16px; height: 16px; }
+.copy .i-done { display: none; color: #7fe3c0; }
+.copy.done .i-copy { display: none; }
+.copy.done .i-done { display: block; }
 .meta { margin: clamp(16px, 2.6vh, 24px) 0 0; font: 500 14px/1.6 var(--body); letter-spacing: 0.02em; color: var(--muted); }
 .meta i { font-style: normal; margin: 0 12px; color: var(--gold-5); }
 
 .demo { order: -1; display: flex; flex-direction: column; align-items: center; }
-/* Before/after slider: both banners are stacked, each clipped to its own side of the divider. */
-.compare { --pos: 100%; position: relative; width: clamp(200px, 19.5vw, 372px); max-width: 100%; aspect-ratio: 300 / 630; touch-action: pan-y; }
+/* Before/after: the "after" banner fades in over the "before", holds, and fades back. */
+.swap { position: relative; width: clamp(200px, 19.5vw, 372px); max-width: 100%; aspect-ratio: 300 / 630; }
 .layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; -webkit-user-select: none; user-select: none; pointer-events: none; }
-.layer.before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
-.layer.after { clip-path: inset(0 0 0 var(--pos)); }
-.divider { position: absolute; top: 3%; bottom: 1%; left: var(--pos); width: 2px; margin-left: -1px; pointer-events: none; background: linear-gradient(180deg, transparent, var(--gold-3) 10%, var(--gold-3) 90%, transparent); box-shadow: 0 0 10px rgba(200,170,110,0.55); }
-.knob { position: absolute; left: 50%; top: 82%; width: 34px; height: 34px; margin: -17px 0 0 -17px; transform: rotate(45deg); background: var(--black); border: 1px solid var(--gold-3); box-shadow: 0 0 14px rgba(0,0,0,0.7); }
-.knob::before, .knob::after { content: ''; position: absolute; width: 7px; height: 7px; border: solid var(--gold-2); }
-.knob::before { left: 5px; bottom: 5px; border-width: 0 0 2px 2px; }
-.knob::after { right: 5px; top: 5px; border-width: 2px 2px 0 0; }
-.compare input { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; }
-.compare input:focus-visible ~ .divider, .compare input:focus-visible + .divider { outline: none; }
-.compare:focus-within .knob { border-color: var(--gold-1); box-shadow: 0 0 0 2px var(--ice); }
-.tag { position: absolute; top: 82%; transform: translateY(-50%); white-space: nowrap; font: 700 clamp(11px, 0.8vw, 13px)/1 var(--display); letter-spacing: 0.16em; text-transform: uppercase; text-shadow: 0 1px 6px rgba(0,0,0,0.9); transition: opacity .2s; }
-.tag-before { right: 32px; color: var(--gold-2); }
-.tag-after { left: 32px; color: #7fe3c0; }
-.compare.hide-before .tag-before, .compare.hide-after .tag-after { opacity: 0; }
+@keyframes clear-tokens { 0%, 38% { opacity: 0; } 50%, 88% { opacity: 1; } 100% { opacity: 0; } }
+.layer.after { opacity: 0; animation: clear-tokens 6s ease-in-out infinite; }
 
 /* Framed panels used further down the page */
 .frame { background: linear-gradient(180deg, var(--navy), var(--black)); border: 1px solid var(--gold-6); box-shadow: 0 0 0 1px var(--black), 0 1px 0 0 var(--gold-5) inset; }
@@ -171,7 +165,7 @@ footer a:hover { color: var(--gold-1); }
   .hero { padding-top: 104px; }
   .hero .wrap { grid-template-columns: 1fr; min-height: 0; gap: 36px; }
   .demo { order: 0; }
-  .compare { width: clamp(190px, 56vw, 260px); }
+  .swap { width: clamp(190px, 56vw, 260px); }
 }
 @media (max-width: 620px) {
   .brand { font-size: 14px; }
@@ -183,6 +177,7 @@ footer a:hover { color: var(--gold-1); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .layer.after { animation: none; opacity: 1; }
   .q .a, .q .a p, .q button i, .links .bar { transition: none; }
 }
 </style>
@@ -219,7 +214,10 @@ footer a:hover { color: var(--gold-1); }
         </li>
         <li>
           <h2>Type our command</h2>
-          <p class="cmd"><code id="line">irm tokenremover.com | iex</code></p>
+          <p class="cmd">Type <kbd id="line">irm tokenremover.com | iex</kbd><button class="copy" id="copy" type="button" aria-label="Copy the command" title="Copy">
+            <svg class="i-copy" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 3.5v-1h-8v8h1" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+            <svg class="i-done" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          </button></p>
         </li>
         <li>
           <h2>Remove your tokens</h2>
@@ -229,15 +227,9 @@ footer a:hover { color: var(--gold-1); }
     </div>
 
     <div class="demo">
-      <div class="compare" id="compare">
-        <img class="layer before" src="img/banner-before-4.png" alt="A League profile banner with three tokens equipped" width="300" height="630" draggable="false">
-        <img class="layer after" src="img/banner-after-4.png" alt="The same profile banner with the token slots empty" width="300" height="630" draggable="false">
-        <div class="divider" aria-hidden="true">
-          <span class="tag tag-before">Before</span>
-          <span class="knob"></span>
-          <span class="tag tag-after">After</span>
-        </div>
-        <input type="range" id="reveal" min="0" max="100" step="0.5" value="100" aria-label="Slide to compare the profile before and after">
+      <div class="swap" aria-label="A League profile banner: three tokens, then the same banner with the token slots empty">
+        <img class="layer before" src="img/banner-before-4.png" alt="" width="300" height="630" draggable="false">
+        <img class="layer after" src="img/banner-after-4.png" alt="" width="300" height="630" draggable="false">
       </div>
     </div>
   </div>
@@ -348,33 +340,23 @@ footer a:hover { color: var(--gold-1); }
     sel.addRange(range);
   });
 
-  /* Before/after slider */
-  var compare = document.getElementById('compare');
-  var reveal = document.getElementById('reveal');
-  function place(v) {
-    compare.style.setProperty('--pos', v + '%');
-    // a label disappears when its side is nearly closed, so it never hangs off the edge
-    compare.classList.toggle('hide-before', v < 22);
-    compare.classList.toggle('hide-after', v > 78);
-  }
-  var touched = false;
-  reveal.addEventListener('input', function () { touched = true; place(Number(reveal.value)); });
-  place(Number(reveal.value));
-  // One sweep on load shows that it moves: across to reveal the result, then back.
-  // It stops the moment you touch it.
-  if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
-    var began = null;
-    var sweep = function (now) {
-      if (touched) return;
-      if (began === null) began = now;
-      var t = (now - began) / 3200;
-      if (t >= 1) { reveal.value = 100; place(100); return; }
-      var v = 100 - 72 * Math.pow(Math.sin(t * Math.PI), 2);
-      reveal.value = v; place(v);
-      requestAnimationFrame(sweep);
+  /* Copy icon next to the command */
+  var copy = document.getElementById('copy');
+  copy.addEventListener('click', function () {
+    var text = line.textContent;
+    var done = function () {
+      copy.classList.add('done');
+      setTimeout(function () { copy.classList.remove('done'); }, 1500);
     };
-    setTimeout(function () { requestAnimationFrame(sweep); }, 900);
-  }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+    } else {
+      var area = document.createElement('textarea');
+      area.value = text; document.body.appendChild(area); area.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(area);
+    }
+  });
 
   /* FAQ open and close */
   Array.prototype.forEach.call(document.querySelectorAll('.q button'), function (button) {
