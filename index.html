@@ -10,22 +10,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --void: #040506;
-  --ink: #07080a;
-  --obsidian: #111214;
-  --graphite: #1b1c1e;
-  --smoke: #6a6b6c;
-  --ash: #9c9c9d;
-  --mist: #e6e6e6;
+  --void: #03070c;
+  --ink: #070c12;
+  --obsidian: #0e151d;
+  --graphite: #17212b;
+  --smoke: #6b7682;
+  --ash: #9aa5af;
+  --mist: #f0e6d2;
   --iron: #454647;
   --white: #ffffff;
-  --coral: #ff6363;
-  --ember: #452324;
+  --coral: #c8aa6e;
+  --ember: #0d2430;
   --sky: #63a1ff;
   --cobalt: #143ca3;
-  --info: #56c2ff;
+  --info: #3fd6c8;
   --green: #59d499;
-  --border: #363739;
+  --border: #2a3743;
   --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --mono: 'Geist Mono', 'JetBrains Mono', Consolas, Menlo, monospace;
   --key: rgba(255,255,255,0.05) 0 1px 0 0 inset, rgba(255,255,255,0.25) 0 0 0 1px, rgba(0,0,0,0.2) 0 -1px 0 0 inset;
@@ -53,7 +53,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   padding: 8px 8px 8px 20px;
   border: 1px solid var(--border); border-radius: 16px;
-  background: rgba(7,8,10,0.72);
+  background: rgba(7,12,18,0.72);
   -webkit-backdrop-filter: blur(48px); backdrop-filter: blur(48px);
   box-shadow: rgba(255,255,255,0.06) 0 1px 0 0 inset;
 }
@@ -64,7 +64,7 @@ a { color: inherit; text-decoration: none; }
 .links a:hover { color: var(--white); }
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--mist); color: #1b1c1e;
+  background: var(--mist); color: #14110a;
   font: 500 14px/1 var(--sans); letter-spacing: 0.014em;
   padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer;
   box-shadow: var(--lift), rgba(255,255,255,0.6) 0 1px 0 0 inset; white-space: nowrap; transition: background .15s;
@@ -83,13 +83,13 @@ a { color: inherit; text-decoration: none; }
 /* cool shadow edge */
 .stripe::before {
   top: var(--t); height: var(--h); transform: translate(-46%, -70px);
-  background: linear-gradient(180deg, transparent, #1d6f9e 30%, #0f3f63 75%, transparent);
+  background: linear-gradient(180deg, transparent, #0aa89c 30%, #06545a 75%, transparent);
   filter: blur(14px);
 }
 /* coral face */
 .stripe::after {
   top: var(--t); height: var(--h);
-  background: linear-gradient(180deg, rgba(255,99,99,0), #ff5a5f 16%, #e9587a 55%, #d1557f 80%, rgba(209,85,127,0));
+  background: linear-gradient(180deg, rgba(200,170,110,0), #d9bd80 16%, #c8aa6e 55%, #8f7a4a 80%, rgba(143,122,74,0));
   filter: blur(1.5px);
 }
 .stripe.s1 { left: 6%;  width: 7%;  --t: 34%; --h: 30%; }
@@ -101,7 +101,7 @@ a { color: inherit; text-decoration: none; }
 .stripe.s7 { left: 83%; width: 6%;  --t: 36%; --h: 22%; }
 .stripe.thin { width: 1px; }
 .stripe.thin::before { display: none; }
-.stripe.thin::after { top: 4%; height: 80%; filter: none; background: linear-gradient(180deg, transparent, rgba(86,194,255,0.55) 40%, rgba(255,99,99,0.5) 70%, transparent); }
+.stripe.thin::after { top: 4%; height: 80%; filter: none; background: linear-gradient(180deg, transparent, rgba(10,200,185,0.55) 40%, rgba(200,170,110,0.5) 70%, transparent); }
 .stripe.t1 { left: 1%; } .stripe.t2 { left: 92%; } .stripe.t3 { left: 97%; }
 .grain {
   position: absolute; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: overlay;
@@ -158,25 +158,25 @@ h1 {
 .term .ok { color: var(--green); }
 
 /* Section rhythm */
-.horizon { position: relative; height: 1px; margin: 0; background: linear-gradient(90deg, transparent, rgba(99,161,255,0.5) 22%, rgba(255,99,99,0.65) 50%, rgba(99,161,255,0.5) 78%, transparent); }
-.horizon::after { content: ''; position: absolute; left: 10%; right: 10%; top: 0; height: 120px; background: radial-gradient(60% 100% at 50% 0%, rgba(255,99,99,0.10), rgba(99,161,255,0.05) 45%, transparent 75%); pointer-events: none; }
+.horizon { position: relative; height: 1px; margin: 0; background: linear-gradient(90deg, transparent, rgba(10,200,185,0.45) 22%, rgba(200,170,110,0.7) 50%, rgba(10,200,185,0.45) 78%, transparent); }
+.horizon::after { content: ''; position: absolute; left: 10%; right: 10%; top: 0; height: 120px; background: radial-gradient(60% 100% at 50% 0%, rgba(200,170,110,0.10), rgba(10,200,185,0.05) 45%, transparent 75%); pointer-events: none; }
 section { position: relative; padding: 112px 0; }
 .say { margin: 0; max-width: 620px; font: 600 24px/1.3 var(--sans); color: var(--smoke); text-wrap: balance; }
 .say b { color: var(--white); font-weight: 600; }
 .center { text-align: center; margin-left: auto; margin-right: auto; }
 
 /* Steps: one continuous keyboard-style strip, not three matching cards */
-.steps { margin: 56px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 20px; background: linear-gradient(180deg, #0c0d10, var(--ink)); box-shadow: var(--key); }
+.steps { margin: 56px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 20px; background: linear-gradient(180deg, #0b121a, var(--ink)); box-shadow: var(--key); }
 .steps li { display: flex; gap: 20px; padding: 32px; }
 .steps li + li { border-left: 1px solid var(--graphite); }
 .cap {
   flex: none; width: 56px; height: 56px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   font: 500 22px/1 var(--mono); color: var(--white);
-  background: linear-gradient(180deg, #3a3b3f, #1a1b1e 60%, #121315);
+  background: linear-gradient(180deg, #33404c, #18212a 60%, #10171e);
   box-shadow: rgba(0,0,0,0.4) 0 1.5px 0.5px 2.5px, #000 0 0 0.5px 1px, rgba(0,0,0,0.25) 0 2px 1px 1px inset, rgba(255,255,255,0.2) 0 1px 1px 1px inset;
 }
-.cap.go { background: linear-gradient(180deg, #ff8080, var(--coral) 55%, #d94f4f); color: #2a0b0b; }
+.cap.go { background: linear-gradient(180deg, #ecd6a4, var(--coral) 55%, #9a7f48); color: #1d1608; }
 h3 { margin: 4px 0 8px; color: var(--white); font: 500 20px/1.2 var(--sans); letter-spacing: 0.2px; }
 .steps p { margin: 0; font-size: 16px; line-height: 1.5; }
 kbd, .chip { display: inline-block; font: 400 13px/1 var(--mono); color: var(--white); background: var(--graphite); border-radius: 6px; padding: 4px 6px; box-shadow: rgba(255,255,255,0.1) 0 1px 0 0 inset; }
@@ -188,16 +188,16 @@ kbd, .chip { display: inline-block; font: 400 13px/1 var(--mono); color: var(--w
 .facts li::before { content: ''; position: absolute; left: 2px; top: 25px; width: 10px; height: 6px; border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(-45deg); }
 .facts b { color: var(--white); font-weight: 500; }
 .code { position: relative; }
-.code::before { content: ''; position: absolute; inset: 12% -6% -10% 18%; background: linear-gradient(135deg, #b3202a, var(--coral) 45%, var(--cobalt)); filter: blur(56px); opacity: .45; border-radius: 50%; }
+.code::before { content: ''; position: absolute; inset: 12% -6% -10% 18%; background: linear-gradient(135deg, #0ac8b9, var(--coral) 55%, #005a82); filter: blur(56px); opacity: .45; border-radius: 50%; }
 .code .term pre { font-size: 14px; }
 .more { display: inline-block; margin-top: 32px; color: var(--white); font: 500 16px/1 var(--sans); border-bottom: 1px solid var(--border); padding-bottom: 4px; transition: border-color .15s; }
 .more:hover { border-color: var(--white); }
 
 /* Safe */
-.warm { padding: 48px; border-radius: 20px; background: linear-gradient(135deg, var(--ember), #1c1011 70%); box-shadow: rgba(255,255,255,0.1) 0 1px 0 0 inset, rgba(255,99,99,0.25) 0 0 0 1px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.warm { padding: 48px; border-radius: 20px; background: linear-gradient(135deg, var(--ember), #071019 70%); box-shadow: rgba(255,255,255,0.1) 0 1px 0 0 inset, rgba(200,170,110,0.35) 0 0 0 1px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
 .warm h2 { margin: 0; color: var(--white); font: 600 32px/1.15 var(--sans); }
-.warm .big { margin: 16px 0 0; font: 400 20px/1.4 var(--sans); color: #f1c9c9; }
-.warm p { margin: 0 0 16px; color: #e3c4c4; font-size: 17px; line-height: 1.55; }
+.warm .big { margin: 20px 0 0; font: 400 20px/1.4 var(--sans); color: #e6dcc6; }
+.warm p { margin: 0 0 16px; color: #c3ccd4; font-size: 17px; line-height: 1.55; }
 .warm p:last-child { margin: 0; }
 .warm strong { color: var(--white); font-weight: 500; }
 
@@ -246,7 +246,7 @@ footer a { color: var(--white); border-bottom: 1px solid var(--border); }
 
 <nav class="nav" aria-label="Main">
   <a class="brand" href="#top">
-    <svg class="mark" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" fill="none" stroke="#ff6363" stroke-width="2.2"/><path d="M4.2 13.8 13.8 4.2" stroke="#ff6363" stroke-width="2.2" stroke-linecap="round"/></svg>
+    <svg class="mark" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="7" fill="none" stroke="#c8aa6e" stroke-width="2.2"/><path d="M4.2 13.8 13.8 4.2" stroke="#c8aa6e" stroke-width="2.2" stroke-linecap="round"/></svg>
     Token Remover
   </a>
   <div class="links">
@@ -395,24 +395,6 @@ footer a { color: var(--white); border-bottom: 1px solid var(--border); }
   </div>
 </section>
 
-<section class="close">
-  <canvas class="gl" aria-hidden="true"></canvas>
-  <div class="stripes" aria-hidden="true">
-    <i class="stripe s2"></i><i class="stripe s3"></i><i class="stripe s4"></i><i class="stripe s5"></i><i class="stripe s6"></i>
-    <i class="stripe thin t1"></i><i class="stripe thin t3"></i>
-  </div>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="fade" aria-hidden="true"></div>
-  <div class="wrap">
-    <h2>Clear your profile.</h2>
-    <div class="cmd">
-      <span class="ps" aria-hidden="true">&gt;</span>
-      <code>irm tokenremover.com | iex</code>
-      <button class="btn" data-copy type="button">Copy</button>
-    </div>
-  </div>
-</section>
-
 <footer>
   <div class="wrap">
     <p class="meta">tokenremover.com<i>|</i>open&nbsp;source<i>|</i><a href="https://github.com/datapoisoned/loltokenremover">GitHub</a></p>
@@ -458,20 +440,20 @@ function start(host, look) {
   renderer.toneMapping = THREE.NoToneMapping;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x040506);
+  scene.background = new THREE.Color(0x03070c);
   const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
   camera.position.set(0, 0, look.cameraZ);
 
-  // The light source: a block with a coral-to-rose gradient.
+  // The light source: a block that runs from gold down into teal.
   const block = new THREE.Mesh(
     new THREE.BoxGeometry(7, 7, 7),
     new THREE.ShaderMaterial({
-      uniforms: { hot: { value: new THREE.Color(0xff4a55) }, rose: { value: new THREE.Color(0xd62f66) } },
+      uniforms: { hot: { value: new THREE.Color(0xb58a3c) }, rose: { value: new THREE.Color(0x078a82) } },
       vertexShader: 'varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
       fragmentShader: [
         'varying vec3 vP; uniform vec3 hot; uniform vec3 rose;',
         'void main(){',
-        '  float k = smoothstep(-3.5, 3.5, vP.y + vP.x * 0.4);',
+        '  float k = smoothstep(-2.6, 0.6, vP.y + vP.x * 0.4);',
         '  vec3 c = mix(rose, hot, k);',
         '  gl_FragColor = vec4(c, 1.0);',
         '}'
@@ -484,7 +466,7 @@ function start(host, look) {
   scene.add(block);
 
   // The glass: rods side by side, tilted across the view.
-  const count = 16, radius = 0.5;
+  const count = 26, radius = 0.3;
   const glass = new THREE.MeshPhysicalMaterial({
     transmission: 1, thickness: 3.0, ior: 1.45, roughness: 0.24,
     dispersion: 16, metalness: 0, color: 0xffffff
@@ -530,8 +512,7 @@ function start(host, look) {
 }
 
 try {
-  start(document.querySelector('.hero'), { cameraZ: 13, blockX: 0, blockY: 0.7, blockZ: -7, glassZ: 0, tilt: 0.76, blockScale: 1.08 });
-  start(document.querySelector('.close'), { cameraZ: 13, blockX: 0, blockY: 0.0, blockZ: -7, glassZ: 0, tilt: 0.76, blockScale: 0.95 });
+  start(document.querySelector('.hero'), { cameraZ: 15, blockX: 0, blockY: 3.1, blockZ: -7, glassZ: 0, tilt: 0.76, blockScale: 0.72 });
 } catch (e) { /* CSS stripes remain as the fallback */ }
 </script>
 <script type="text/plain"> #>

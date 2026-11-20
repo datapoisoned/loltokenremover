@@ -12,20 +12,20 @@ function start(host, look) {
   renderer.toneMapping = THREE.NoToneMapping;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x040506);
+  scene.background = new THREE.Color(0x03070c);
   const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
   camera.position.set(0, 0, look.cameraZ);
 
-  // The light source: a block with a coral-to-rose gradient.
+  // The light source: a block that runs from gold down into teal.
   const block = new THREE.Mesh(
     new THREE.BoxGeometry(7, 7, 7),
     new THREE.ShaderMaterial({
-      uniforms: { hot: { value: new THREE.Color(0xff4a55) }, rose: { value: new THREE.Color(0xd62f66) } },
+      uniforms: { hot: { value: new THREE.Color(0xb58a3c) }, rose: { value: new THREE.Color(0x078a82) } },
       vertexShader: 'varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
       fragmentShader: [
         'varying vec3 vP; uniform vec3 hot; uniform vec3 rose;',
         'void main(){',
-        '  float k = smoothstep(-3.5, 3.5, vP.y + vP.x * 0.4);',
+        '  float k = smoothstep(-2.6, 0.6, vP.y + vP.x * 0.4);',
         '  vec3 c = mix(rose, hot, k);',
         '  gl_FragColor = vec4(c, 1.0);',
         '}'
@@ -38,7 +38,7 @@ function start(host, look) {
   scene.add(block);
 
   // The glass: rods side by side, tilted across the view.
-  const count = 16, radius = 0.5;
+  const count = 26, radius = 0.3;
   const glass = new THREE.MeshPhysicalMaterial({
     transmission: 1, thickness: 3.0, ior: 1.45, roughness: 0.24,
     dispersion: 16, metalness: 0, color: 0xffffff
@@ -84,6 +84,5 @@ function start(host, look) {
 }
 
 try {
-  start(document.querySelector('.hero'), { cameraZ: 13, blockX: 0, blockY: 0.7, blockZ: -7, glassZ: 0, tilt: 0.76, blockScale: 1.08 });
-  start(document.querySelector('.close'), { cameraZ: 13, blockX: 0, blockY: 0.0, blockZ: -7, glassZ: 0, tilt: 0.76, blockScale: 0.95 });
+  start(document.querySelector('.hero'), { cameraZ: 15, blockX: 0, blockY: 3.1, blockZ: -7, glassZ: 0, tilt: 0.76, blockScale: 0.72 });
 } catch (e) { /* CSS stripes remain as the fallback */ }
