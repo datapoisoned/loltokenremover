@@ -152,10 +152,11 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .card p + h3 { margin-top: 1.2em; padding-top: 1.2em; border-top: 1px solid var(--gold-7); }
 /* a full-width box split into three small parts */
 .wide { grid-column: 1 / -1; }
-.parts { margin-top: 1.5em; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2em; }
-.parts .num { display: inline-flex; align-items: center; justify-content: center; width: 2.4em; height: 2.4em; border: 1px solid var(--gold-5); background: var(--black); font: 700 0.95em/1 var(--display); color: var(--gold-3); }
-.parts h4 { margin: 1em 0 0; font: 700 0.95em/1.3 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-3); }
-.parts p { margin-top: 0.35em; }
+.rows { margin-top: 1.4em; display: grid; gap: 1.3em; }
+.rows > div { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.4em; align-items: center; }
+.rows .num { display: inline-flex; align-items: center; justify-content: center; width: 2.4em; height: 2.4em; border: 1px solid var(--gold-5); background: var(--black); font: 700 0.95em/1 var(--display); color: var(--gold-3); }
+.rows h4 { margin: 0; font: 700 0.95em/1.3 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-3); }
+.rows p { margin-top: 0.25em; }
 .card .more { margin-top: 1.5em; text-align: center; }
 .card .means { margin-top: 1em; }
 .card .means + p { margin-top: 0.8em; }
@@ -190,8 +191,9 @@ footer a:hover { color: var(--gold-1); }
   .card h3 { font-size: 1.05em; }
   .card p { font-size: 1em; line-height: 1.75; }
   .card .short { font-size: 1.3em; }
-  .parts { grid-template-columns: minmax(0, 1fr); gap: 1.4em; margin-top: 1.2em; }
-  .parts h4 { font-size: 0.9em; }
+  .rows { margin-top: 1.2em; }
+  .rows > div { gap: 1em; }
+  .rows h4 { font-size: 0.9em; }
   .ghost { padding-top: 1.8em; padding-bottom: 1.8em; }
   footer { padding: 2em var(--edge) 3em; }
 }
@@ -260,15 +262,14 @@ footer a:hover { color: var(--gold-1); }
 
 <section class="sec" id="how">
   <h2>How it works</h2>
-  <p class="lead">League can already take your tokens off. It just never got a button for it.</p>
   <div class="cols">
     <div class="card">
-      <h3>The feature exists</h3>
-      <p>The League client knows how to save your profile with no tokens. Riot just never put a button for it on your screen.</p>
-      <h3>We press it for you</h3>
-      <p>It asks your own League client to do that one thing. Think of it as clicking an invisible button.</p>
+      <h3>Nothing new</h3>
+      <p>The League of Legends client can already remove tokens from your profile. Riot just never put a button for it on your screen.</p>
+      <h3>We do it for you</h3>
+      <p>Our script talks to your League client and asks it to do that one thing. Think of it like clicking an invisible button.</p>
       <h3>Nothing fancy happens</h3>
-      <p>No hacks and no changed game files. Your title, banner and icon stay the same, and you can put tokens back any time.</p>
+      <p>No hacks and no changed game files. Everything else stays the same, and you can undo it any time.</p>
     </div>
     <div class="card ghost" aria-label="Your three tokens with a Remove tokens button that League does not have">
       <span class="label">Your profile tokens</span>
@@ -279,25 +280,22 @@ footer a:hover { color: var(--gold-1); }
     <div class="card wide">
       <h3>What the command means</h3>
       <p class="means"><span class="chip">irm tokenremover.com | iex</span></p>
-      <p>It tells PowerShell to read our short script from this website and run it straight away. Nothing is saved to your PC.</p>
+      <p>The command is just a shortcut. It grabs our longer script, which is open source on GitHub, and runs it.</p>
     </div>
     <div class="card wide">
       <h3>What the script does</h3>
-      <div class="parts">
+      <div class="rows">
         <div>
           <span class="num">1</span>
-          <h4>Finds League</h4>
-          <p>Looks for the League client that is open on your PC.</p>
+          <div><h4>Finds League</h4><p>Looks for the League client that is open on your PC.</p></div>
         </div>
         <div>
           <span class="num">2</span>
-          <h4>Presses the button</h4>
-          <p>Asks it to save your profile with the three token slots empty.</p>
+          <div><h4>Presses the button</h4><p>Asks it to save your profile with the three token slots empty.</p></div>
         </div>
         <div>
           <span class="num">3</span>
-          <h4>Checks the result</h4>
-          <p>Makes sure the tokens are gone and tells you it worked.</p>
+          <div><h4>Checks the result</h4><p>Makes sure the tokens are gone and tells you it worked.</p></div>
         </div>
       </div>
       <p class="more">Want to see every line? <a class="text" href="https://github.com/datapoisoned/loltokenremover/blob/main/remove-tokens.ps1">Read the script on GitHub</a>.</p>
