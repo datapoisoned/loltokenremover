@@ -192,12 +192,15 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .strip .k1 { clip-path: inset(0 66.2% 0 0);     transform-origin: 17% 50%; animation-name: k1; }
 .strip .k2 { clip-path: inset(0 32.8% 0 33.8%); transform-origin: 50% 50%; animation-name: k2; }
 .strip .k3 { clip-path: inset(0 0 0 67.2%);     transform-origin: 83% 50%; animation-name: k3; }
-.press { position: relative; margin-top: 1.2em; padding: 1em 2.2em; border: 2px dashed var(--gold-4); font: 700 1.25em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); background: rgba(200,155,60,0.08); white-space: nowrap; animation: press 6s ease-in-out infinite; }
+.press { position: relative; isolation: isolate; margin-top: 1.2em; padding: 1em 2.2em; border: 2px dashed var(--gold-4); font: 700 1.25em/1 var(--display); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-1); background: rgba(200,155,60,0.08); white-space: nowrap; animation: press 6s ease-in-out infinite; }
+/* the lit state: 0.348 over the resting 0.08 gives exactly the old peak of 0.4 */
+.press::before { content: ''; position: absolute; z-index: -1; left: -2px; top: -2px; right: -2px; bottom: -2px; background: rgba(200,155,60,0.348); box-shadow: 0 0 1.8em rgba(200,170,110,0.7); opacity: 0; animation: lit 6s ease-in-out infinite; }
 .press svg { position: absolute; right: 0.9em; bottom: -0.7em; width: 1.5em; height: 1.5em; color: var(--gold-1); filter: drop-shadow(0 0.1em 0.2em rgba(0,0,0,0.8)); animation: tap 6s ease-in-out infinite; }
 .press + .tag { margin-top: 1.7em; }
 /* the cursor moves in, the button lights up, then each token fades out in turn */
 @keyframes tap   { 0%, 12%, 44%, 100% { transform: translate(2.6em, 1.5em); opacity: 0; } 16% { opacity: 1; } 24%, 26% { transform: none; opacity: 1; } 28% { transform: scale(0.85); } 31%, 38% { transform: none; opacity: 1; } }
-@keyframes press { 0%, 26%, 42%, 100% { box-shadow: 0 0 0 rgba(200,170,110,0); background: rgba(200,155,60,0.08); transform: none; } 28% { transform: scale(0.97); } 30% { box-shadow: 0 0 1.8em rgba(200,170,110,0.7); background: rgba(200,155,60,0.4); transform: none; } }
+@keyframes press { 0%, 26%, 30%, 100% { transform: none; } 28% { transform: scale(0.97); } }
+@keyframes lit   { 0%, 26%, 42%, 100% { opacity: 0; } 30% { opacity: 1; } }
 @keyframes k1 { 0%, 32% { opacity: 1; transform: none; } 38%, 88% { opacity: 0; transform: scale(.82); } 94%, 100% { opacity: 1; transform: none; } }
 @keyframes k2 { 0%, 37% { opacity: 1; transform: none; } 43%, 88% { opacity: 0; transform: scale(.82); } 94%, 100% { opacity: 1; transform: none; } }
 @keyframes k3 { 0%, 42% { opacity: 1; transform: none; } 48%, 88% { opacity: 0; transform: scale(.82); } 94%, 100% { opacity: 1; transform: none; } }
@@ -209,9 +212,12 @@ kbd { display: inline-block; margin: 0 0.1em; padding: 0.3em 0.5em; white-space:
 .step .ico b { position: absolute; left: -0.9em; top: -0.9em; width: 2em; height: 2em; display: flex; align-items: center; justify-content: center; border: 1px solid var(--gold-5); background: var(--black); font: 700 0.85em/1 var(--display); color: var(--gold-1); }
 .step h4 { margin: 1.1em 0 0; font: 700 0.95em/1.3 var(--display); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-3); }
 .step p { margin-top: 0.35em; }
-.flowx .go { width: 3.2em; height: 1.2em; margin-top: 1.9em; color: var(--gold-4); }
-.go .dash { stroke-dasharray: 4 4; animation: dash 1s linear infinite; }
-@keyframes dash { to { stroke-dashoffset: -8; } }
+.flowx .go { position: relative; display: block; width: 3.2em; height: 1.2em; margin-top: 1.9em; color: var(--gold-4); }
+.go svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+/* the dashed line: a window 40/48 of the arrow wide, with a strip of dashes sliding inside it */
+.go .dash { position: absolute; left: 0; top: 50%; width: 83.3333%; height: 0.10667em; margin-top: -0.05333em; overflow: hidden; }
+.go .dash b { display: block; width: calc(100% + 0.53333em); height: 100%; margin-left: -0.53333em; background: repeating-linear-gradient(90deg, currentColor 0 0.26667em, transparent 0.26667em 0.53333em); animation: dash 1s linear infinite; will-change: transform; }
+@keyframes dash { to { transform: translateX(0.53333em); } }
 
 footer { padding: 2em 2em 3em; border-top: 1px solid var(--gold-6); text-align: center; background: rgba(1,10,19,0.6); }
 footer .legal { margin: 0 auto; max-width: 46em; font-size: 0.85em; line-height: 1.55; color: var(--muted); }
@@ -248,10 +254,14 @@ footer a:hover { color: var(--gold-1); }
   footer { padding: 2em var(--edge) 3em; }
 }
 
+/* Animations only run while their part of the page is on screen. The script at the
+   bottom adds "resting" to the hero and to How it works whenever they scroll out of view. */
+.resting *, .resting *::before, .resting *::after { animation-play-state: paused !important; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .tok { animation: none; opacity: 0; }
-  .stage *, .stage *::before, .stage *::after, .go .dash { animation: none !important; }
+  .stage *, .stage *::before, .stage *::after, .go .dash b { animation: none !important; }
 }
 </style>
 </head>
@@ -340,19 +350,19 @@ footer a:hover { color: var(--gold-1); }
           <h4>You run the command</h4>
           <p>One short line in PowerShell.</p>
         </div>
-        <svg class="go" viewBox="0 0 48 12" aria-hidden="true"><path class="dash" d="M0 6h40" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="go" aria-hidden="true"><i class="dash"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
         <div class="step">
           <div class="ico"><b>2</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2.5h8l4 4v15H6zM14 2.5v4h4M9 12h6M9 15.5h6M9 19h4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
           <h4>Your PC grabs our script</h4>
           <p>Our safe, open source instructions.</p>
         </div>
-        <svg class="go" viewBox="0 0 48 12" aria-hidden="true"><path class="dash" d="M0 6h40" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="go" aria-hidden="true"><i class="dash"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
         <div class="step">
           <div class="ico"><b>3</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4.5h18v12H3zM9 20.5h6M12 16.5v4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 10.5h8M13.5 8l2.5 2.5-2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></div>
           <h4>Our script talks to League</h4>
           <p>We ask the client to clear your tokens.</p>
         </div>
-        <svg class="go" viewBox="0 0 48 12" aria-hidden="true"><path class="dash" d="M0 6h40" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="go" aria-hidden="true"><i class="dash"><b></b></i><svg viewBox="0 0 48 12"><path d="M38 1.5 46 6l-8 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
         <div class="step">
           <div class="ico"><b>4</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.5 10 18 19.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></div>
           <h4>Your tokens are gone</h4>
@@ -425,6 +435,17 @@ footer a:hover { color: var(--gold-1); }
       document.body.removeChild(area);
     }
   });
+
+  /* Pause the looping animations in any part of the page that is not on screen. */
+  if ('IntersectionObserver' in window) {
+    var watcher = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) { entry.target.classList.toggle('resting', !entry.isIntersecting); });
+    }, { rootMargin: '-10% 0px -40px 0px' });
+    ['top', 'how'].forEach(function (id) {
+      var part = document.getElementById(id);
+      if (part) { watcher.observe(part); }
+    });
+  }
 
   /* Background clip: hold it on its first frame for visitors who prefer reduced motion. */
   var bg = document.getElementById('bg');
