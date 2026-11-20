@@ -95,15 +95,15 @@ h1 em { font-style: normal; color: var(--gold-3); }
 .meta { margin: clamp(16px, 2.6vh, 24px) 0 0; font: 500 14px/1.6 var(--body); letter-spacing: 0.02em; color: var(--muted); }
 .meta i { font-style: normal; margin: 0 12px; color: var(--gold-5); }
 
-.demo { order: -1; display: flex; flex-direction: column; align-items: center; }
+.demo { order: -1; align-self: start; margin-top: calc(-64px - clamp(24px, 4vh, 48px)); display: flex; flex-direction: column; align-items: center; }
 /* The banner with empty slots is the base. Three copies of the "before" banner sit on
    top, each clipped to one token, and fade out one after another. */
-.swap { position: relative; width: clamp(200px, 19.5vw, 372px); max-width: 100%; aspect-ratio: 300 / 630; }
+.swap { position: relative; width: clamp(164px, 15.8vw, 304px); max-width: 100%; aspect-ratio: 729 / 2070; }
 .layer { position: absolute; left: 0; top: 0; width: 100%; height: 100%; -webkit-user-select: none; user-select: none; pointer-events: none; }
 .tok { animation: 4.6s ease-in-out infinite both; }
-.t1 { clip-path: inset(60.6% 62.33% 27.6% 16%);    transform-origin: 27.2% 66.3%; animation-name: tok1; }
-.t2 { clip-path: inset(60.6% 41% 27.6% 37.67%);    transform-origin: 48.7% 66.3%; animation-name: tok2; }
-.t3 { clip-path: inset(60.6% 20% 27.6% 59%);       transform-origin: 68.8% 66.3%; animation-name: tok3; }
+.t1 { clip-path: inset(70.2% 64.2% 19.56% 9.06%);  transform-origin: 23.7% 75.3%; animation-name: tok1; }
+.t2 { clip-path: inset(70.2% 37.8% 19.56% 35.8%);  transform-origin: 49.4% 75.3%; animation-name: tok2; }
+.t3 { clip-path: inset(70.2% 11.9% 19.56% 62.2%);  transform-origin: 74.3% 75.3%; animation-name: tok3; }
 @keyframes tok1 { 0%, 13% { opacity: 1; transform: none; } 20%, 74% { opacity: 0; transform: scale(.82); } 80%, 100% { opacity: 1; transform: none; } }
 @keyframes tok2 { 0%, 19% { opacity: 1; transform: none; } 26%, 78% { opacity: 0; transform: scale(.82); } 84%, 100% { opacity: 1; transform: none; } }
 @keyframes tok3 { 0%, 25% { opacity: 1; transform: none; } 32%, 82% { opacity: 0; transform: scale(.82); } 88%, 100% { opacity: 1; transform: none; } }
@@ -176,8 +176,8 @@ footer a:hover { color: var(--gold-1); }
   html { scroll-padding-top: 120px; }
   .hero { padding-top: 104px; }
   .hero .wrap { grid-template-columns: 1fr; min-height: 0; gap: 36px; }
-  .demo { order: 0; }
-  .swap { width: clamp(190px, 56vw, 260px); }
+  .demo { order: 0; align-self: auto; margin-top: 0; }
+  .swap { width: clamp(150px, 46vw, 220px); }
 }
 @media (max-width: 620px) {
   .brand { font-size: 14px; }
@@ -241,10 +241,10 @@ footer a:hover { color: var(--gold-1); }
 
     <div class="demo">
       <div class="swap" aria-label="A League profile banner whose three tokens disappear one by one, leaving the slots empty">
-        <img class="layer" src="img/banner-after-6.png" alt="" width="300" height="630" draggable="false">
-        <img class="layer tok t1" src="img/banner-before-6.png" alt="" width="300" height="630" draggable="false">
-        <img class="layer tok t2" src="img/banner-before-6.png" alt="" width="300" height="630" draggable="false">
-        <img class="layer tok t3" src="img/banner-before-6.png" alt="" width="300" height="630" draggable="false">
+        <img class="layer" src="img/banner-after-7.webp" alt="" width="729" height="2070" draggable="false">
+        <img class="layer tok t1" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
+        <img class="layer tok t2" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
+        <img class="layer tok t3" src="img/banner-before-7.webp" alt="" width="729" height="2070" draggable="false">
       </div>
     </div>
   </div>
