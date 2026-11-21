@@ -360,7 +360,7 @@ param([switch]$DryRun)
 
         # The tokens are confirmed gone: sign off.
         Write-Host ''
-        Say '   NO MORE TOKENS' $Gold 'Yellow'
+        Say '   TOKENS REMOVED' $Gold 'Yellow'
         Say '   GG, enjoy being token free!' $Light 'White'
         Write-Host ''
 
