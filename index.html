@@ -752,25 +752,6 @@ param([switch]$DryRun)
         Write-Host ''
     }
 
-    # ------------------------------------------------------------------
-    # Show-TokensVanish
-    # A little picture of your token slots emptying one by one:
-    #   (*) (*) (*)   ->   ( ) (*) (*)   ->   ( ) ( ) (*)   ->   ( ) ( ) ( )
-    # It is only drawn after the client has confirmed the tokens are gone.
-    # ------------------------------------------------------------------
-    function Show-TokensVanish([int]$Count) {
-        for ($gone = 0; $gone -le $Count; $gone++) {
-            # "`r" moves back to the start of the line so it is redrawn in place.
-            Write-Host "`r     " -NoNewline
-            for ($i = 0; $i -lt $Count; $i++) {
-                if ($i -lt $gone) { Say '( ) ' $Dark 'DarkGray' -NoNewline }
-                else { Say '(*) ' $Gold 'Yellow' -NoNewline }
-            }
-            Start-Sleep -Milliseconds 300
-        }
-        Write-Host ''
-    }
-
     # ==================================================================
     # The script starts here.
     # ==================================================================
@@ -879,9 +860,7 @@ param([switch]$DryRun)
         }
         End-Step 'DONE' $Good 'Green'
 
-        # The tokens are confirmed gone: show them vanishing, then sign off.
-        Write-Host ''
-        Show-TokensVanish $count
+        # The tokens are confirmed gone: sign off.
         Write-Host ''
         Say '   NO MORE TOKENS' $Gold 'Yellow'
         Say '   GG, enjoy being token free!' $Light 'White'
