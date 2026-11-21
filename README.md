@@ -13,6 +13,7 @@ Free, open source, nothing to install.
 ![Windows 10 and 11](https://img.shields.io/badge/Windows-10%20%7C%2011-c8aa6e?style=flat-square&labelColor=010a13)
 ![PowerShell](https://img.shields.io/badge/PowerShell-one%20line-c8aa6e?style=flat-square&labelColor=010a13)
 ![No install](https://img.shields.io/badge/install-none-c8aa6e?style=flat-square&labelColor=010a13)
+![MIT License](https://img.shields.io/badge/license-MIT-c8aa6e?style=flat-square&labelColor=010a13)
 
 <img src="img/readme/demo.gif" width="520" alt="A Remove tokens button is clicked and the three tokens on a League profile disappear">
 
@@ -135,6 +136,11 @@ After changing the page or the script, rebuild with:
 ```powershell
 .\build.ps1
 ```
+
+## License
+
+The code is released under the [MIT License](LICENSE). The game art in `img/`
+belongs to Riot Games and is not covered by it.
 
 ---
 
